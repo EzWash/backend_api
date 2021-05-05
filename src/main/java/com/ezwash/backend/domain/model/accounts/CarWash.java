@@ -9,8 +9,12 @@ public class CarWash {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    //ManyToOne location
+    //OneToOne location
+    //OneToMany service
     //OneToMany staff
+    //OneToMany userroles
+    //OneToMany comments
+    //OneToMany favorites
     @NotNull
     private String description;
     @NotNull
