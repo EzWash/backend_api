@@ -4,12 +4,16 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="reservations")
-public class Reservation {
+@Table(name="contracts")
+public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    //ManyToOne services
+    //ManyToOne users
+    private String state;
     private Date date;
-    //ManyToOne CarWash
-    //OneToOne location
+
+    //ManyToOne staff
+    //OneToOne report
 }

@@ -4,12 +4,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table (name="carwashs")
+@Table (name="carwashes")
 public class CarWash {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-
     //ManyToOne location
     //OneToMany staff
     @NotNull

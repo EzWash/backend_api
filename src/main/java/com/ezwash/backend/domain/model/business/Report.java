@@ -3,14 +3,13 @@ package com.ezwash.backend.domain.model.business;
 import javax.persistence.*;
 
 @Entity
-@Table(name="products")
-public class Promotion {
+@Table(name="reports")
+public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double discount;
+    //OneToOne contract
     private String description;
 
-    //ManyToOne carwwash
-
+    //OneToMany images
 }

@@ -3,7 +3,7 @@ package com.ezwash.backend.domain.model.accounts;
 import javax.persistence.*;
 
 @Entity
-@Table(name="staffs")
+@Table(name="staff")
 public class Staff extends Profile {
 
     //ManyToOne CarWash

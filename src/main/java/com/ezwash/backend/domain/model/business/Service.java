@@ -10,9 +10,9 @@ public class Service {
     private Long id;
     private String name;
     private String description;
-    //ManyToOne reservations
-
-    //ManyToMany carwash_services
-
+    private Integer is_promotion;
+    private Double price;
+    //ManyToOne carwashes
+    //OneToMany contracts
 
 }

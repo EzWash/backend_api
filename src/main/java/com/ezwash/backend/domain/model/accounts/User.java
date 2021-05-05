@@ -9,7 +9,7 @@ public class User extends Profile {
     private String gender;
 
     //ManytoOne a location
-    //OneToMany wallet
+    //OneToMany cards
 
     public User(Long id, String name, String lastName, String email, String phoneNumber, String userName, String password, String gender) {
         super(id, name, lastName, email, phoneNumber, userName, password);
