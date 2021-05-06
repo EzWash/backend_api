@@ -35,7 +35,7 @@ public class UserController {
         return mapper.map(resource, User.class);
     }
 
-    private UserResource convertToResource(User entity){
-        return mapper.map(entity, UserResource.class);
+    private UserResource convertToResource(User user){
+        return mapper.map(user, UserResource.class);
     }
 }

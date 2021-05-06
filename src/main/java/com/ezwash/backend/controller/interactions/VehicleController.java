@@ -1,4 +1,47 @@
 package com.ezwash.backend.controller.interactions;
+import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.geographic.Location;
+import com.ezwash.backend.domain.model.interactions.Vehicle;
+import com.ezwash.backend.domain.repository.interactions.VehicleRepository;
+import com.ezwash.backend.domain.service.interactions.VehicleService;
+import com.ezwash.backend.resource.interactions.SaveVehicleResource;
+import com.ezwash.backend.resource.interactions.VehicleResource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.modelmapper.ModelMapper;
 
+import javax.validation.Valid;
+
+@RestController
+@RequestMapping("/api")
 public class VehicleController {
+
+    @Autowired
+    private VehicleService vehicleService;
+
+    @Autowired
+    private VehicleRepository vehicleRepository;
+
+    @Autowired
+    private ModelMapper mapper;
+
+    @PostMapping ("/vehicle")
+    public VehicleResource createVehicle (@Valid @RequestBody SaveVehicleResource resource){
+        Location location = vehicleService.getLocationById(resource.getLocation());
+        User user = vehicleService.getUserById(resource.getUser());
+        Vehicle vehicle= convertToEntity(resource);
+        vehicle.setLocation(location);
+        vehicle.setUser(user);
+        return convertToResource(vehicleService.createVehicle(vehicle));
+    }
+
+    private Vehicle convertToEntity(SaveVehicleResource resource){
+        return mapper.map(resource,Vehicle.class);
+    }
+    private VehicleResource convertToResource (Vehicle vehicle){
+        return mapper.map(vehicle,VehicleResource.class);
+    }
+
+
+
 }
