@@ -21,16 +21,6 @@ public class SaveCarWashResource {
     private String name_owner;
 
     @NotNull
-    @NotBlank
-    @Column(columnDefinition = "integer default 0")
-    private int qualification;
-
-    @NotNull
-    @NotBlank
-    @Column(columnDefinition = "integer default 1")
-    private int available;
-
-    @NotNull
     private Long location;
 
     public String getDescription() {
@@ -57,24 +47,6 @@ public class SaveCarWashResource {
 
     public SaveCarWashResource setName_owner(String name_owner) {
         this.name_owner = name_owner;
-        return this;
-    }
-
-    public int getQualification() {
-        return qualification;
-    }
-
-    public SaveCarWashResource setQualification(int qualification) {
-        this.qualification = qualification;
-        return this;
-    }
-
-    public int getAvailable() {
-        return available;
-    }
-
-    public SaveCarWashResource setAvailable(int available) {
-        this.available = available;
         return this;
     }
 

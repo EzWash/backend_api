@@ -15,6 +15,8 @@ public class CarWashServiceImpl implements CarWashService {
     @Override
     public CarWash createCarWash(CarWash carWash, Location location) {
         carWash.setLocation(location);
+        carWash.setAvailable(1);
+        carWash.setQualification(0);
         return carWashRepository.save(carWash);
     }
 }

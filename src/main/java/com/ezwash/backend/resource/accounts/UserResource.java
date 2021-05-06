@@ -1,4 +1,4 @@
-package com.ezwash.backend.resource;
+package com.ezwash.backend.resource.accounts;
 
 import com.ezwash.backend.domain.model.geographic.Location;
 

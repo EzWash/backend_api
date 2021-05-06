@@ -30,11 +30,9 @@ public class CarWash extends AuditModel {
     @NotBlank
     private String name_owner;
 
-    @NotNull
     @Column(columnDefinition = "integer default 0")
     private Integer qualification;
 
-    @NotNull
     @Column(columnDefinition = "integer default 1")
     private Integer available;
 
