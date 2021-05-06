@@ -31,14 +31,12 @@ public class CarWash extends AuditModel {
     private String name_owner;
 
     @NotNull
-    @NotBlank
     @Column(columnDefinition = "integer default 0")
-    private int qualification;
+    private Integer qualification;
 
     @NotNull
-    @NotBlank
     @Column(columnDefinition = "integer default 1")
-    private int available;
+    private Integer available;
 
     //OneToOne location
     @OneToOne(cascade = CascadeType.ALL)
