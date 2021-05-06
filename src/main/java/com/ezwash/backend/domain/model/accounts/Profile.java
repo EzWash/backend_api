@@ -1,92 +1,84 @@
 package com.ezwash.backend.domain.model.accounts;
 
+import com.ezwash.backend.domain.model.AuditModel;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-public class Profile {
+@MappedSuperclass
+public class Profile extends AuditModel {
     @Id
     @GeneratedValue (strategy= GenerationType.IDENTITY)
     private Long id;
-    @NotNull
-    private String name;
-    @NotNull
-    private String lastName;
-    @NotNull
-    private String email;
-    @NotNull
-    private String phoneNumber;
-    @NotNull
-    private String userName;
-    @NotNull
-    private String password;
 
-    public Profile(Long id, String name, String lastName, String email, String phoneNumber, String userName, String password) {
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.userName = userName;
-        this.password = password;
-    }
+    @NotNull
+    private String first_name;
+
+    @NotNull
+    private String last_name;
+
+    @NotNull
+    @Column(unique = true)
+    private String email;
+
+    @NotNull
+    @Column(unique = true)
+    private String phone_number;
+
+    @NotNull
+    private String gender;
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public Profile setId(Long id) {
         this.id = id;
+        return this;
     }
 
-    public String getName() {
-        return name;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Profile setFirst_name(String first_name) {
+        this.first_name = first_name;
+        return this;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public Profile setLast_name(String last_name) {
+        this.last_name = last_name;
+        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public Profile setEmail(String email) {
         this.email = email;
+        return this;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone_number() {
+        return phone_number;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public Profile setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+        return this;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getGender() {
+        return gender;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public Profile setGender(String gender) {
+        this.gender = gender;
+        return this;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-
-
 }
