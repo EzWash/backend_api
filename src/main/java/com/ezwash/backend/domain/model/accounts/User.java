@@ -20,7 +20,6 @@ public class User extends Profile {
     private String username;
 
     @NotNull
-    @Column(unique = true)
     @NotBlank
     private String password;
 
