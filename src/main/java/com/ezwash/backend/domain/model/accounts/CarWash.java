@@ -17,11 +17,6 @@ public class CarWash extends AuditModel {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    //OneToOne location
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "location_id", referencedColumnName = "id")
-    private Location location;
-
     @NotNull
     @NotBlank
     @Lob
@@ -35,24 +30,6 @@ public class CarWash extends AuditModel {
     @NotBlank
     private String name_owner;
 
-    //OneToMany service
-    @OneToMany(mappedBy = "carwash")
-    private List<Service> serviceList;
-
-    //OneToMany staff
-    @OneToMany(mappedBy = "carwash")
-    private List<Staff> staffList;
-
-    //OneToMany userroles
-
-    //OneToMany comments
-    @OneToMany(mappedBy = "carwash")
-    private List<Comment> commentList;
-
-    //ManyToMany users_liked
-    @ManyToMany(mappedBy = "likedCarwashes")
-    private List<User> likes;
-
     @NotNull
     @NotBlank
     @Column(columnDefinition = "integer default 0")
@@ -63,6 +40,28 @@ public class CarWash extends AuditModel {
     @Column(columnDefinition = "integer default 1")
     private int available;
 
+    //OneToOne location
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    private Location location;
+
+    //OneToMany service
+    @OneToMany(mappedBy = "carWash")
+    private List<Service> serviceList;
+
+    //OneToMany staff
+    @OneToMany(mappedBy = "carWash")
+    private List<Staff> staffList;
+
+    //OneToMany userroles
+
+    //OneToMany comments
+    @OneToMany(mappedBy = "carWash")
+    private List<Comment> commentList;
+
+    //ManyToMany users_liked
+    @ManyToMany(mappedBy = "likedCarwashes")
+    private List<User> likes;
 
     public Long getId() {
         return id;
@@ -70,6 +69,51 @@ public class CarWash extends AuditModel {
 
     public CarWash setId(Long id) {
         this.id = id;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public CarWash setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public CarWash setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public String getName_owner() {
+        return name_owner;
+    }
+
+    public CarWash setName_owner(String name_owner) {
+        this.name_owner = name_owner;
+        return this;
+    }
+
+    public int getQualification() {
+        return qualification;
+    }
+
+    public CarWash setQualification(int qualification) {
+        this.qualification = qualification;
+        return this;
+    }
+
+    public int getAvailable() {
+        return available;
+    }
+
+    public CarWash setAvailable(int available) {
+        this.available = available;
         return this;
     }
 
@@ -115,33 +159,6 @@ public class CarWash extends AuditModel {
 
     public CarWash setLikes(List<User> likes) {
         this.likes = likes;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public CarWash setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public CarWash setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getName_owner() {
-        return name_owner;
-    }
-
-    public CarWash setName_owner(String name_owner) {
-        this.name_owner = name_owner;
         return this;
     }
 }

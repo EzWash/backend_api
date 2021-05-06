@@ -12,20 +12,20 @@ public class Staff extends Profile {
     //ManyToOne CarWash
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "carwash_id", nullable = false)
-    private CarWash carwash;
+    private CarWash carWash;
 
     //OneToMany contract
-    @OneToMany(mappedBy = "contract_id")
+    @OneToMany(mappedBy = "staff")
     private List<Contract> contractList;
 
     //OneToMany user Roles
 
-    public CarWash getCarwash() {
-        return carwash;
+    public CarWash getCarWash() {
+        return carWash;
     }
 
-    public Staff setCarwash(CarWash carWash) {
-        this.carwash = carWash;
+    public Staff setCarWash(CarWash carWash) {
+        this.carWash = carWash;
         return this;
     }
 

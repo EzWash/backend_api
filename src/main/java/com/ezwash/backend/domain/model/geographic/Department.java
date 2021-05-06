@@ -27,15 +27,26 @@ public class Department {
         return id;
     }
 
-    public void setId(Long id) {
+    public Department setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Department setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public List<Province> getProvince() {
+        return province;
+    }
+
+    public Department setProvince(List<Province> province) {
+        this.province = province;
+        return this;
     }
 }

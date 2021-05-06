@@ -1,6 +1,8 @@
 package com.ezwash.backend.domain.model.accounts;
 
+import com.ezwash.backend.domain.model.business.Comment;
 import com.ezwash.backend.domain.model.geographic.Location;
+import com.ezwash.backend.domain.model.interactions.Vehicle;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -35,6 +37,12 @@ public class User extends Profile {
             inverseJoinColumns = @JoinColumn(name = "carwash_id"))
     private List<CarWash> likedCarwashes;
 
+    @OneToMany(mappedBy = "user")
+    private List<Comment> commentList;
+
+    @OneToMany(mappedBy = "user")
+    private List<Vehicle> vehicleList;
+
     //OneToMany cards
 
     public String getUsername() {
@@ -61,6 +69,33 @@ public class User extends Profile {
 
     public User setLocation(Location location) {
         this.location = location;
+        return this;
+    }
+
+    public List<CarWash> getLikedCarwashes() {
+        return likedCarwashes;
+    }
+
+    public User setLikedCarwashes(List<CarWash> likedCarwashes) {
+        this.likedCarwashes = likedCarwashes;
+        return this;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public User setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+        return this;
+    }
+
+    public List<Vehicle> getVehicleList() {
+        return vehicleList;
+    }
+
+    public User setVehicleList(List<Vehicle> vehicleList) {
+        this.vehicleList = vehicleList;
         return this;
     }
 }

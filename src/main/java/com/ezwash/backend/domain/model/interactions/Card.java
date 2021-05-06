@@ -8,47 +8,58 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name="cards")
+@MappedSuperclass
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private Integer amount;
+    @NotBlank
+    private String number;
+
+    //Aprender a ponerlo con Date
     @NotNull
     @NotBlank
-    private String currency;
+    private String expiration;
 
-    //ManyToOne user
-    @ManyToOne (fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false, updatable = false)
-    @JsonIgnore
-    private User user;
+    @NotNull
+    @NotBlank
+    private String cvc;
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public Card setId(Long id) {
         this.id = id;
+        return this;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public String getNumber() {
+        return number;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public Card setNumber(String number) {
+        this.number = number;
+        return this;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getExpiration() {
+        return expiration;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public Card setExpiration(String expiration) {
+        this.expiration = expiration;
+        return this;
     }
 
+    public String getCvc() {
+        return cvc;
+    }
+
+    public Card setCvc(String cvc) {
+        this.cvc = cvc;
+        return this;
+    }
 }

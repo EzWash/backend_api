@@ -33,16 +33,35 @@ public class Province {
         return id;
     }
 
-    public void setId(Long id) {
+    public Province setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Province setName(String name) {
         this.name = name;
+        return this;
     }
 
+    public List<District> getDistrict() {
+        return district;
+    }
+
+    public Province setDistrict(List<District> district) {
+        this.district = district;
+        return this;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public Province setDepartment(Department department) {
+        this.department = department;
+        return this;
+    }
 }

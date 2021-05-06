@@ -18,9 +18,11 @@ public class Vehicle {
     @NotNull
     @NotBlank
     private String model;
+
     @NotNull
     @NotBlank
     private String brand;
+
     @NotNull
     @NotBlank
     private String registration_plate;
@@ -42,31 +44,53 @@ public class Vehicle {
         return id;
     }
 
-    public void setId(Long id) {
+    public Vehicle setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public Vehicle setModel(String model) {
         this.model = model;
+        return this;
     }
 
     public String getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) {
+    public Vehicle setBrand(String brand) {
         this.brand = brand;
+        return this;
     }
 
     public String getRegistration_plate() {
         return registration_plate;
     }
 
-    public void setRegistration_plate(String registration_plate) {
+    public Vehicle setRegistration_plate(String registration_plate) {
         this.registration_plate = registration_plate;
+        return this;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Vehicle setUser(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public Vehicle setLocation(Location location) {
+        this.location = location;
+        return this;
     }
 }
