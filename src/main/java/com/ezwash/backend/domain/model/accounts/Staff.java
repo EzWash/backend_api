@@ -28,4 +28,13 @@ public class Staff extends Profile {
         this.carwash = carWash;
         return this;
     }
+
+    public List<Contract> getContractList() {
+        return contractList;
+    }
+
+    public Staff setContractList(List<Contract> contractList) {
+        this.contractList = contractList;
+        return this;
+    }
 }

@@ -25,43 +25,60 @@ public class Profile extends AuditModel {
     @Column(unique = true)
     private String phone_number;
 
+    @NotNull
+    private String gender;
+
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public Profile setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getFirst_name() {
         return first_name;
     }
 
-    public void setFirst_name(String name) {
-        this.first_name = name;
+    public Profile setFirst_name(String first_name) {
+        this.first_name = first_name;
+        return this;
     }
 
     public String getLast_name() {
         return last_name;
     }
 
-    public void setLast_name(String lastName) {
-        this.last_name = lastName;
+    public Profile setLast_name(String last_name) {
+        this.last_name = last_name;
+        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public Profile setEmail(String email) {
         this.email = email;
+        return this;
     }
 
     public String getPhone_number() {
         return phone_number;
     }
 
-    public void setPhone_number(String phoneNumber) {
-        this.phone_number = phoneNumber;
+    public Profile setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+        return this;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public Profile setGender(String gender) {
+        this.gender = gender;
+        return this;
     }
 }

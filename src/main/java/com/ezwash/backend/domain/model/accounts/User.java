@@ -14,9 +14,6 @@ import java.util.List;
 public class User extends Profile {
 
     @NotNull
-    private String gender;
-
-    @NotNull
     @NotBlank
     private String username;
 
@@ -39,15 +36,6 @@ public class User extends Profile {
     private List<CarWash> likedCarwashes;
 
     //OneToMany cards
-
-    public String getGender() {
-        return gender;
-    }
-
-    public User setGender(String gender) {
-        this.gender = gender;
-        return this;
-    }
 
     public String getUsername() {
         return username;
