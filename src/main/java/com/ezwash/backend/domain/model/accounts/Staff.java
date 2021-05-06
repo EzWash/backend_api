@@ -1,15 +1,40 @@
 package com.ezwash.backend.domain.model.accounts;
 
+import com.ezwash.backend.domain.model.business.Contract;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="staff")
 public class Staff extends Profile {
 
     //ManyToOne CarWash
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "carwash_id", nullable = false)
+    private CarWash carwash;
+
     //OneToMany contract
+    @OneToMany(mappedBy = "contract_id")
+    private List<Contract> contractList;
+
     //OneToMany user Roles
-    public Staff(Long id, String name, String lastName, String email, String phoneNumber, String userName, String password) {
-        super(id, name, lastName, email, phoneNumber, userName, password);
+
+    public CarWash getCarwash() {
+        return carwash;
+    }
+
+    public Staff setCarwash(CarWash carWash) {
+        this.carwash = carWash;
+        return this;
+    }
+
+    public List<Contract> getContractList() {
+        return contractList;
+    }
+
+    public Staff setContractList(List<Contract> contractList) {
+        this.contractList = contractList;
+        return this;
     }
 }
