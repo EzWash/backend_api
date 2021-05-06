@@ -26,7 +26,7 @@ public class Location {
     private Double longitude;
 
     //ManyToOne district
-    @ManyToOne (fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "district_id", nullable = false, updatable = false)
     @JsonIgnore
     private District district;
@@ -50,31 +50,35 @@ public class Location {
         return id;
     }
 
-    public void setId(Long id) {
+    public Location setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public Location setAddress(String address) {
         this.address = address;
+        return this;
     }
 
     public Double getLattitude() {
         return lattitude;
     }
 
-    public void setLattitude(Double lattitude) {
+    public Location setLattitude(Double lattitude) {
         this.lattitude = lattitude;
+        return this;
     }
 
     public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Double longitude) {
+    public Location setLongitude(Double longitude) {
         this.longitude = longitude;
+        return this;
     }
 }

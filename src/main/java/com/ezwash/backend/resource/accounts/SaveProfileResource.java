@@ -1,24 +1,31 @@
-package com.ezwash.backend.resource;
+package com.ezwash.backend.resource.accounts;
 
-import com.ezwash.backend.domain.model.accounts.Profile;
+import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
 
-public class ProfileResource {
-
+public class SaveProfileResource {
+    @NotNull
     private String first_name;
+
+    @NotNull
     private String last_name;
+
+    @NotNull
+    @Column(unique = true)
     private String email;
 
+    @NotNull
+    @Column(unique = true)
     private String phone_number;
 
+    @NotNull
     private String gender;
-
-
 
     public String getFirst_name() {
         return first_name;
     }
 
-    public ProfileResource setFirst_name(String first_name) {
+    public SaveProfileResource setFirst_name(String first_name) {
         this.first_name = first_name;
         return this;
     }
@@ -27,7 +34,7 @@ public class ProfileResource {
         return last_name;
     }
 
-    public ProfileResource setLast_name(String last_name) {
+    public SaveProfileResource setLast_name(String last_name) {
         this.last_name = last_name;
         return this;
     }
@@ -36,7 +43,7 @@ public class ProfileResource {
         return email;
     }
 
-    public ProfileResource setEmail(String email) {
+    public SaveProfileResource setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -45,7 +52,7 @@ public class ProfileResource {
         return phone_number;
     }
 
-    public ProfileResource setPhone_number(String phone_number) {
+    public SaveProfileResource setPhone_number(String phone_number) {
         this.phone_number = phone_number;
         return this;
     }
@@ -54,7 +61,7 @@ public class ProfileResource {
         return gender;
     }
 
-    public ProfileResource setGender(String gender) {
+    public SaveProfileResource setGender(String gender) {
         this.gender = gender;
         return this;
     }
