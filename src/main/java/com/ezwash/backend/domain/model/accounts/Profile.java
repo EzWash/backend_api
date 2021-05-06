@@ -1,34 +1,29 @@
 package com.ezwash.backend.domain.model.accounts;
 
+import com.ezwash.backend.domain.model.AuditModel;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-public class Profile {
+@MappedSuperclass
+public class Profile extends AuditModel {
     @Id
     @GeneratedValue (strategy= GenerationType.IDENTITY)
     private Long id;
-    @NotNull
-    private String name;
-    @NotNull
-    private String lastName;
-    @NotNull
-    private String email;
-    @NotNull
-    private String phoneNumber;
-    @NotNull
-    private String userName;
-    @NotNull
-    private String password;
 
-    public Profile(Long id, String name, String lastName, String email, String phoneNumber, String userName, String password) {
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.userName = userName;
-        this.password = password;
-    }
+    @NotNull
+    private String first_name;
+
+    @NotNull
+    private String last_name;
+
+    @NotNull
+    @Column(unique = true)
+    private String email;
+
+    @NotNull
+    @Column(unique = true)
+    private String phone_number;
 
     public Long getId() {
         return id;
@@ -38,20 +33,20 @@ public class Profile {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirst_name(String name) {
+        this.first_name = name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLast_name(String lastName) {
+        this.last_name = lastName;
     }
 
     public String getEmail() {
@@ -62,31 +57,11 @@ public class Profile {
         this.email = email;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone_number() {
+        return phone_number;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhone_number(String phoneNumber) {
+        this.phone_number = phoneNumber;
     }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-
-
 }
