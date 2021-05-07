@@ -5,6 +5,7 @@ import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.geographic.LocationRepository;
 import com.ezwash.backend.domain.service.accounts.CarWashService;
+import com.ezwash.backend.exception.ResourceNotFoundException;
 import com.ezwash.backend.service.accounts.CarWashServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,9 +14,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -124,4 +133,176 @@ public class CarWashServiceImplTest {
         //Assert
     }
     */
+
+    @Test
+    @DisplayName("when getCarWashesLessThanDistance with Valid Distance Then Returns CarWashes")
+    public void whenGetCarWashesLessThanDistanceWithValidDistanceThenReturnsCarWashes(){
+        // Arrange
+        CarWash carWash1 = new CarWash()
+                .setId(1L)
+                .setAvailable(1)
+                .setDescription("Ey amigo, si quieres el mejor servicio de Car Wash, entonces ven con nosotroso.")
+                .setName("Quality Car Wash")
+                .setName_owner("Ricardo")
+                .setQualification(0)
+                .setLocation(new Location()
+                        .setId(1L)
+                        .setAddress("Jr. García Villón 452, Cercado de Lima 15079, Peru")
+                        .setLattitude(-12.0421891)
+                        .setLongitude(-77.0498078));
+
+        CarWash carWash2 = new CarWash()
+                .setId(2L)
+                .setAvailable(1)
+                .setDescription("Ey amigo, si quieres el mejor servicio de Car Wash, entonces ven con nosotros")
+                .setName("Duro Car Wash")
+                .setName_owner("Milagros")
+                .setQualification(0)
+                .setLocation(new Location()
+                        .setId(2L)
+                        .setAddress("Prolongación Primavera 2390, Lima 15023, Peru")
+                        .setLattitude(-12.104061)
+                        .setLongitude(-76.962902));
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+
+        List<CarWash> carWashList = new ArrayList<>();
+        carWashList.add(carWash1);
+        carWashList.add(carWash2);
+        Page<CarWash> carWashes = new PageImpl(carWashList);
+
+        when(carWashRepository.findAll(pageable))
+                .thenReturn(carWashes);
+        // Act
+
+        Page<CarWash> foundedCarWashes = carWashService.getCarWashesLessThanDistance(-12.0506967, -77.0647996, 5, pageable);
+        Page<CarWash> foundedCarWashes2 = carWashService.getCarWashesLessThanDistance(-12.0506967, -77.0647996, 14, pageable);
+
+        // Assert
+
+        assertThat(foundedCarWashes.getTotalElements()).isEqualTo(1);
+        assertThat(foundedCarWashes2.getTotalElements()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("When getCarWashesLessThanDistance with Invalid Distance Then Returns ResourceNotFound Exception")
+    public void whenGetCarWashLessthanDistancewithInvalidDistanceThenReturnsResourceNotFoundException(){
+        // Arrange
+        double distance = 2;
+        String template = "Resource %s not found for %s with value %s";
+        CarWash carWash = new CarWash()
+                .setId(2L)
+                .setAvailable(1)
+                .setDescription("Ey amigo, si quieres el mejor servicio de Car Wash, entonces ven con nosotros")
+                .setName("Duro Car Wash")
+                .setName_owner("Milagros")
+                .setQualification(0)
+                .setLocation(new Location()
+                        .setId(2L)
+                        .setAddress("Prolongación Primavera 2390, Lima 15023, Peru")
+                        .setLattitude(-12.104061)
+                        .setLongitude(-76.962902));
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+
+        List<CarWash> carWashList = new ArrayList<>();
+        carWashList.add(carWash);
+        Page<CarWash> carWashes = new PageImpl(carWashList);
+
+        when(carWashRepository.findAll(pageable))
+                .thenReturn(carWashes);
+        String expectedMessage = String.format(template, "CarWash", "Distance", distance);
+        // Act
+
+        Throwable exception = catchThrowable(() -> {
+            Page<CarWash> foundedCarWashes = carWashService.getCarWashesLessThanDistance(-12.0506967, -77.0647996, distance, pageable);
+        });
+
+        // Assert
+
+        assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+    }
+
 }

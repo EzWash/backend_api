@@ -10,5 +10,5 @@ import org.springframework.data.domain.Pageable;
 public interface CarWashService {
     CarWash createCarWash(CarWash carWash, Location location);
     CarWash findCarWashById(Long id);
-    Page<CarWash> getCarWashesLessThanDistance(User user, double distance, Pageable pageable);
+    Page<CarWash> getCarWashesLessThanDistance(double lt_1, double lg_1, double distance, Pageable pageable);
 }

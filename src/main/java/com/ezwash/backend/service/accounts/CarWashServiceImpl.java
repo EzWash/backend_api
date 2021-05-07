@@ -36,19 +36,20 @@ public class CarWashServiceImpl implements CarWashService {
     }
 
     @Override
-    public Page<CarWash> getCarWashesLessThanDistance(User user, double distance, Pageable pageable) {
-        double lt_user = user.getLocation().getLattitude();
-        double lg_user = user.getLocation().getLongitude();
+    public Page<CarWash> getCarWashesLessThanDistance(double lt_1, double lg_1, double distance, Pageable pageable) {
         List<CarWash> carWashesNear = new ArrayList<>();
         Page<CarWash> carWashes = carWashRepository.findAll(pageable)
                 .map(carWash -> {
                     double lt_carwash = carWash.getLocation().getLattitude();
                     double lg_carwash = carWash.getLocation().getLongitude();
-                    if(Distance.getDistance(lt_user, lg_user, lt_carwash, lg_carwash) <= distance) {
+                    if(Distance.getDistance(lt_1, lg_1, lt_carwash, lg_carwash) <= distance) {
                         carWashesNear.add(carWash);
                     }
                     return carWash;
                 });
+        if(carWashesNear.size() == 0){
+            throw new ResourceNotFoundException("CarWash", "Distance", distance);
+        }
         return new PageImpl<>(carWashesNear, pageable, carWashesNear.size());
     }
 }
