@@ -20,9 +20,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    @Override
-    public User getUserByFirst_name(String first_name) {
-        return userRepository.findByFirst_name(first_name)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "first_name", first_name));
-    }
+
+
 }

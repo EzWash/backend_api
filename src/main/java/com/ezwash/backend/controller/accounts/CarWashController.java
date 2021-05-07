@@ -8,10 +8,7 @@ import com.ezwash.backend.resource.accounts.CarWashResource;
 import com.ezwash.backend.resource.accounts.SaveCarWashResource;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -30,6 +27,13 @@ public class CarWashController {
        Location location = locationService.getLocationById(resource.getLocation()) ;
        CarWash carWash = convertToEntity(resource);
        return convertToResource(carWashService.createCarWash(carWash, location));
+    }
+
+    @PutMapping("carwash/{carwashId}")
+    public CarWashResource updateCarWash(@PathVariable Long carwashId, @RequestBody SaveCarWashResource resource){
+        CarWash carWash = convertToEntity(resource);
+        Location location = locationService.getLocationById(resource.getLocation()) ;
+        return convertToResource(carWashService.editCarWash(carwashId, carWash,location));
     }
 
     private CarWash convertToEntity(SaveCarWashResource resource){
