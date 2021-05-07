@@ -19,4 +19,10 @@ public class UserServiceImpl implements UserService {
         user.setLocation(location);
         return userRepository.save(user);
     }
+
+    @Override
+    public User findUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", id));
+    }
 }

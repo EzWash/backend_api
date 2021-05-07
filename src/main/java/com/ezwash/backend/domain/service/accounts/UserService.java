@@ -5,4 +5,5 @@ import com.ezwash.backend.domain.model.geographic.Location;
 
 public interface UserService {
     User createUser(User user, Location location);
+    User findUserById(Long id);
 }

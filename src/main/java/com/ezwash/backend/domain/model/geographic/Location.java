@@ -42,9 +42,9 @@ public class Location {
     private CarWash carwash;
 
     //OneToMany user
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "location")
+    @OneToOne(mappedBy = "location")
     @JsonIgnore
-    private List<User> user;
+    private User user;
 
     public Long getId() {
         return id;

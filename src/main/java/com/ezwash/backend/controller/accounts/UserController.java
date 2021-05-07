@@ -29,6 +29,7 @@ public class UserController {
         User user = convertToEntity(resource);
         return convertToResource(userService.createUser(user, location));
     }
+
     private User convertToEntity(SaveUserResource resource){
         return mapper.map(resource, User.class);
     }

@@ -24,9 +24,8 @@ public class User extends Profile {
     private String password;
 
     //ManytoOne a location
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "location_id", nullable = false)
-    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
 
     @ManyToMany
