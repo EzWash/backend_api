@@ -32,4 +32,8 @@ public class CarWashServiceImpl implements CarWashService {
 
         return carWashRepository.save(carwash);
     }
+    public CarWash findCarWashById(Long id) {
+        return carWashRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Car Wash", "Id", id));
+    }
 }
