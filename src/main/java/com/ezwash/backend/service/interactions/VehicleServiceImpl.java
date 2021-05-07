@@ -23,8 +23,6 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public Vehicle createVehicle (Vehicle vehicle){
-        System.out.println(vehicle.getLocation().getAddress());
-        System.out.println(vehicle.getUser().getFirst_name());
         return vehicleRepository.save(vehicle);
     }
 
