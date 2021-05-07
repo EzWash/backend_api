@@ -6,6 +6,7 @@ import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.UserRepository;
 import com.ezwash.backend.domain.repository.geographic.LocationRepository;
 import com.ezwash.backend.domain.service.accounts.UserService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,8 @@ public class UserServiceImplTest  {
         }
     }
     @Test
-    public void whenCreateUserWithValidAttributesThenReturnsCarWash(){
+    @DisplayName("when createUser With Valid Attributes Then Returns User")
+    public void whenCreateUserWithValidAttributesThenReturnsUser(){
         //Arrange
         String first_name = "Mauricio Roe";
         String last_name = "Castillo Vega";
