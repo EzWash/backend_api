@@ -46,6 +46,13 @@ public class CarWashController {
         return new PageImpl<>(resources, pageable, resources.size());
     }
 
+    @PutMapping("carwash/{carwashId}")
+    public CarWashResource updateCarWash(@PathVariable Long carwashId, @RequestBody SaveCarWashResource resource){
+        CarWash carWash = convertToEntity(resource);
+        return convertToResource(carWashService.editCarWash(carwashId, carWash));
+
+    }
+
     private CarWash convertToEntity(SaveCarWashResource resource){
         return mapper.map(resource, CarWash.class);
     }

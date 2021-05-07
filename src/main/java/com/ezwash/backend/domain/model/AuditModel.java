@@ -1,5 +1,6 @@
 package com.ezwash.backend.domain.model;
 
+import com.ezwash.backend.domain.model.accounts.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -38,4 +39,6 @@ public abstract class AuditModel implements Serializable {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+
 }
