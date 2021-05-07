@@ -22,13 +22,13 @@ public class CarWashServiceImpl implements CarWashService {
     }
 
     @Override
-    public CarWash editCarWash(Long carwashId, CarWash carWashRequest, Location location){
+    public CarWash editCarWash(Long carwashId, CarWash carWashRequest){
         CarWash carwash = carWashRepository.findById(carwashId)
                 .orElseThrow(() -> new ResourceNotFoundException("CarWash", "Id", carwashId));
         carwash.setDescription(carWashRequest.getDescription())
                 .setName(carWashRequest.getName())
                 .setName_owner(carWashRequest.getName_owner())
-                .setLocation(location);
+                .setLocation(carWashRequest.getLocation());
 
         return carWashRepository.save(carwash);
     }

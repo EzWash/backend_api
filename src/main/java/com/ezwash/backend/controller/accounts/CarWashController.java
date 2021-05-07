@@ -32,8 +32,7 @@ public class CarWashController {
     @PutMapping("carwash/{carwashId}")
     public CarWashResource updateCarWash(@PathVariable Long carwashId, @RequestBody SaveCarWashResource resource){
         CarWash carWash = convertToEntity(resource);
-        Location location = locationService.getLocationById(resource.getLocation()) ;
-        return convertToResource(carWashService.editCarWash(carwashId, carWash,location));
+        return convertToResource(carWashService.editCarWash(carwashId, carWash));
     }
 
     private CarWash convertToEntity(SaveCarWashResource resource){
