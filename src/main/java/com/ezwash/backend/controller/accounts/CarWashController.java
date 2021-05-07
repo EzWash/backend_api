@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api")
 public class CarWashController {
@@ -26,11 +28,12 @@ public class CarWashController {
     private ModelMapper mapper;
 
     @PostMapping("/carwash")
-    public CarWashResource createCarWash(@RequestBody SaveCarWashResource resource){
+    public CarWashResource createCarWash(@Valid @RequestBody SaveCarWashResource resource){
        Location location = locationService.getLocationById(resource.getLocation()) ;
        CarWash carWash = convertToEntity(resource);
        return convertToResource(carWashService.createCarWash(carWash, location));
     }
+
 
     private CarWash convertToEntity(SaveCarWashResource resource){
         return mapper.map(resource, CarWash.class);
