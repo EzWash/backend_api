@@ -24,11 +24,9 @@ public class Location {
     private String address;
 
     @NotNull
-    @NotBlank
     private Double lattitude;
 
     @NotNull
-    @NotBlank
     private Double longitude;
 
     //ManyToOne district

@@ -1,12 +1,10 @@
 package com.ezwash.backend.service.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
-import com.ezwash.backend.domain.model.accounts.User;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.service.accounts.CarWashService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
-import com.ezwash.backend.resource.business.Distance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

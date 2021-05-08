@@ -37,7 +37,9 @@ public class VehiclesController {
         Vehicle vehicle= convertToEntity(resource);
         vehicle.setLocation(location);
         vehicle.setUser(user);
-        return convertToResource(vehicleService.createVehicle(vehicle));
+        VehicleResource vehicleResource = convertToResource(vehicleService.createVehicle(vehicle))
+                .setUser_Id(resource.getUser());
+        return vehicleResource;
     }
 
     private Vehicle convertToEntity(SaveVehicleResource resource){

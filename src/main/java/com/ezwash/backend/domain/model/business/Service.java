@@ -30,7 +30,6 @@ public class Service {
     private Integer is_promotion;
 
     @NotNull
-    @NotBlank
     private Double price;
 
     //ManyToOne carwashes

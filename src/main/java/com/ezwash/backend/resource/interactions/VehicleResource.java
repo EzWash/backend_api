@@ -10,7 +10,7 @@ public class VehicleResource {
     private String brand;
     private String registration_plate;
     private Location location;
-    private User user;
+    private Long user_Id;
 
     public String getModel() {
         return model;
@@ -48,12 +48,12 @@ public class VehicleResource {
         return this;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUser_Id() {
+        return user_Id;
     }
 
-    public VehicleResource setUser(User user) {
-        this.user = user;
+    public VehicleResource setUser_Id(Long user_Id) {
+        this.user_Id = user_Id;
         return this;
     }
 }
