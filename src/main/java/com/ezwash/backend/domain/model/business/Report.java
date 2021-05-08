@@ -18,6 +18,7 @@ public class Report {
 
     @NotNull
     @NotBlank
+    @Lob
     private String description;
 
     public Long getId() {

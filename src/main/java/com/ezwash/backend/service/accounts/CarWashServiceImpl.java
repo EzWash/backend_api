@@ -40,6 +40,7 @@ public class CarWashServiceImpl implements CarWashService {
 
         return carWashRepository.save(carwash);
     }
+
     public CarWash findCarWashById(Long id) {
         return carWashRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Car Wash", "Id", id));
@@ -50,9 +51,8 @@ public class CarWashServiceImpl implements CarWashService {
         List<CarWash> carWashesNear = new ArrayList<>();
         Page<CarWash> carWashes = carWashRepository.findAll(pageable)
                 .map(carWash -> {
-                    double lt_carwash = carWash.getLocation().getLattitude();
-                    double lg_carwash = carWash.getLocation().getLongitude();
-                    if(Distance.getDistance(lt_1, lg_1, lt_carwash, lg_carwash) <= distance) {
+                    double diff_distance = carWash.getLocation().getDistance(lt_1, lg_1);
+                    if(diff_distance <= distance) {
                         carWashesNear.add(carWash);
                     }
                     return carWash;

@@ -3,7 +3,6 @@ package com.ezwash.backend.resource.accounts;
 import com.ezwash.backend.domain.model.geographic.Location;
 
 public class UserResource extends ProfileResource {
-    private String username;
     private String password;
     private Location location;
 
@@ -13,15 +12,6 @@ public class UserResource extends ProfileResource {
 
     public UserResource setLocation(Location location) {
         this.location = location;
-        return this;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public UserResource setUsername(String username) {
-        this.username = username;
         return this;
     }
 

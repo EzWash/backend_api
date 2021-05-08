@@ -6,7 +6,6 @@ import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.geographic.LocationRepository;
 import com.ezwash.backend.domain.service.accounts.CarWashService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
-import com.ezwash.backend.service.accounts.CarWashServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -266,12 +265,9 @@ public class CarWashServiceImplTest {
         when(carWashRepository.findAll(pageable))
                 .thenReturn(carWashes);
         // Act
-
         Page<CarWash> foundedCarWashes = carWashService.getCarWashesLessThanDistance(-12.0506967, -77.0647996, 5, pageable);
         Page<CarWash> foundedCarWashes2 = carWashService.getCarWashesLessThanDistance(-12.0506967, -77.0647996, 14, pageable);
-
         // Assert
-
         assertThat(foundedCarWashes.getTotalElements()).isEqualTo(1);
         assertThat(foundedCarWashes2.getTotalElements()).isEqualTo(2);
     }

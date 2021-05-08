@@ -25,6 +25,7 @@ public class Vehicle {
 
     @NotNull
     @NotBlank
+    @Column(length = 7)
     private String registration_plate;
 
     //ManyToOne user

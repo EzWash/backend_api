@@ -24,6 +24,7 @@ public class CarWash extends AuditModel {
 
     @NotNull
     @NotBlank
+    @Column(length = 100)
     private String name;
 
     @NotNull

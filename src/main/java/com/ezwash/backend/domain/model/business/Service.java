@@ -17,10 +17,12 @@ public class Service {
 
     @NotNull
     @NotBlank
+    @Column(length = 100)
     private String name;
 
     @NotNull
     @NotBlank
+    @Lob
     private String description;
 
     @NotNull
@@ -28,6 +30,7 @@ public class Service {
     private Integer is_promotion;
 
     @NotNull
+    @NotBlank
     private Double price;
 
     //ManyToOne carwashes
