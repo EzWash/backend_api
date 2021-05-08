@@ -1,4 +1,4 @@
 package com.ezwash.backend.controller.interactions;
 
-public class ImageController {
+public class ImagesController {
 }

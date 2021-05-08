@@ -1,4 +1,4 @@
-package com.ezwash.backend;
+package com.ezwash.backend.service.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.Staff;
@@ -55,12 +55,9 @@ public class StaffServiceImplTest {
         .setPhone_number(phone_number)
         .setGender(gender));
         //Act
-        Staff createdStaff=staffService.createStaff(staff,carWash);
+        Staff createdStaff=staffService.createStaff(carWash, staff);
         //Assert
       assertThat(createdStaff.getFirst_name()).isEqualTo(first_name);
       assertThat(createdStaff.getCarWash()).isEqualTo(carWash);
-
     }
-
-
 }

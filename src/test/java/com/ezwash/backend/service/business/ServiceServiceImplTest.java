@@ -1,4 +1,4 @@
-package com.ezwash.backend;
+package com.ezwash.backend.service.business;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.business.Service;

@@ -1,16 +1,14 @@
 package com.ezwash.backend.resource.accounts;
 
-
-import com.ezwash.backend.domain.model.accounts.CarWash;
-
 public class StaffResource extends ProfileResource {
-    private CarWash carWash;
+    private Long carWashId;
 
-    public CarWash getCarWash(){return carWash;}
-
-    public StaffResource setCarWash(CarWash carWash){
-        this.carWash=carWash;
-        return this;
+    public Long getCarWashId() {
+        return carWashId;
     }
 
+    public StaffResource setCarWashId(Long carWashId) {
+        this.carWashId = carWashId;
+        return this;
+    }
 }

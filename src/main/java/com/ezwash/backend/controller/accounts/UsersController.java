@@ -6,6 +6,10 @@ import com.ezwash.backend.domain.service.accounts.UserService;
 import com.ezwash.backend.domain.service.geographic.LocationService;
 import com.ezwash.backend.resource.accounts.SaveUserResource;
 import com.ezwash.backend.resource.accounts.UserResource;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
@@ -13,7 +17,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
-public class UserController {
+public class UsersController {
     @Autowired
     private UserService  userService;
 
@@ -23,7 +27,11 @@ public class UserController {
     @Autowired
     private ModelMapper mapper;
 
-    @PostMapping ("/user")
+    @Operation(summary = "Create Users", description = "Create users", tags = {"Users"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User created successfully", content = @Content(mediaType = "application/json"))
+    })
+    @PostMapping ("/users")
     public UserResource createUser(@Valid @RequestBody SaveUserResource resource){
         Location location= locationService.getLocationById(resource.getLocation());
         User user = convertToEntity(resource);

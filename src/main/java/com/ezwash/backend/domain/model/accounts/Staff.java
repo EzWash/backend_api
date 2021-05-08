@@ -1,6 +1,7 @@
 package com.ezwash.backend.domain.model.accounts;
 
 import com.ezwash.backend.domain.model.business.Contract;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,6 +13,7 @@ public class Staff extends Profile {
     //ManyToOne CarWash
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "carwash_id", nullable = false)
+    @JsonIgnore
     private CarWash carWash;
 
     //OneToMany contract

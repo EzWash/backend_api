@@ -1,11 +1,20 @@
 package com.ezwash.backend.controller.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
+import com.ezwash.backend.domain.model.accounts.Staff;
 import com.ezwash.backend.domain.model.geographic.Location;
+import com.ezwash.backend.domain.repository.accounts.StaffRepository;
 import com.ezwash.backend.domain.service.accounts.CarWashService;
+import com.ezwash.backend.domain.service.accounts.StaffService;
 import com.ezwash.backend.domain.service.geographic.LocationService;
 import com.ezwash.backend.resource.accounts.CarWashResource;
 import com.ezwash.backend.resource.accounts.SaveCarWashResource;
+import com.ezwash.backend.resource.accounts.SaveStaffResource;
+import com.ezwash.backend.resource.accounts.StaffResource;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +28,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-public class CarWashController {
+public class CarWashesController {
     @Autowired
     private CarWashService carWashService;
 
@@ -27,15 +36,26 @@ public class CarWashController {
     private LocationService locationService;
 
     @Autowired
+    private StaffService staffService;
+
+    @Autowired
     private ModelMapper mapper;
 
-    @PostMapping("/carwash")
+    @Operation(summary = "Create CarWashes", description = "Create and return a Car Wash", tags = {"Car Washes"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "CarWash created successfully", content = @Content(mediaType = "application/json"))
+    })
+    @PostMapping("/carwashes")
     public CarWashResource createCarWash(@Valid @RequestBody SaveCarWashResource resource){
        Location location = locationService.getLocationById(resource.getLocation()) ;
        CarWash carWash = convertToEntity(resource);
        return convertToResource(carWashService.createCarWash(carWash, location));
     }
 
+    @Operation(summary = "Get near Car Washes", description = "Get all Car Washes within a radius in kilometers", tags = {"Car Washes"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "CarWashes founded", content = @Content(mediaType = "application/json"))
+    })
     @GetMapping("/carwashes/{lattitude}/{longitude}/{distance}")
     public Page<CarWashResource> getNearCarWashes(@PathVariable double lattitude, @PathVariable double longitude, @PathVariable double distance, Pageable pageable){
         List<CarWashResource> resources = carWashService.getCarWashesLessThanDistance(lattitude, longitude, distance, pageable)
@@ -46,12 +66,16 @@ public class CarWashController {
         return new PageImpl<>(resources, pageable, resources.size());
     }
 
-    @PutMapping("carwash/{carwashId}")
+    @Operation(summary = "Edit Car Washes", description = "The Car Wash's owner can edit the Car Wash's data", tags = {"Car Washes"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "CarWash updated", content = @Content(mediaType = "application/json"))
+    })
+    @PutMapping("carwashes/{carwashId}")
     public CarWashResource updateCarWash(@PathVariable Long carwashId, @RequestBody SaveCarWashResource resource){
         CarWash carWash = convertToEntity(resource);
         return convertToResource(carWashService.editCarWash(carwashId, carWash));
-
     }
+
 
     private CarWash convertToEntity(SaveCarWashResource resource){
         return mapper.map(resource, CarWash.class);

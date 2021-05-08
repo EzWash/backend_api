@@ -1,4 +1,4 @@
 package com.ezwash.backend.controller.interactions;
 
-public class CardController {
+public class CardsController {
 }

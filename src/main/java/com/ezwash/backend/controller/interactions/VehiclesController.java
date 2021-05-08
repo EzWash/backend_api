@@ -6,6 +6,10 @@ import com.ezwash.backend.domain.repository.interactions.VehicleRepository;
 import com.ezwash.backend.domain.service.interactions.VehicleService;
 import com.ezwash.backend.resource.interactions.SaveVehicleResource;
 import com.ezwash.backend.resource.interactions.VehicleResource;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
@@ -14,18 +18,19 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
-public class VehicleController {
+public class VehiclesController {
 
     @Autowired
     private VehicleService vehicleService;
 
     @Autowired
-    private VehicleRepository vehicleRepository;
-
-    @Autowired
     private ModelMapper mapper;
 
-    @PostMapping ("/vehicle")
+    @Operation(summary = "Create a Vehicle", description = "Create the User's Vehicle given an ID", tags = {"Vehicles"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All Posts returned", content = @Content(mediaType = "application/json"))
+    })
+    @PostMapping ("/vehicles")
     public VehicleResource createVehicle (@Valid @RequestBody SaveVehicleResource resource){
         Location location = vehicleService.getLocationById(resource.getLocation());
         User user = vehicleService.getUserById(resource.getUser());
