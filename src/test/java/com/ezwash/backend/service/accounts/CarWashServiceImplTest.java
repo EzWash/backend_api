@@ -132,7 +132,7 @@ public class CarWashServiceImplTest {
                 );
         // Act
 
-        CarWash updatedCarWash = carWashService.editCarWash(1L,carWash);
+        CarWash updatedCarWash = carWashService.editCarWash(1L,carWash, location_test);
 
 
 
@@ -140,7 +140,7 @@ public class CarWashServiceImplTest {
         assertThat(updatedCarWash.getDescription()).isEqualTo("New description");
 
     }
-    //No sure about unhappy path's existence
+
     /*
     @Test
     @DisplayName("when createCarWash With Invalid Attributes Then Returns Resource Bad Request Exception")
