@@ -5,6 +5,7 @@ import com.ezwash.backend.domain.model.accounts.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="comments")
@@ -25,7 +26,11 @@ public class Comment {
     @JsonIgnore
     private User user;
 
+    @Lob
+    @NotNull
     private String description;
+
+    @NotNull
     private Integer qualification;
 
     public Long getId() {

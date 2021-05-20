@@ -1,16 +1,12 @@
 package com.ezwash.backend.controller.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
-import com.ezwash.backend.domain.model.accounts.Staff;
 import com.ezwash.backend.domain.model.geographic.Location;
-import com.ezwash.backend.domain.repository.accounts.StaffRepository;
 import com.ezwash.backend.domain.service.accounts.CarWashService;
 import com.ezwash.backend.domain.service.accounts.StaffService;
 import com.ezwash.backend.domain.service.geographic.LocationService;
 import com.ezwash.backend.resource.accounts.CarWashResource;
 import com.ezwash.backend.resource.accounts.SaveCarWashResource;
-import com.ezwash.backend.resource.accounts.SaveStaffResource;
-import com.ezwash.backend.resource.accounts.StaffResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -73,7 +69,9 @@ public class CarWashesController {
     @PutMapping("carwashes/{carwashId}")
     public CarWashResource updateCarWash(@PathVariable Long carwashId, @RequestBody SaveCarWashResource resource){
         CarWash carWash = convertToEntity(resource);
-        return convertToResource(carWashService.editCarWash(carwashId, carWash));
+        Location location = locationService.getLocationById(resource.getLocation());
+        CarWashResource carWashResource = convertToResource(carWashService.editCarWash(carwashId, carWash, location));
+        return carWashResource;
     }
 
 

@@ -46,7 +46,6 @@ public class UserServiceImplTest  {
         String email = "era@gmail.com";
         String phone_number= "987655325";
         String gender = "M";
-        String username= "mauCastle";
         String password = "$3fsdg";
 
         //Location attributes
@@ -62,7 +61,6 @@ public class UserServiceImplTest  {
                 .setLongitude(longitude);
 
         User user = (User) new User()
-                .setUsername(username)
                 .setPassword(password)
                 .setLocation(location)
                 .setFirst_name(first_name)
@@ -72,7 +70,6 @@ public class UserServiceImplTest  {
                 .setGender(gender);
 
         when(userRepository.save(user)).thenReturn((User) new User()
-                .setUsername(username)
                 .setPassword(password)
                 .setLocation(location)
                 .setFirst_name(first_name)
@@ -86,7 +83,7 @@ public class UserServiceImplTest  {
 
         //Assert
         assertThat(createdUser.getFirst_name()).isEqualTo(first_name);
-        assertThat(createdUser.getUsername()).isEqualTo(username);
+        assertThat(createdUser.getLast_name()).isEqualTo(last_name);
     }
 
 }

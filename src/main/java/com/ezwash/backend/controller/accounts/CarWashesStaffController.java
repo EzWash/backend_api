@@ -1,3 +1,4 @@
+
 package com.ezwash.backend.controller.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
@@ -39,7 +40,6 @@ public class CarWashesStaffController {
         return staffResource;
     }
 
-    private Staff convertToEntity(SaveStaffResource resource)
-    {return mapper.map(resource, Staff.class);}
+    private Staff convertToEntity(SaveStaffResource resource){return mapper.map(resource, Staff.class);}
     private StaffResource convertToResource(Staff staff){return mapper.map(staff, StaffResource.class);}
 }

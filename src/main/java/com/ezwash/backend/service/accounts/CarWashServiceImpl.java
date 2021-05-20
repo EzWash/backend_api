@@ -1,12 +1,10 @@
 package com.ezwash.backend.service.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
-import com.ezwash.backend.domain.model.accounts.User;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.service.accounts.CarWashService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
-import com.ezwash.backend.resource.business.Distance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -30,16 +28,17 @@ public class CarWashServiceImpl implements CarWashService {
     }
 
     @Override
-    public CarWash editCarWash(Long carwashId, CarWash carWashRequest){
+    public CarWash editCarWash(Long carwashId, CarWash carWashRequest, Location location){
         CarWash carwash = carWashRepository.findById(carwashId)
                 .orElseThrow(() -> new ResourceNotFoundException("CarWash", "Id", carwashId));
         carwash.setDescription(carWashRequest.getDescription())
                 .setName(carWashRequest.getName())
                 .setName_owner(carWashRequest.getName_owner())
-                .setLocation(carWashRequest.getLocation());
+                .setLocation(location);
 
         return carWashRepository.save(carwash);
     }
+
     public CarWash findCarWashById(Long id) {
         return carWashRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Car Wash", "Id", id));
@@ -50,9 +49,8 @@ public class CarWashServiceImpl implements CarWashService {
         List<CarWash> carWashesNear = new ArrayList<>();
         Page<CarWash> carWashes = carWashRepository.findAll(pageable)
                 .map(carWash -> {
-                    double lt_carwash = carWash.getLocation().getLattitude();
-                    double lg_carwash = carWash.getLocation().getLongitude();
-                    if(Distance.getDistance(lt_1, lg_1, lt_carwash, lg_carwash) <= distance) {
+                    double diff_distance = carWash.getLocation().getDistance(lt_1, lg_1);
+                    if(diff_distance <= distance) {
                         carWashesNear.add(carWash);
                     }
                     return carWash;

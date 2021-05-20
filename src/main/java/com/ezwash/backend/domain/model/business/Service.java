@@ -17,10 +17,12 @@ public class Service {
 
     @NotNull
     @NotBlank
+    @Column(length = 100)
     private String name;
 
     @NotNull
     @NotBlank
+    @Lob
     private String description;
 
     @NotNull

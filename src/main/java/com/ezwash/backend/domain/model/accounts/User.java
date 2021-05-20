@@ -17,10 +17,6 @@ public class User extends Profile {
 
     @NotNull
     @NotBlank
-    private String username;
-
-    @NotNull
-    @NotBlank
     private String password;
 
     //ManytoOne a location
@@ -42,15 +38,6 @@ public class User extends Profile {
     private List<Vehicle> vehicleList;
 
     //OneToMany cards
-
-    public String getUsername() {
-        return username;
-    }
-
-    public User setUsername(String username) {
-        this.username = username;
-        return this;
-    }
 
     public String getPassword() {
         return password;
