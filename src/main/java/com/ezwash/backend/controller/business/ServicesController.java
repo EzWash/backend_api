@@ -39,6 +39,20 @@ public class ServicesController {
         service.setCarWash(carWash);
         return convertToResource(serviceService.createService(service));
     }
+
+
+    @Operation(summary = "Update a Car Wash's service", description = "Update a service given the Car Wash ID and the Service ID", tags = {"Services"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Service updated successfully", content = @Content(mediaType = "application/json"))
+    })
+    @PutMapping("/carwashes/{carwashId}/services/{serviceId}")
+    public ServiceResource updateService(
+            @PathVariable Long carwashId,
+            @PathVariable Long serviceId,
+            @Valid @RequestBody SaveServiceResource resource){
+        return convertToResource(serviceService.updateService(carwashId,serviceId,convertToEntity(resource)));
+    }
+
     private Service convertToEntity(SaveServiceResource resource){
         return mapper.map(resource, Service.class);
     }
