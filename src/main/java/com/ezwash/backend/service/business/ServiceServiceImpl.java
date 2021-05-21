@@ -29,7 +29,8 @@ public class ServiceServiceImpl implements ServiceService {
                     service.setName(serviceInfo.getName())
                     .setDescription(serviceInfo.getDescription())
                     .setIs_promotion(serviceInfo.getIs_promotion())
-                    .setPrice(serviceInfo.getPrice());
+                    .setPrice(serviceInfo.getPrice())
+                    .setDetails(serviceInfo.getDetails());
                     return serviceRepository.save(service);
                 }).orElseThrow(() -> new ResourceNotFoundException("Service", "Id", serviceId));
     }

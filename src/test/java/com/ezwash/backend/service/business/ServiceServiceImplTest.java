@@ -80,4 +80,5 @@ public class ServiceServiceImplTest {
         assertThat(createdService.getId()).isEqualTo(1L);
         assertThat(createdService.getCarWash().getId()).isEqualTo(carWashId);
     }
+    
 }
