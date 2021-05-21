@@ -37,7 +37,12 @@ public class UsersController {
         User user = convertToEntity(resource);
         return convertToResource(userService.createUser(user, location));
     }
+    @PutMapping("/users/{userId}")
+    public UserResource updateUser(@PathVariable Long userId,@Valid @RequestBody SaveUserResource resource){
+        User user=convertToEntity(resource);
+        return convertToResource(userService.updateUser(userId,user));
 
+    }
     private User convertToEntity(SaveUserResource resource){
         return mapper.map(resource, User.class);
     }

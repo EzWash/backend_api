@@ -10,4 +10,7 @@ public interface UserService {
     User createUser(User user, Location location);
     User findUserById(Long id);
     User addUserCarwash(Long userId, Long carWashId);
+    User deleteUserCarWash(Long userId,Long carWashId);
+    User updateUser(Long userId,User userRequest);
+
 }

@@ -6,10 +6,8 @@ import com.ezwash.backend.resource.accounts.SaveUserResource;
 import com.ezwash.backend.resource.accounts.UserResource;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -25,6 +23,12 @@ public class UserCarWashesController {
             @PathVariable Long userId,
             @PathVariable Long carwashId){
         return convertToResource(userService.addUserCarwash(userId, carwashId));
+    }
+    @DeleteMapping("/users/{userId}/carwashes/{carwashId}")
+    public UserResource deleteUserCarWash(
+            @PathVariable Long userId,
+            @PathVariable Long carwashId){
+        return convertToResource(userService.deleteUserCarWash(userId,carwashId));
     }
     private User convertToEntity(SaveUserResource resource){
         return mapper.map(resource, User.class);

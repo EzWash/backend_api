@@ -9,6 +9,7 @@ import com.ezwash.backend.domain.repository.geographic.LocationRepository;
 import com.ezwash.backend.domain.service.accounts.UserService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,5 +41,26 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId).map(
                 user -> userRepository.save(user.addCarWashToLikedList(carWash)))
                 .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+    }
+
+    @Override
+    public User deleteUserCarWash(Long userId, Long carWashId) {
+        CarWash carWash = carWashRepository.findById(carWashId)
+                .orElseThrow(() -> new ResourceNotFoundException("Car Wash", "Id", carWashId));
+        return userRepository.findById(userId).map(
+                user -> userRepository.save(user.deleteCarWashFromLikedList(carWash)))
+                .orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
+    }
+
+    @Override
+    public User updateUser(Long userId, User userRequest) {
+        User user=userRepository.findById(userId)
+                .orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
+        user.setFirst_name(userRequest.getFirst_name())
+                .setLast_name(userRequest.getLast_name())
+                .setPhone_number(userRequest.getPhone_number())
+                .setEmail(userRequest.getEmail())
+                .setGender(userRequest.getGender());
+        return userRepository.save(user);
     }
 }
