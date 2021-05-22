@@ -97,6 +97,69 @@ public class UserServiceImplTest  {
         assertThat(createdUser.getFirst_name()).isEqualTo(first_name);
         assertThat(createdUser.getLast_name()).isEqualTo(last_name);
     }
+    @Test
+    @DisplayName("when updateUser with Valid UserId and Valid Attributes Then Returns User")
+    public void whenUpdateUserWithValidUserIdAndValidAttributesThenReturnsUser(){
+        // Arrange
+        // User Data
+        String first_name = "Mauricio Roe";
+        String last_name = "Castillo Vega";
+        String email = "era@gmail.com";
+        String phone_number= "987655325";
+        String gender = "M";
+        String password = "$3fsdg";
+
+        //Update Data
+
+        String first_name2="Lucho Luis";
+        String last_name2="Quispe Quispe";
+        String email2="quispecito2@gmail.com";
+        String phone_number2="969420777";
+        String gender2="M";
+
+
+
+        // Location attributes User
+        Long location_id =1L;
+        String address= "Av. El Ejército 1062";
+        double lattitude = -11.145312;
+        double longitude = -72.123613;
+
+        Location location = new Location()
+                .setId(location_id)
+                .setAddress(address)
+                .setLattitude(lattitude)
+                .setLongitude(longitude);
+
+        User user = (User) new User()
+                .setPassword(password)
+                .setLocation(location)
+                .setFirst_name(first_name)
+                .setLast_name(last_name)
+                .setEmail(email)
+                .setPhone_number(phone_number)
+                .setGender(gender);
+        User userUpdate=(User) new User()
+                .setPassword(password)
+                .setLocation(location)
+                .setFirst_name(first_name2)
+                .setLast_name(last_name2)
+                .setEmail(email2)
+                .setPhone_number(phone_number2)
+                .setGender(gender2);
+
+        when(userRepository.findById(1L))
+                .thenReturn(Optional.ofNullable(user));
+
+        when(userRepository.save(user))
+                .thenReturn(user);
+        //Act
+        User foundUser=userService.updateUser(1L,userUpdate);
+        //Assert
+        assertThat(foundUser.getFirst_name()).isEqualTo(first_name2);
+        assertThat(foundUser.getLast_name()).isEqualTo(last_name2);
+
+    }
 
     @Test
     @DisplayName("when addUserCarWash with Valid UserId and CarWashId Then Returns User")
@@ -279,5 +342,84 @@ public class UserServiceImplTest  {
         assertThat(exception)
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage(expectedMessage);
+    }
+    @Test
+    @DisplayName("when deleteUserCarWash with Valid userId then Returns User")
+    public void whenDeleteUserCarWashWithValidUserIdThenReturnsUser(){
+        // Arrange
+        // User Data
+        String first_name = "Mauricio Roe";
+        String last_name = "Castillo Vega";
+        String email = "era@gmail.com";
+        String phone_number= "987655325";
+        String gender = "M";
+        String password = "$3fsdg";
+
+        // Location attributes User
+        Long location_id =1L;
+        String address= "Av. El Ejército 1062";
+        double lattitude = -11.145312;
+        double longitude = -72.123613;
+
+        //Location attributes Car Wash
+        Long location_id2 = 2L;
+        String address2 = "Prolongación Primavera 2390, Lima 15023, Peru";
+        double lattitude2 = -12.104061;
+        double longitude2 = -76.962902;
+
+        //CarWash attributes
+        String description = "Somos el mejor CarWash de la historia";
+        String name = "Limpieza Total";
+        String name_owner = "Carlos" ;
+
+        Location location = new Location()
+                .setId(location_id)
+                .setAddress(address)
+                .setLattitude(lattitude)
+                .setLongitude(longitude);
+
+        Location location1 = new Location()
+                .setId(location_id2)
+                .setAddress(address2)
+                .setLattitude(lattitude2)
+                .setLongitude(longitude2);
+
+        List<CarWash> likedCarWashes = new ArrayList<>();
+
+        User user = (User) new User()
+                .setId(1L)
+                .setFirst_name(first_name)
+                .setLast_name(last_name)
+                .setEmail(email)
+                .setPhone_number(phone_number)
+                .setGender(gender);
+
+        user.setPassword(password);
+        user.setLikedCarwashes(likedCarWashes);
+
+        CarWash carWash = new CarWash()
+                .setId(1L)
+                .setDescription(description)
+                .setName(name)
+                .setName_owner(name_owner);
+
+        when(carWashRepository.findById(1L))
+                .thenReturn(java.util.Optional.ofNullable(carWash));
+
+        when(userRepository.findById(1L))
+                .thenReturn(Optional.ofNullable(user));
+
+        when(userRepository.save(user))
+                .thenReturn(user);
+
+        User foundUser = userService.addUserCarwash(1L, 1L);
+
+        // Act
+        userService.deleteUserCarWash(1L,1L);
+
+        // Assert
+        assertThat(foundUser.getLikedCarwashes().contains(carWash))
+                .isEqualTo(false);
+
     }
 }
