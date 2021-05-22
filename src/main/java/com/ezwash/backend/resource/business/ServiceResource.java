@@ -6,6 +6,7 @@ public class ServiceResource {
     private String description;
     private Integer is_promotion;
     private Double price;
+    private String details;
 
     public Long getId() {
         return id;
@@ -49,6 +50,15 @@ public class ServiceResource {
 
     public ServiceResource setPrice(Double price) {
         this.price = price;
+        return this;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public ServiceResource setDetails(String details) {
+        this.details = details;
         return this;
     }
 }
