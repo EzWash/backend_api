@@ -17,8 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class UserServiceImplTest  {
+public class UserServiceImplTest {
     @MockBean
     private UserRepository userRepository;
 
@@ -43,26 +48,27 @@ public class UserServiceImplTest  {
     private UserService userService;
 
     @TestConfiguration
-    static class UserServiceImplTestConfiguration{
+    static class UserServiceImplTestConfiguration {
         @Bean
-        public UserService userService(){
+        public UserService userService() {
             return new UserServiceImpl();
         }
     }
+
     @Test
     @DisplayName("when createUser With Valid Attributes Then Returns User")
-    public void whenCreateUserWithValidAttributesThenReturnsUser(){
+    public void whenCreateUserWithValidAttributesThenReturnsUser() {
         //Arrange
         String first_name = "Mauricio Roe";
         String last_name = "Castillo Vega";
         String email = "era@gmail.com";
-        String phone_number= "987655325";
+        String phone_number = "987655325";
         String gender = "M";
         String password = "$3fsdg";
 
         //Location attributes
-        Long location_id =1L;
-        String address= "Av. El Ejército 1062";
+        Long location_id = 1L;
+        String address = "Av. El Ejército 1062";
         double lattitude = -11.145312;
         double longitude = -72.123613;
 
@@ -91,7 +97,7 @@ public class UserServiceImplTest  {
                 .setGender(gender)
                 .setId(1L));
         //Act
-        User createdUser = userService.createUser(user,location);
+        User createdUser = userService.createUser(user, location);
 
         //Assert
         assertThat(createdUser.getFirst_name()).isEqualTo(first_name);
@@ -100,19 +106,19 @@ public class UserServiceImplTest  {
 
     @Test
     @DisplayName("when addUserCarWash with Valid UserId and CarWashId Then Returns User")
-    public void whenAddUserCarWashWithValidUserIdAndCarWashIdThenReturnsUser(){
+    public void whenAddUserCarWashWithValidUserIdAndCarWashIdThenReturnsUser() {
         // Arrange
         // User Data
         String first_name = "Mauricio Roe";
         String last_name = "Castillo Vega";
         String email = "era@gmail.com";
-        String phone_number= "987655325";
+        String phone_number = "987655325";
         String gender = "M";
         String password = "$3fsdg";
 
         // Location attributes User
-        Long location_id =1L;
-        String address= "Av. El Ejército 1062";
+        Long location_id = 1L;
+        String address = "Av. El Ejército 1062";
         double lattitude = -11.145312;
         double longitude = -72.123613;
 
@@ -125,7 +131,7 @@ public class UserServiceImplTest  {
         //CarWash attributes
         String description = "Somos el mejor CarWash de la historia";
         String name = "Limpieza Total";
-        String name_owner = "Carlos" ;
+        String name_owner = "Carlos";
 
         Location location = new Location()
                 .setId(location_id)
@@ -177,7 +183,7 @@ public class UserServiceImplTest  {
 
     @Test
     @DisplayName("when addUserCarWash with Invalid CarWashId Then Returns Resource Not Found Exepcion")
-    public void whenAddUserCarWashWithInvalidCarWashIdThenReturnsResourceNotFoundException(){
+    public void whenAddUserCarWashWithInvalidCarWashIdThenReturnsResourceNotFoundException() {
         //Location attributes Car Wash
         Long location_id2 = 2L;
         String address2 = "Prolongación Primavera 2390, Lima 15023, Peru";
@@ -187,7 +193,7 @@ public class UserServiceImplTest  {
         //CarWash attributes
         String description = "Somos el mejor CarWash de la historia";
         String name = "Limpieza Total";
-        String name_owner = "Carlos" ;
+        String name_owner = "Carlos";
 
         String template = "Resource %s not found for %s with value %s";
 
@@ -215,18 +221,18 @@ public class UserServiceImplTest  {
 
     @Test
     @DisplayName("when addUserCarWash with Invalid UserId Then Returns Resource Not Found Exception")
-    public void whenAddUserCarWashWithInvalidUserIdThenReturnsResourceNotFoundException(){
+    public void whenAddUserCarWashWithInvalidUserIdThenReturnsResourceNotFoundException() {
         // User Data
         String first_name = "Mauricio Roe";
         String last_name = "Castillo Vega";
         String email = "era@gmail.com";
-        String phone_number= "987655325";
+        String phone_number = "987655325";
         String gender = "M";
         String password = "$3fsdg";
 
         // Location attributes User
-        Long location_id =1L;
-        String address= "Av. El Ejército 1062";
+        Long location_id = 1L;
+        String address = "Av. El Ejército 1062";
         double lattitude = -11.145312;
         double longitude = -72.123613;
 
@@ -252,7 +258,7 @@ public class UserServiceImplTest  {
         //CarWash attributes
         String description = "Somos el mejor CarWash de la historia";
         String name = "Limpieza Total";
-        String name_owner = "Carlos" ;
+        String name_owner = "Carlos";
 
         String template = "Resource %s not found for %s with value %s";
 
@@ -272,12 +278,165 @@ public class UserServiceImplTest  {
 
         // Act
         Throwable exception = catchThrowable(() -> {
-            User foundUser = userService.addUserCarwash(2L, 1L);
+            User foundedUser = userService.addUserCarwash(2L, 1L);
         });
 
         // Assert
         assertThat(exception)
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage(expectedMessage);
+    }
+
+    @Test
+    @DisplayName("when getLikedList with Valid UserId Then Returns Liked List of Car Washes")
+    public void whenGetLikedListWithValidUserIdThenReturnsLikedListoFCarWashes(){
+        //Arrange
+        // User data
+        String first_name = "Mauricio Roe";
+        String last_name = "Castillo Vega";
+        String email = "era@gmail.com";
+        String phone_number= "987655325";
+        String gender = "M";
+        String password = "$3fsdg";
+
+        // CarWash data
+        String description = "Somos el mejor CarWash de la historia";
+        String name = "Limpieza Total";
+        String name_owner = "Carlos" ;
+
+        CarWash carWash = new CarWash()
+                .setId(1L)
+                .setDescription(description)
+                .setName(name)
+                .setName_owner(name_owner);
+
+        List<CarWash> likedCarWashes = new ArrayList<>();
+        likedCarWashes.add(carWash);
+
+        User user = (User) new User()
+                .setId(1L)
+                .setFirst_name(first_name)
+                .setLast_name(last_name)
+                .setEmail(email)
+                .setPhone_number(phone_number)
+                .setGender(gender);
+
+        user.setPassword(password);
+        user.setLikedCarwashes(likedCarWashes);
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+
+        when(userRepository.findById(1L))
+                .thenReturn(Optional.of(user));
+
+        // Act
+        Page<CarWash> carWashPage = userService.getLikedList(1L, pageable);
+
+        // Assert
+        assertThat(carWashPage.getTotalElements())
+                .isEqualTo(1L);
+
+    }
+
+    @Test
+    @DisplayName("when getLikedList with Invalid UserId Then Returns Resource Not Found Exception")
+    public void whenGetLikedListWithInvalidUserIdThenReturnsResourceNotFoundException(){
+        // Arrange
+        Long userId = 1L;
+        String template = "Resource %s not found for %s with value %s";
+        String expectedMessage = String.format(template, "User", "Id", userId);
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+
+        // Act
+        Throwable exception = catchThrowable(() -> {
+            Page<CarWash> carWashPage = userService.getLikedList(userId, pageable);
+        });
+
+        // Assert
+        assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+
     }
 }
