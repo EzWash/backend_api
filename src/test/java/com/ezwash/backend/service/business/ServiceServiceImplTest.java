@@ -5,6 +5,7 @@ import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.business.ServiceRepository;
 import com.ezwash.backend.domain.service.business.ServiceService;
+import com.ezwash.backend.exception.ResourceNotFoundException;
 import com.ezwash.backend.service.business.ServiceServiceImpl;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.junit.jupiter.api.DisplayName;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -159,5 +161,146 @@ public class ServiceServiceImplTest {
 
         assertThat(updatedService.getDetails()).isEqualTo("No hay detalles");
 
+    }
+
+    @Test
+    @DisplayName("when updateService With Invalid CarWashId Then Returns Resource Not Found Exception")
+    public void whenUpdateServiceWithInvalidCarWashIdThenReturnsResourceNotFoundException(){
+        String template = "Resource %s not found for %s with value %s";
+
+
+        String name = "Encerado";
+        String description = "Ofrecemos el servicio perfecto de encerado para que usted pueda obtener";
+        String details = "Aceite, Pulido, Encerado";
+        Integer is_promotion= 0;
+        Double price = 30.9;
+        Long serviceId = 2L;
+
+        String CarWash_description = "Somos el mejor CarWash de la historia";
+        String CarWash_name = "Limpieza Total";
+        String name_owner = "Carlos" ;
+        Integer available = 1;
+        Integer qualification = 0;
+        Long carWashId = 1L;
+
+
+        List<Service> serviceList = new ArrayList<>();
+
+
+        CarWash carWash = new CarWash()
+                .setDescription(CarWash_description)
+                .setName(CarWash_name)
+                .setName_owner(name_owner)
+                .setAvailable(available)
+                .setQualification(qualification)
+                .setId(carWashId)
+                .setServiceList(serviceList);
+
+        Service service1 = new Service()
+                .setId(serviceId)
+                .setName(name)
+                .setDescription(description)
+                .setDetails(details)
+                .setIs_promotion(is_promotion)
+                .setPrice(price)
+                .setCarWash(carWash);
+
+        carWash.getServiceList().add(service1);
+
+        System.out.println(carWash.getServiceList().get(0).getCarWash().getId());
+
+        Service newService = new Service()
+                .setId(serviceId)
+                .setDescription(description)
+                .setDetails("No hay detalles")
+                .setName(name)
+                .setIs_promotion(is_promotion)
+                .setPrice(price)
+                .setCarWash(carWash);
+
+        when(carWashRepository.existsById(carWashId)).thenReturn(false);
+
+        String expectedMessage  = String.format(template, "CarWash", "Id", carWashId);
+
+
+        Throwable exception = catchThrowable(() ->{
+            Service updatedService = serviceService.updateService(carWashId,serviceId,newService);
+        });
+
+        assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+
+    }
+
+    @Test
+    @DisplayName("when updateService With Invalid ServiceId Then Returns Resource Not Found Exception")
+    public void whenUpdateServiceWithInvalidServiceIdThenReturnsResourceNotFoundException(){
+        String template = "Resource %s not found for %s with value %s";
+
+
+        String name = "Encerado";
+        String description = "Ofrecemos el servicio perfecto de encerado para que usted pueda obtener";
+        String details = "Aceite, Pulido, Encerado";
+        Integer is_promotion= 0;
+        Double price = 30.9;
+        Long serviceId = 2L;
+
+        String CarWash_description = "Somos el mejor CarWash de la historia";
+        String CarWash_name = "Limpieza Total";
+        String name_owner = "Carlos" ;
+        Integer available = 1;
+        Integer qualification = 0;
+        Long carWashId = 1L;
+
+
+        List<Service> serviceList = new ArrayList<>();
+
+
+        CarWash carWash = new CarWash()
+                .setDescription(CarWash_description)
+                .setName(CarWash_name)
+                .setName_owner(name_owner)
+                .setAvailable(available)
+                .setQualification(qualification)
+                .setId(carWashId)
+                .setServiceList(serviceList);
+
+        Service service1 = new Service()
+                .setId(serviceId)
+                .setName(name)
+                .setDescription(description)
+                .setDetails(details)
+                .setIs_promotion(is_promotion)
+                .setPrice(price)
+                .setCarWash(carWash);
+
+        carWash.getServiceList().add(service1);
+
+        System.out.println(carWash.getServiceList().get(0).getCarWash().getId());
+
+        Service newService = new Service()
+                .setId(serviceId)
+                .setDescription(description)
+                .setDetails("No hay detalles")
+                .setName(name)
+                .setIs_promotion(is_promotion)
+                .setPrice(price)
+                .setCarWash(carWash);
+
+        when(carWashRepository.existsById(carWashId)).thenReturn(true);
+
+        when(serviceRepository.findById(serviceId)).thenReturn(Optional.empty());
+
+        String expectedMessage  = String.format(template, "Service", "Id", serviceId);
+
+
+        Throwable exception = catchThrowable(() ->{
+            Service updatedService = serviceService.updateService(carWashId,serviceId,newService);
+        });
+
+        assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
     }
 }
