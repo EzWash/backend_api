@@ -6,6 +6,8 @@ import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.geographic.LocationRepository;
 import com.ezwash.backend.domain.service.accounts.CarWashService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
+import org.assertj.core.api.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +28,7 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
 
 @ExtendWith(SpringExtension.class)
 public class CarWashServiceImplTest {
@@ -352,5 +355,53 @@ public class CarWashServiceImplTest {
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage(expectedMessage);
     }
+    @Test
+    @DisplayName("When getCarWashesById with Existent Id Then Returns CarWash")
+    public void whenGetCarWashByIdwithExistentIdThenReturnsCarWash(){
+        //Arrange
+        String description= "Carros bien limpios";
+        String name= "LimpiaAutos";
+        String name_owner= "Marco Salas";
+        int qualification= 3;
+        int available = 2;
 
+        CarWash carWash= new CarWash().setDescription(description).setName_owner(name_owner)
+                .setName(name).setQualification(qualification).setAvailable(available);
+
+        when(carWashRepository.findById(1L)).thenReturn(Optional.ofNullable(carWash));
+
+        //Act
+
+        CarWash carWash2 = carWashService.findCarWashById(1L);
+
+        //Assert
+
+        assertEquals(carWash2.getDescription(),description);
+
+    }
+
+    @Test
+    @DisplayName("When getCarWashesById with Inexistent Id Then Returns ResourceNotFoundException")
+    public void whenGetCarWashByIdwithInexistentIdThenReturnsResourceNotFoundException(){
+        //Arrange
+
+        String template = "Resource %s not found for %s with value %s";
+        Long carWashId = 1L;
+        String expectedMessage = String.format(template, "Car Wash", "Id", carWashId);
+
+        when (carWashRepository.findById(carWashId)).thenReturn(Optional.empty());
+
+        //Act
+
+        Throwable exception = Assertions.catchThrowable(() -> {
+            CarWash carWash = carWashService.findCarWashById(carWashId);
+        });
+
+        //Assert
+
+        Assertions.assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+
+    }
 }

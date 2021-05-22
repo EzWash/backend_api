@@ -34,7 +34,7 @@ public class Service {
 
     //ManyToOne carwashes
     @ManyToOne
-    @JoinColumn(name = "carwash_id", nullable = false)
+    @JoinColumn(name = "carwash_id")
     private CarWash carWash;
 
     //OneToMany contracts

@@ -4,7 +4,9 @@ import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.repository.business.ServiceRepository;
 import com.ezwash.backend.domain.service.business.ServiceService;
+import com.ezwash.backend.exception.ResourceNotFoundException;
 import com.ezwash.backend.service.business.ServiceServiceImpl;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,8 +16,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
 
 @ExtendWith(SpringExtension.class)
 public class ServiceServiceImplTest {
@@ -80,4 +85,54 @@ public class ServiceServiceImplTest {
         assertThat(createdService.getId()).isEqualTo(1L);
         assertThat(createdService.getCarWash().getId()).isEqualTo(carWashId);
     }
+    @Test
+    @DisplayName("When getServiceById with Existent Id Then Returns Service")
+    public void whenGetServiceByIdwithExistentIdThenReturnsService(){
+        //Arrange
+
+        String name="Lavado";
+        String description="No";
+        int is_promotion= 30;
+        double price =30.5;
+
+        Service service= new Service().setName(name).setDescription(description).setIs_promotion(is_promotion)
+                .setPrice(price);
+
+        when(serviceRepository.findById(1L)).thenReturn(Optional.ofNullable(service));
+
+        //Act
+
+        Service service2= serviceService.getServiceById(1L);
+
+        //Assert
+
+        assertEquals(service2.getName(),name);
+
+    }
+
+    @Test
+    @DisplayName("When getServiceById with Inexistent Id Then Returns ResourceNotFoundException")
+    public void whenGetServiceByIdwithInexistentIdThenReturnsResourceNotFoundException(){
+        //Arrange
+
+        String template = "Resource %s not found for %s with value %s";
+        Long serviceId = 1L;
+        String expectedMessage = String.format(template, "Service", "Id", serviceId);
+
+        when (serviceRepository.findById(serviceId)).thenReturn(Optional.empty());
+
+        //Act
+
+        Throwable exception = Assertions.catchThrowable(() -> {
+            Service service = serviceService.getServiceById(serviceId);
+        });
+
+        //Assert
+
+        Assertions.assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+    }
+
+
 }

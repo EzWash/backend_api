@@ -74,6 +74,10 @@ public class CarWashesController {
         return carWashResource;
     }
 
+    @GetMapping("carwashes/{carwashId}")
+    public CarWashResource getCarWashById(@PathVariable Long carwashId){
+        return convertToResource(carWashService.findCarWashById(carwashId));
+    }
 
     private CarWash convertToEntity(SaveCarWashResource resource){
         return mapper.map(resource, CarWash.class);

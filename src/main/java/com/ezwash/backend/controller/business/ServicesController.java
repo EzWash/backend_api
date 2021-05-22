@@ -39,6 +39,11 @@ public class ServicesController {
         service.setCarWash(carWash);
         return convertToResource(serviceService.createService(service));
     }
+    @GetMapping("service/{serviceId}")
+    public ServiceResource getServiceById(@PathVariable Long serviceId){
+        return convertToResource(serviceService.getServiceById(serviceId));
+    }
+
     private Service convertToEntity(SaveServiceResource resource){
         return mapper.map(resource, Service.class);
     }
