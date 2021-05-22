@@ -26,6 +26,11 @@ public class Service {
     private String description;
 
     @NotNull
+    @NotBlank
+    @Lob
+    private String details;
+
+    @NotNull
     @Column(columnDefinition = "integer default 0")
     private Integer is_promotion;
 
@@ -102,6 +107,15 @@ public class Service {
 
     public Service setContractList(List<Contract> contractList) {
         this.contractList = contractList;
+        return this;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public Service setDetails(String details) {
+        this.details = details;
         return this;
     }
 }

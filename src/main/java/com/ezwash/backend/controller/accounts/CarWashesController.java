@@ -77,9 +77,9 @@ public class CarWashesController {
     }
 
 
-    @Operation(summary = "Create CarWashes", description = "Create and return a Car Wash", tags = {"Car Washes"})
+    @Operation(summary = "Get CarWashes", description = "Get a Car Wash", tags = {"Car Washes"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "CarWash created successfully", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "CarWash got successfully", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/carwashes/{carwashId}")
     public CarWashResource getCarWashById(@PathVariable Long carwashId){

@@ -40,13 +40,25 @@ public class ServicesController {
         return convertToResource(serviceService.createService(service));
     }
 
-    @Operation(summary = "Create a Car Wash's service", description = "Create service given the Car Wash ID", tags = {"Services"})
+    @Operation(summary = "Get a Car Wash's service", description = "Get service given the Car Wash ID", tags = {"Services"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Services created successfully", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Services get successfully", content = @Content(mediaType = "application/json"))
     })  
     @GetMapping("/service/{serviceId}")
-    public ServiceResource getServiceById(@PathVariable Long serviceId){
+    public ServiceResource getServiceById(@PathVariable Long serviceId) {
         return convertToResource(serviceService.getServiceById(serviceId));
+    }
+
+    @Operation(summary = "Update a Car Wash's service", description = "Update a service given the Car Wash ID and the Service ID", tags = {"Services"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Service updated successfully", content = @Content(mediaType = "application/json"))
+    })
+    @PutMapping("/carwashes/{carwashId}/services/{serviceId}")
+    public ServiceResource updateService(
+            @PathVariable Long carwashId,
+            @PathVariable Long serviceId,
+            @Valid @RequestBody SaveServiceResource resource){
+        return convertToResource(serviceService.updateService(carwashId,serviceId,convertToEntity(resource)));
     }
 
     private Service convertToEntity(SaveServiceResource resource){
