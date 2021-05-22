@@ -43,7 +43,7 @@ public class ServicesController {
     @Operation(summary = "Create a Car Wash's service", description = "Create service given the Car Wash ID", tags = {"Services"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Services created successfully", content = @Content(mediaType = "application/json"))
-    })
+    })  
     @GetMapping("/service/{serviceId}")
     public ServiceResource getServiceById(@PathVariable Long serviceId){
         return convertToResource(serviceService.getServiceById(serviceId));
