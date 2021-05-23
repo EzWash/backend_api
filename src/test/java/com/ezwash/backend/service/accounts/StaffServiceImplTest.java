@@ -222,8 +222,8 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    @DisplayName("when updateService With Invalid ServiceId Then Returns Resource Not Found Exception")
-    public void whenUpdateServiceWithInvalidServiceIdThenReturnsResourceNotFoundException(){
+    @DisplayName("when updateStaff With Invalid StaffId Then Returns Resource Not Found Exception")
+    public void whenUpdateStaffWithInvalidStaffIdThenReturnsResourceNotFoundException(){
         String template = "Resource %s not found for %s with value %s";
 
 
