@@ -42,19 +42,21 @@ public class CarWashServiceImplTest {
     private CarWashService carWashService;
 
     @TestConfiguration
-    static class CarWashServiceImplTestConfiguration{
+    static class CarWashServiceImplTestConfiguration {
         @Bean
-        public CarWashService carWashService() {return new CarWashServiceImpl();}
+        public CarWashService carWashService() {
+            return new CarWashServiceImpl();
+        }
     }
 
     @Test
     @DisplayName("when createCarWash With Valid Attributes Then Returns CarWash")
-    public void whenCreateCarWashWithValidAttributesThenReturnsCarWash(){
+    public void whenCreateCarWashWithValidAttributesThenReturnsCarWash() {
         // Arrange
         //Request Body CarWash attributes
         String description = "Somos el mejor CarWash de la historia";
         String name = "Limpieza Total";
-        String name_owner = "Carlos" ;
+        String name_owner = "Carlos";
 
         //Saved Location attributes
         Long location_id = 1L;
@@ -76,13 +78,13 @@ public class CarWashServiceImplTest {
         when(carWashRepository.save(carWash))
                 .thenReturn(
                         new CarWash()
-                        .setDescription(description)
-                        .setName(name)
-                        .setName_owner(name_owner)
-                        .setAvailable(1)
-                        .setQualification(0)
-                        .setId(1L)
-                        .setLocation(location_test)
+                                .setDescription(description)
+                                .setName(name)
+                                .setName_owner(name_owner)
+                                .setAvailable(1)
+                                .setQualification(0)
+                                .setId(1L)
+                                .setLocation(location_test)
                 );
         // Act
         CarWash createdCarWash = carWashService.createCarWash(carWash, location_test);
@@ -94,13 +96,13 @@ public class CarWashServiceImplTest {
 
     @Test
     @DisplayName("when editCarWash With Valid Attributes Then Returns CarWash")
-    public void whenEditCarWashWithValidAttributesThenReturnsCarWash(){
+    public void whenEditCarWashWithValidAttributesThenReturnsCarWash() {
         // Arrange
         //Request Body CarWash attributes
 
         String description = "Somos el mejor CarWash de la historia";
         String name = "Limpieza Total";
-        String name_owner = "Carlos" ;
+        String name_owner = "Carlos";
 
         //Saved Location attributes
         Long location_id = 1L;
@@ -135,8 +137,7 @@ public class CarWashServiceImplTest {
                 );
         // Act
 
-        CarWash updatedCarWash = carWashService.editCarWash(1L,carWash, location_test);
-
+        CarWash updatedCarWash = carWashService.editCarWash(1L, carWash, location_test);
 
 
         // Assert
@@ -190,7 +191,7 @@ public class CarWashServiceImplTest {
 
     @Test
     @DisplayName("when getCarWashesLessThanDistance with Valid Distance Then Returns CarWashes")
-    public void whenGetCarWashesLessThanDistanceWithValidDistanceThenReturnsCarWashes(){
+    public void whenGetCarWashesLessThanDistanceWithValidDistanceThenReturnsCarWashes() {
         // Arrange
         CarWash carWash1 = new CarWash()
                 .setId(1L)
@@ -277,7 +278,7 @@ public class CarWashServiceImplTest {
 
     @Test
     @DisplayName("When getCarWashesLessThanDistance with Invalid Distance Then Returns ResourceNotFound Exception")
-    public void whenGetCarWashLessthanDistancewithInvalidDistanceThenReturnsResourceNotFoundException(){
+    public void whenGetCarWashLessthanDistancewithInvalidDistanceThenReturnsResourceNotFoundException() {
         // Arrange
         double distance = 2;
         String template = "Resource %s not found for %s with value %s";
@@ -355,17 +356,18 @@ public class CarWashServiceImplTest {
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage(expectedMessage);
     }
+
     @Test
     @DisplayName("When getCarWashesById with Existent Id Then Returns CarWash")
-    public void whenGetCarWashByIdwithExistentIdThenReturnsCarWash(){
+    public void whenGetCarWashByIdwithExistentIdThenReturnsCarWash() {
         //Arrange
-        String description= "Carros bien limpios";
-        String name= "LimpiaAutos";
-        String name_owner= "Marco Salas";
-        int qualification= 3;
+        String description = "Carros bien limpios";
+        String name = "LimpiaAutos";
+        String name_owner = "Marco Salas";
+        int qualification = 3;
         int available = 2;
 
-        CarWash carWash= new CarWash().setDescription(description).setName_owner(name_owner)
+        CarWash carWash = new CarWash().setDescription(description).setName_owner(name_owner)
                 .setName(name).setQualification(qualification).setAvailable(available);
 
         when(carWashRepository.findById(1L)).thenReturn(Optional.ofNullable(carWash));
@@ -376,20 +378,20 @@ public class CarWashServiceImplTest {
 
         //Assert
 
-        assertEquals(carWash2.getDescription(),description);
+        assertEquals(carWash2.getDescription(), description);
 
     }
 
     @Test
     @DisplayName("When getCarWashesById with Inexistent Id Then Returns ResourceNotFoundException")
-    public void whenGetCarWashByIdwithInexistentIdThenReturnsResourceNotFoundException(){
+    public void whenGetCarWashByIdwithInexistentIdThenReturnsResourceNotFoundException() {
         //Arrange
 
         String template = "Resource %s not found for %s with value %s";
         Long carWashId = 1L;
         String expectedMessage = String.format(template, "Car Wash", "Id", carWashId);
 
-        when (carWashRepository.findById(carWashId)).thenReturn(Optional.empty());
+        when(carWashRepository.findById(carWashId)).thenReturn(Optional.empty());
 
         //Act
 
@@ -404,4 +406,148 @@ public class CarWashServiceImplTest {
                 .hasMessage(expectedMessage);
 
     }
+
+    @Test
+    @DisplayName("When getCarWashByQualification with Valid Qualification Then Returns CarWashes")
+    public void whenGetCarWashByQualificationwithValidQualificationThenReturnsCarWashes(){
+        //Arrange
+        String description = "Carros bien limpios";
+        String name = "LimpiaAutos";
+        String name_owner = "Marco Salas";
+        int qualification = 3;
+        int available = 2;
+
+        CarWash carWash = new CarWash().setDescription(description).setName_owner(name_owner)
+                .setName(name).setQualification(qualification).setAvailable(available);
+
+        String description2 = "Carros bien limpios2";
+        String name2 = "LimpiaAutos2";
+        String name_owner2 = "Marco Salas2";
+        int qualification2 = 3;
+        int available2 = 2;
+
+        CarWash carWash2 = new CarWash().setDescription(description2).setName_owner(name_owner2)
+                .setName(name2).setQualification(qualification2).setAvailable(available2);
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+        List<CarWash> carWashList = new ArrayList<>();
+        carWashList.add(carWash);
+        carWashList.add(carWash2);
+
+        when(carWashRepository.findCarWashByQualification(3))
+                .thenReturn(carWashList);
+        // Act
+        Page<CarWash> foundedCarWashesByQualification = carWashService.findByQualification(3,pageable);
+
+        // Assert
+        assertThat(foundedCarWashesByQualification.getTotalElements()).isEqualTo(2);
+
+    }
+
+    @Test
+    @DisplayName("When getCarWashByQualification with Invalid Qualification Then Returns ResourceNotFoundException")
+    public void whenGetCarWashByQualificationwithInvalidQualificationThenReturnsResourceNotFoundException() {
+        //Arrange
+
+        String template = "Resource %s not found for %s with value %s";
+        String expectedMessage = String.format(template, "CarWash", "Qualification", 3);
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+        List<CarWash> carWashList = new ArrayList<>();
+
+        when(carWashRepository.findCarWashByQualification(3))
+                .thenReturn(carWashList);
+        //Act
+
+        Throwable exception = Assertions.catchThrowable(() -> {
+            Page<CarWash> carWash = carWashService.findByQualification(3,pageable);
+        });
+
+        //Assert
+
+        Assertions.assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+    }
+
 }

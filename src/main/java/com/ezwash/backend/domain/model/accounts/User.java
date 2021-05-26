@@ -5,6 +5,7 @@ import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.model.interactions.Vehicle;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.http.ResponseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -89,6 +90,11 @@ public class User extends Profile {
     public User addCarWashToLikedList(CarWash carWash){
         if(!this.isCarWashAlready(carWash))
             this.getLikedCarwashes().add(carWash);
+        return this;
+    }
+    public User deleteCarWashFromLikedList(CarWash carWash){
+        if(this.isCarWashAlready(carWash))
+            this.getLikedCarwashes().remove(carWash);
         return this;
     }
 }
