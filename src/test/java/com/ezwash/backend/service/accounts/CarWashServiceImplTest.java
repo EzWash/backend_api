@@ -406,4 +406,148 @@ public class CarWashServiceImplTest {
                 .hasMessage(expectedMessage);
 
     }
+
+    @Test
+    @DisplayName("When getCarWashByQualification with Valid Qualification Then Returns CarWashes")
+    public void whenGetCarWashByQualificationwithValidQualificationThenReturnsCarWashes(){
+        //Arrange
+        String description = "Carros bien limpios";
+        String name = "LimpiaAutos";
+        String name_owner = "Marco Salas";
+        int qualification = 3;
+        int available = 2;
+
+        CarWash carWash = new CarWash().setDescription(description).setName_owner(name_owner)
+                .setName(name).setQualification(qualification).setAvailable(available);
+
+        String description2 = "Carros bien limpios2";
+        String name2 = "LimpiaAutos2";
+        String name_owner2 = "Marco Salas2";
+        int qualification2 = 3;
+        int available2 = 2;
+
+        CarWash carWash2 = new CarWash().setDescription(description2).setName_owner(name_owner2)
+                .setName(name2).setQualification(qualification2).setAvailable(available2);
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+        List<CarWash> carWashList = new ArrayList<>();
+        carWashList.add(carWash);
+        carWashList.add(carWash2);
+
+        when(carWashRepository.findCarWashByQualification(3))
+                .thenReturn(carWashList);
+        // Act
+        Page<CarWash> foundedCarWashesByQualification = carWashService.findByQualification(3,pageable);
+
+        // Assert
+        assertThat(foundedCarWashesByQualification.getTotalElements()).isEqualTo(2);
+
+    }
+
+    @Test
+    @DisplayName("When getCarWashByQualification with Invalid Qualification Then Returns ResourceNotFoundException")
+    public void whenGetCarWashByQualificationwithInvalidQualificationThenReturnsResourceNotFoundException() {
+        //Arrange
+
+        String template = "Resource %s not found for %s with value %s";
+        String expectedMessage = String.format(template, "CarWash", "Qualification", 3);
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+        List<CarWash> carWashList = new ArrayList<>();
+
+        when(carWashRepository.findCarWashByQualification(3))
+                .thenReturn(carWashList);
+        //Act
+
+        Throwable exception = Assertions.catchThrowable(() -> {
+            Page<CarWash> carWash = carWashService.findByQualification(3,pageable);
+        });
+
+        //Assert
+
+        Assertions.assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+    }
+
 }
