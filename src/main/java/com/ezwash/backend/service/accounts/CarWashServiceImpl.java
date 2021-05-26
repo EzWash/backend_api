@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CarWashServiceImpl implements CarWashService {
@@ -73,4 +74,13 @@ public class CarWashServiceImpl implements CarWashService {
 
     }
 
+    @Override
+    public Page<CarWash> findByQualificationRange(Integer qualification1,Integer qualification2, Pageable pageable) {
+        List<CarWash> carWashList = carWashRepository.findByQualificationBetween(qualification1, qualification2);
+        if (carWashList.size() == 0) {
+            throw new ResourceNotFoundException("CarWash", "Qualification", "Range");
+        } else {
+            return new PageImpl<>(carWashList, pageable, carWashList.size());
+        }
+    }
 }

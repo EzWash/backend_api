@@ -99,6 +99,22 @@ public class CarWashesController {
                 .collect(Collectors.toList());
         return new PageImpl<>(carWashResource,pageable,carWashResource.size());
     }
+
+
+    @Operation(summary = "Get CarWashes by Range Qualification", description = "Get a Car Wash by Range Qualification", tags = {"Car Washes"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "CarWashes By Range of Qualification got successfully", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/carwashes/qualification/{qualification1}/{qualification2}")
+    public Page<CarWashResource> findByQualificationRange(@PathVariable(value="qualification1") Integer qualification,@PathVariable(value="qualification2") Integer qualification2,
+                                                     Pageable pageable){
+        Page<CarWash> carWashPage = carWashService.findByQualificationRange(qualification,qualification2,pageable);
+        List<CarWashResource> carWashResource = carWashPage.getContent()
+                .stream()
+                .map(this::convertToResource)
+                .collect(Collectors.toList());
+        return new PageImpl<>(carWashResource,pageable,carWashResource.size());
+    }
     private CarWash convertToEntity(SaveCarWashResource resource){
         return mapper.map(resource, CarWash.class);
     }

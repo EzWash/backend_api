@@ -14,5 +14,6 @@ public interface CarWashService {
     CarWash editCarWash(Long carwashId, CarWash carWashRequest, Location location);
     CarWash findCarWashById(Long id);
     Page<CarWash> getCarWashesLessThanDistance(double lt_1, double lg_1, double distance, Pageable pageable);
+    Page<CarWash> findByQualificationRange(Integer qualification,Integer qualification2, Pageable pageable);
     Page<CarWash> findByQualification(Integer qualification, Pageable pageable);
 }
