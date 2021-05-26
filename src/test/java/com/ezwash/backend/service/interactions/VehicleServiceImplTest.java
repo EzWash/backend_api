@@ -46,8 +46,8 @@ class VehicleServiceImplTest {
     }
 
     @Test
-    @DisplayName("when createVehicle With Valid Attributes Then Returns Vehicle")
-    public void whencreateVehicleWithValidAttributesThenReturnsVehicle(){
+    @DisplayName("When createVehicle With Valid Attributes Then Returns Vehicle")
+    public void whenCreateVehicleWithValidAttributesThenReturnsVehicle(){
         //Arrange
         String model = "A2";
         String brand = "Audi";

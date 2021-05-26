@@ -47,7 +47,7 @@ public class ServiceServiceImplTest {
     }
 
     @Test
-    @DisplayName("when createService With Valid Attributes Then Returns Service")
+    @DisplayName("When createService With Valid Attributes Then Returns Service")
     public void whenCreateServiceWithValidAttributesThenReturnsService(){
         // Arrange
         String name = "Encerado";
@@ -97,8 +97,8 @@ public class ServiceServiceImplTest {
     }
 
     @Test
-    @DisplayName("When getServiceById with Existent Id Then Returns Service")
-    public void whenGetServiceByIdwithExistentIdThenReturnsService() {
+    @DisplayName("When getServiceById With Valid Service Id Then Returns Service")
+    public void whenGetServiceByIdWithValidServiceIdThenReturnsService() {
         //Arrange
 
         String name = "Lavado";
@@ -121,7 +121,7 @@ public class ServiceServiceImplTest {
     }
 
     @Test
-    @DisplayName("when updateService With Valid Attributes Then Returns Service")
+    @DisplayName("When updateService With Valid Attributes Then Returns Service")
     public void whenUpdateServiceWithValidAttributesThenReturnsService(){
         String name = "Encerado";
         String description = "Ofrecemos el servicio perfecto de encerado para que usted pueda obtener";
@@ -190,8 +190,8 @@ public class ServiceServiceImplTest {
     }
 
     @Test
-    @DisplayName("When getServiceById with Inexistent Id Then Returns ResourceNotFoundException")
-    public void whenGetServiceByIdwithInexistentIdThenReturnsResourceNotFoundException(){
+    @DisplayName("When getServiceById With Invalid Service Id Then Returns ResourceNotFoundException")
+    public void whenGetServiceByIdWithInvalidServiceIdThenReturnsResourceNotFoundException(){
         //Arrange
 
         String template = "Resource %s not found for %s with value %s";
@@ -214,7 +214,7 @@ public class ServiceServiceImplTest {
     }
 
 
-    @DisplayName("when updateService With Invalid CarWashId Then Returns Resource Not Found Exception")
+    @DisplayName("When updateService With Invalid Car Wash Id Then Returns ResourceNotFoundException")
     public void whenUpdateServiceWithInvalidCarWashIdThenReturnsResourceNotFoundException(){
         String template = "Resource %s not found for %s with value %s";
 
@@ -284,7 +284,7 @@ public class ServiceServiceImplTest {
     }
 
     @Test
-    @DisplayName("when updateService With Invalid ServiceId Then Returns Resource Not Found Exception")
+    @DisplayName("When updateService With Invalid Service Id Then Returns ResourceNotFoundException")
     public void whenUpdateServiceWithInvalidServiceIdThenReturnsResourceNotFoundException(){
         String template = "Resource %s not found for %s with value %s";
 

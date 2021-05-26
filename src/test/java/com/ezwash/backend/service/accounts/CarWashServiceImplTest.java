@@ -50,7 +50,7 @@ public class CarWashServiceImplTest {
     }
 
     @Test
-    @DisplayName("when createCarWash With Valid Attributes Then Returns CarWash")
+    @DisplayName("When createCarWash With Valid Attributes Then Returns CarWash")
     public void whenCreateCarWashWithValidAttributesThenReturnsCarWash() {
         // Arrange
         //Request Body CarWash attributes
@@ -95,7 +95,7 @@ public class CarWashServiceImplTest {
     }
 
     @Test
-    @DisplayName("when editCarWash With Valid Attributes Then Returns CarWash")
+    @DisplayName("When editCarWash With Valid Attributes Then Returns CarWash")
     public void whenEditCarWashWithValidAttributesThenReturnsCarWash() {
         // Arrange
         //Request Body CarWash attributes
@@ -190,7 +190,7 @@ public class CarWashServiceImplTest {
     */
 
     @Test
-    @DisplayName("when getCarWashesLessThanDistance with Valid Distance Then Returns CarWashes")
+    @DisplayName("When getCarWashesLessThanDistance With Valid Distance Then Returns CarWashes")
     public void whenGetCarWashesLessThanDistanceWithValidDistanceThenReturnsCarWashes() {
         // Arrange
         CarWash carWash1 = new CarWash()
@@ -277,7 +277,7 @@ public class CarWashServiceImplTest {
     }
 
     @Test
-    @DisplayName("When getCarWashesLessThanDistance with Invalid Distance Then Returns ResourceNotFound Exception")
+    @DisplayName("When getCarWashesLessThanDistance With Invalid Distance Then Returns ResourceNotFoundException")
     public void whenGetCarWashLessthanDistancewithInvalidDistanceThenReturnsResourceNotFoundException() {
         // Arrange
         double distance = 2;
@@ -358,7 +358,7 @@ public class CarWashServiceImplTest {
     }
 
     @Test
-    @DisplayName("When getCarWashesById with Existent Id Then Returns CarWash")
+    @DisplayName("When getCarWashesById With Existent Id Then Returns CarWash")
     public void whenGetCarWashByIdwithExistentIdThenReturnsCarWash() {
         //Arrange
         String description = "Carros bien limpios";
@@ -383,7 +383,7 @@ public class CarWashServiceImplTest {
     }
 
     @Test
-    @DisplayName("When getCarWashesById with Inexistent Id Then Returns ResourceNotFoundException")
+    @DisplayName("When getCarWashesById With Inexistent Id Then Returns ResourceNotFoundException")
     public void whenGetCarWashByIdwithInexistentIdThenReturnsResourceNotFoundException() {
         //Arrange
 
@@ -408,7 +408,7 @@ public class CarWashServiceImplTest {
     }
 
     @Test
-    @DisplayName("When getCarWashByQualification with Valid Qualification Then Returns CarWashes")
+    @DisplayName("When getCarWashByQualification With Valid Qualification Then Returns CarWashes")
     public void whenGetCarWashByQualificationwithValidQualificationThenReturnsCarWashes(){
         //Arrange
         String description = "Carros bien limpios";
@@ -485,7 +485,7 @@ public class CarWashServiceImplTest {
     }
 
     @Test
-    @DisplayName("When getCarWashByQualification with Invalid Qualification Then Returns ResourceNotFoundException")
+    @DisplayName("When getCarWashByQualification With Invalid Qualification Then Returns ResourceNotFoundException")
     public void whenGetCarWashByQualificationwithInvalidQualificationThenReturnsResourceNotFoundException() {
         //Arrange
 

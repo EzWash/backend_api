@@ -56,7 +56,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("when createUser With Valid Attributes Then Returns User")
+    @DisplayName("When createUser With Valid Attributes Then Returns User")
     public void whenCreateUserWithValidAttributesThenReturnsUser() {
         //Arrange
         String first_name = "Mauricio Roe";
@@ -104,7 +104,7 @@ public class UserServiceImplTest {
         assertThat(createdUser.getLast_name()).isEqualTo(last_name);
     }
     @Test
-    @DisplayName("when updateUser with Valid UserId and Valid Attributes Then Returns User")
+    @DisplayName("When updateUser With Valid UserId and Valid Attributes Then Returns User")
     public void whenUpdateUserWithValidUserIdAndValidAttributesThenReturnsUser(){
         // Arrange
         // User Data
@@ -167,7 +167,7 @@ public class UserServiceImplTest {
 
     }
     @Test
-    @DisplayName("when updateUser with Invalid UserId Then Returns Resource not Found Exception")
+    @DisplayName("When updateUser With Invalid UserId Then Returns ResourceNotFoundException")
     public void whenUpdateUserWithInvalidUserIdThenReturnsResourceNotFoundException(){
         // Arrange
         // User Data
@@ -232,7 +232,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("when addUserCarWash with Valid UserId and CarWashId Then Returns User")
+    @DisplayName("When addUserCarWash With Valid UserId And CarWashId Then Returns User")
     public void whenAddUserCarWashWithValidUserIdAndCarWashIdThenReturnsUser() {
         // Arrange
         // User Data
@@ -310,7 +310,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("when addUserCarWash with Invalid CarWashId Then Returns Resource Not Found Exepcion")
+    @DisplayName("When addUserCarWash With Invalid CarWashId Then Returns ResourceNotFoundException")
     public void whenAddUserCarWashWithInvalidCarWashIdThenReturnsResourceNotFoundException() {
         //Location attributes Car Wash
         Long location_id2 = 2L;
@@ -347,7 +347,7 @@ public class UserServiceImplTest {
                 .hasMessage(expectedMessage);
     }
     @Test
-    @DisplayName("when deleteUserCarWash with Invalid userId Then Returns Resource Not Found Exception")
+    @DisplayName("When deleteUserCarWash With Invalid User Id Then Returns ResourceNotFoundException")
     public void whenDeleteUserCarWashWithInvalidUserIdThenReturnsResourceNotFoundException(){
         // User Data
         String first_name = "Mauricio Roe";
@@ -415,7 +415,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("when deleteUserCarWash with Invalid CarWashId Then Returns Resource Not Found Exception")
+    @DisplayName("When deleteUserCarWash With Invalid CarWashId Then ReturnsResourceNotFoundException")
     public void whenDeleteUserCarWashWithInvalidCarWashIdThenReturnsResourceNotFoundException(){
         //Location attributes Car Wash
         Long location_id2 = 2L;
@@ -452,8 +452,9 @@ public class UserServiceImplTest {
                 .hasMessage(expectedMessage);
     }
 
+
     @Test
-    @DisplayName("when addUserCarWash with Invalid UserId Then Returns Resource Not Found Exception")
+    @DisplayName("When addUserCarWash With Invalid User Id Then Returns ResourceNotFoundException")
     public void whenAddUserCarWashWithInvalidUserIdThenReturnsResourceNotFoundException() {
         // User Data
         String first_name = "Mauricio Roe";
@@ -614,7 +615,7 @@ public class UserServiceImplTest {
         
 
     @Test
-    @DisplayName("when getLikedList with Invalid UserId Then Returns Resource Not Found Exception")
+    @DisplayName("When getLikedList With Invalid User Id Then Returns ResourceNotFoundException")
     public void whenGetLikedListWithInvalidUserIdThenReturnsResourceNotFoundException(){
         // Arrange
         Long userId = 1L;
@@ -676,8 +677,8 @@ public class UserServiceImplTest {
     }
   
     @Test 
-    @DisplayName("when deleteUserCarWash with Valid userId  and Valid then Returns User")
-    public void whenDeleteUserCarWashWithValidUserIdThenReturnsUser(){
+    @DisplayName("When deleteUserCarWash With Valid User Id And Valid Car Wash Id then Returns User")
+    public void whenDeleteUserCarWashWithValidUserIdAndValidCarWashIdThenReturnsUser(){
         // Arrange
         // User Data
         String first_name = "Mauricio Roe";
