@@ -46,7 +46,7 @@ public class UserCarWashesController {
         return convertToUserResource(userService.addUserCarwash(userId, carwashId));
     }
 
-    @Operation(summary = "Get all Car Washes to User's liked list", description = "Get all Car Washes from the User's liked list through the User Id", tags = {"User CarWashes"})
+    @Operation(summary = "Get all Car Washes from User's liked list", description = "Get all Car Washes from the User's liked list through the User Id", tags = {"User CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Car Wash added successfully", content = @Content(mediaType = "application/json"))
     })
@@ -60,11 +60,15 @@ public class UserCarWashesController {
         return new PageImpl<>(carWashResources, pageable, carWashResources.size());
     }
 
+    @Operation(summary = "Delete a Car Wash from User's liked list", description = "Delete a Car Wash from User's liked list through the User Id and Car Wash Id", tags = {"User CarWashes"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Car Wash deleted successfully", content = @Content(mediaType = "application/json"))
+    })
     @DeleteMapping("/users/{userId}/carwashes/{carwashId}")
     public UserResource deleteUserCarWash(
             @PathVariable Long userId,
             @PathVariable Long carwashId){
-        return convertToResource(userService.deleteUserCarWash(userId,carwashId));
+        return convertToUserResource(userService.deleteUserCarWash(userId,carwashId));
     }
 
     private User convertToUserEntity(SaveUserResource resource){

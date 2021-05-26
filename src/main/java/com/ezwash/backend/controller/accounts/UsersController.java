@@ -42,6 +42,11 @@ public class UsersController {
         User user = convertToEntity(resource);
         return convertToResource(userService.createUser(user, location));
     }
+
+    @Operation(summary = "Update User", description = "Update User's information", tags = {"Users"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User's info updated successfully", content = @Content(mediaType = "application/json"))
+    })
     @PutMapping("/users/{userId}")
     public UserResource updateUser(@PathVariable Long userId,@Valid @RequestBody SaveUserResource resource){
         User user=convertToEntity(resource);

@@ -676,10 +676,16 @@ public class UserServiceImplTest {
     }
   
     @Test 
-    @DisplayName("when deleteUserCarWash with Valid userId then Returns User")
+    @DisplayName("when deleteUserCarWash with Valid userId  and Valid then Returns User")
     public void whenDeleteUserCarWashWithValidUserIdThenReturnsUser(){
         // Arrange
         // User Data
+        String first_name = "Mauricio Roe";
+        String last_name = "Castillo Vega";
+        String email = "era@gmail.com";
+        String phone_number= "987655325";
+        String gender = "M";
+        String password = "$3fsdg";
 
         // Location attributes User
         Long location_id =1L;
@@ -694,6 +700,11 @@ public class UserServiceImplTest {
         double longitude2 = -76.962902;
 
         //CarWash attributes
+        String description = "Somos el mejor CarWash de la historia";
+        String name = "Limpieza Total";
+        String name_owner = "Carlos" ;
+
+        String template = "Resource %s not found for %s with value %s";
 
         Location location = new Location()
                 .setId(location_id)
@@ -709,7 +720,16 @@ public class UserServiceImplTest {
 
         List<CarWash> likedCarWashes = new ArrayList<>();
 
+        User user = (User) new User()
+                .setId(1L)
+                .setFirst_name(first_name)
+                .setLast_name(last_name)
+                .setEmail(email)
+                .setPhone_number(phone_number)
+                .setGender(gender);
 
+        user.setPassword(password);
+        user.setLikedCarwashes(likedCarWashes);
      
         CarWash carWash = new CarWash()
                 .setId(1L)
