@@ -14,6 +14,10 @@ public class SaveServiceResource {
     private String description;
 
     @NotNull
+    @NotBlank
+    private String details;
+
+    @NotNull
     @Column(columnDefinition = "integer default 0")
     private Integer is_promotion;
 
@@ -53,6 +57,15 @@ public class SaveServiceResource {
 
     public SaveServiceResource setPrice(Double price) {
         this.price = price;
+        return this;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public SaveServiceResource setDetails(String details) {
+        this.details = details;
         return this;
     }
 }

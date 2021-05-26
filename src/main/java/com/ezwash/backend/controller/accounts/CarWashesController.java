@@ -52,6 +52,8 @@ public class CarWashesController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWashes founded", content = @Content(mediaType = "application/json"))
     })
+
+
     @GetMapping("/carwashes/{lattitude}/{longitude}/{distance}")
     public Page<CarWashResource> getNearCarWashes(@PathVariable double lattitude, @PathVariable double longitude, @PathVariable double distance, Pageable pageable){
         List<CarWashResource> resources = carWashService.getCarWashesLessThanDistance(lattitude, longitude, distance, pageable)
@@ -74,6 +76,15 @@ public class CarWashesController {
         return carWashResource;
     }
 
+
+    @Operation(summary = "Get CarWashes", description = "Get a Car Wash", tags = {"Car Washes"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "CarWash got successfully", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/carwashes/{carwashId}")
+    public CarWashResource getCarWashById(@PathVariable Long carwashId){
+        return convertToResource(carWashService.findCarWashById(carwashId));
+    }
 
     private CarWash convertToEntity(SaveCarWashResource resource){
         return mapper.map(resource, CarWash.class);

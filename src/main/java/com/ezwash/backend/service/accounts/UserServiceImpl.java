@@ -9,7 +9,13 @@ import com.ezwash.backend.domain.repository.geographic.LocationRepository;
 import com.ezwash.backend.domain.service.accounts.UserService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,5 +68,11 @@ public class UserServiceImpl implements UserService {
                 .setEmail(userRequest.getEmail())
                 .setGender(userRequest.getGender());
         return userRepository.save(user);
+
+    @Override
+    public Page<CarWash> getLikedList(Long userId, Pageable pageable) {
+        List<CarWash> carWashes = findUserById(userId).getLikedCarwashes();
+        return new PageImpl<>(carWashes, pageable, carWashes.size());
+
     }
 }
