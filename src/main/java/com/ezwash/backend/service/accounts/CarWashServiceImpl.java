@@ -60,4 +60,17 @@ public class CarWashServiceImpl implements CarWashService {
         }
         return new PageImpl<>(carWashesNear, pageable, carWashesNear.size());
     }
+
+    @Override
+    public Page<CarWash> findByQualification(Integer qualification, Pageable pageable){
+        List<CarWash> carWashList = carWashRepository.findCarWashByQualification(qualification);
+        if(carWashList.size()==0){
+            throw new ResourceNotFoundException("CarWash", "Qualification", qualification);
+        }
+        else {
+            return new PageImpl<>(carWashList,pageable,carWashList.size());
+        }
+
+    }
+
 }

@@ -6,11 +6,13 @@ import com.ezwash.backend.domain.model.geographic.Location;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 
 public interface CarWashService {
     CarWash createCarWash(CarWash carWash, Location location);
     CarWash editCarWash(Long carwashId, CarWash carWashRequest, Location location);
     CarWash findCarWashById(Long id);
     Page<CarWash> getCarWashesLessThanDistance(double lt_1, double lg_1, double distance, Pageable pageable);
-
+    Page<CarWash> findByQualification(Integer qualification, Pageable pageable);
 }
