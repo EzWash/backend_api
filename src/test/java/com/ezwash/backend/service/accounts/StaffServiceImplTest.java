@@ -44,7 +44,7 @@ public class StaffServiceImplTest {
         public StaffService staffService(){return new StaffServiceImpl(); }
     }
     @Test
-    @DisplayName("when createStaff With Valid Attributes Then Returns Staff")
+    @DisplayName("When createStaff With Valid Attributes Then Returns Staff")
     public void whenCreateStaffWithValidAttributesThenReturnsStaff(){
 
         //Arrange
@@ -78,7 +78,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    @DisplayName("when updateStaff With Valid Attributes Then Returns Staff")
+    @DisplayName("When updateStaff With Valid Attributes Then Returns Staff")
     public void whenUpdateStaffWithValidAttributesThenReturnsStaff(){
         String first_name = "Roberto";
         String last_name = "Sanchez";
@@ -148,7 +148,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    @DisplayName("when updateStaff With Invalid CarWashId Then Returns Resource Not Found Exception")
+    @DisplayName("When updateStaff With Invalid CarWashId Then Returns ResourceNotFoundException")
     public void whenUpdateStaffWithInvalidCarWashIdThenReturnsResourceNotFoundException(){
         String template = "Resource %s not found for %s with value %s";
 
@@ -222,7 +222,7 @@ public class StaffServiceImplTest {
     }
 
     @Test
-    @DisplayName("when updateStaff With Invalid StaffId Then Returns Resource Not Found Exception")
+    @DisplayName("When updateStaff With Invalid StaffId Then Returns ResourceNotFoundException")
     public void whenUpdateStaffWithInvalidStaffIdThenReturnsResourceNotFoundException(){
         String template = "Resource %s not found for %s with value %s";
 
