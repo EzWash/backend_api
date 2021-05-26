@@ -452,6 +452,7 @@ public class UserServiceImplTest {
                 .hasMessage(expectedMessage);
     }
 
+
     @Test
     @DisplayName("When addUserCarWash With Invalid User Id Then Returns ResourceNotFoundException")
     public void whenAddUserCarWashWithInvalidUserIdThenReturnsResourceNotFoundException() {
