@@ -521,8 +521,8 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("when getLikedList with Valid UserId Then Returns Liked List of Car Washes")
-    public void whenGetLikedListWithValidUserIdThenReturnsLikedListoFCarWashes(){
+    @DisplayName("When getLikedList With Valid UserId And Valid CarWashId Then Returns Liked List of Car Washes")
+    public void whenGetLikedListWithValidUserIdAndValidCarWashIdThenReturnsLikedListoFCarWashes(){
         //Arrange
         // User data
         String first_name = "Mauricio Roe";
