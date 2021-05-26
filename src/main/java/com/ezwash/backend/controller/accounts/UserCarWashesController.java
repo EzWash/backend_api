@@ -13,6 +13,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/api")
@@ -54,7 +59,16 @@ public class UserCarWashesController {
                 .collect(Collectors.toList());
         return new PageImpl<>(carWashResources, pageable, carWashResources.size());
     }
+
+    @DeleteMapping("/users/{userId}/carwashes/{carwashId}")
+    public UserResource deleteUserCarWash(
+            @PathVariable Long userId,
+            @PathVariable Long carwashId){
+        return convertToResource(userService.deleteUserCarWash(userId,carwashId));
+    }
+
     private User convertToUserEntity(SaveUserResource resource){
+
         return mapper.map(resource, User.class);
     }
 
