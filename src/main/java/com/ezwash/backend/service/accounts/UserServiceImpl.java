@@ -60,14 +60,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(Long userId, User userRequest) {
-        User user=userRepository.findById(userId)
-                .orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
         user.setFirst_name(userRequest.getFirst_name())
                 .setLast_name(userRequest.getLast_name())
                 .setPhone_number(userRequest.getPhone_number())
                 .setEmail(userRequest.getEmail())
                 .setGender(userRequest.getGender());
         return userRepository.save(user);
+    }
 
     @Override
     public Page<CarWash> getLikedList(Long userId, Pageable pageable) {
