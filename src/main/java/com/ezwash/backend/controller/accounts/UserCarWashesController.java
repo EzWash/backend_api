@@ -70,7 +70,7 @@ public class UserCarWashesController {
     })
     @GetMapping("/users/carwashes/{carwashId}/qualification")
     public int getCarWashQualification(@PathVariable Long carwashId){
-        return carWashService.findCarWashById(carwashId).getQualification();
+        return carWashService.getCarWashQualification(carwashId);
     }
     @Operation(summary = "Get CarWash Comment List",description = "Get CarWash Comment List through CarWashId",tags = {"User CarWashes"})
     @ApiResponses(value = {
@@ -78,9 +78,11 @@ public class UserCarWashesController {
     })
     @GetMapping("/users/carwashes/{carwashId}")
     public Page<CommentResource>getCarWashCommentList(@PathVariable Long carwashId,Pageable pageable){
-        List<Comment>comments=carWashService.findCarWashById(carwashId).getCommentList();
-        List<CommentResource>commentResources=comments.stream().map(this::convertToCommentResource).collect(Collectors.toList());
-
+        Page<Comment>commentPage=carWashService.getCarWashComments(carwashId,pageable);
+        List<CommentResource>commentResources=commentPage.getContent()
+                .stream()
+                .map(this::convertToCommentResource)
+                .collect(Collectors.toList());
         return new PageImpl<>(commentResources,pageable,commentResources.size());
 
     }
