@@ -1,6 +1,7 @@
 package com.ezwash.backend.domain.model.business;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
+import com.ezwash.backend.domain.model.accounts.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -46,6 +47,10 @@ public class Service {
     @OneToMany(mappedBy = "service")
     @JsonIgnore
     private List<Contract> contractList;
+
+    //ManyToMany users
+    @ManyToMany(mappedBy = "serviceList")
+    private List<User>services;
 
     public Long getId() {
         return id;
@@ -98,6 +103,13 @@ public class Service {
 
     public Service setCarWash(CarWash carWash) {
         this.carWash = carWash;
+        return this;
+    }
+
+    public List<User> getServices(){return services;}
+
+    public Service setServices(List<User>services){
+        this.services=services;
         return this;
     }
 

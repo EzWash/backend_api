@@ -76,4 +76,11 @@ public class UserServiceImpl implements UserService {
         return new PageImpl<>(carWashes, pageable, carWashes.size());
 
     }
+
+    @Override
+    public Page<com.ezwash.backend.domain.model.business.Service> getServiceList(Long userId, Pageable pageable) {
+        List<com.ezwash.backend.domain.model.business.Service>services=findUserById(userId).getServiceList();
+        return new PageImpl<>(services,pageable,services.size());
+    }
+
 }

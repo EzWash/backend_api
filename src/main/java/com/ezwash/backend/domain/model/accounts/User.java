@@ -1,6 +1,7 @@
 package com.ezwash.backend.domain.model.accounts;
 
 import com.ezwash.backend.domain.model.business.Comment;
+import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.model.interactions.Vehicle;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -37,6 +38,15 @@ public class User extends Profile {
 
     @OneToMany(mappedBy = "user")
     private List<Vehicle> vehicleList;
+
+    @ManyToMany
+    @JoinTable(
+            name="user_services",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "service_id"))
+    private List<Service> serviceList;
+
+
 
     //OneToMany cards
 
@@ -85,6 +95,12 @@ public class User extends Profile {
         return this;
     }
 
+    public List<Service>getServiceList(){return serviceList;}
+
+    public User setServiceList(List<Service> serviceList){
+        this.serviceList=serviceList;
+        return this;
+    }
     public boolean isCarWashAlready(CarWash carWash) {return this.getLikedCarwashes().contains(carWash);}
 
     public User addCarWashToLikedList(CarWash carWash){
