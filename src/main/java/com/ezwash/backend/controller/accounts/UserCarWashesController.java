@@ -2,11 +2,14 @@ package com.ezwash.backend.controller.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.business.Comment;
+import com.ezwash.backend.domain.service.accounts.CarWashService;
 import com.ezwash.backend.domain.service.accounts.UserService;
 import com.ezwash.backend.resource.accounts.CarWashResource;
 import com.ezwash.backend.resource.accounts.SaveCarWashResource;
 import com.ezwash.backend.resource.accounts.SaveUserResource;
 import com.ezwash.backend.resource.accounts.UserResource;
+import com.ezwash.backend.resource.business.CommentResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -34,6 +37,8 @@ public class UserCarWashesController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private CarWashService carWashService;
 
     @Operation(summary = "Add Car Wash to User's Liked List", description = "Add Car Wash to User's Liked list through the User Id and Car Wash Id", tags = {"User CarWashes"})
     @ApiResponses(value = {
@@ -59,7 +64,26 @@ public class UserCarWashesController {
                 .collect(Collectors.toList());
         return new PageImpl<>(carWashResources, pageable, carWashResources.size());
     }
+    @Operation(summary = "Get CarWash Qualification",description = "Get CarWash Qualification through CarWash Id",tags = {"User CarWashes"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Car Wash Qualification added successfully",content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/users/carwashes/{carwashId}/qualification")
+    public int getCarWashQualification(@PathVariable Long carwashId){
+        return carWashService.findCarWashById(carwashId).getQualification();
+    }
+    @Operation(summary = "Get CarWash Comment List",description = "Get CarWash Comment List through CarWashId",tags = {"User CarWashes"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Car Wash CommentList added successfully",content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/users/carwashes/{carwashId}")
+    public Page<CommentResource>getCarWashCommentList(@PathVariable Long carwashId,Pageable pageable){
+        List<Comment>comments=carWashService.findCarWashById(carwashId).getCommentList();
+        List<CommentResource>commentResources=comments.stream().map(this::convertToCommentResource).collect(Collectors.toList());
 
+        return new PageImpl<>(commentResources,pageable,commentResources.size());
+
+    }
     @Operation(summary = "Delete a Car Wash from User's liked list", description = "Delete a Car Wash from User's liked list through the User Id and Car Wash Id", tags = {"User CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Car Wash deleted successfully", content = @Content(mediaType = "application/json"))
@@ -86,5 +110,8 @@ public class UserCarWashesController {
 
     private CarWashResource convertToCarWashResource(CarWash carWash){
         return mapper.map(carWash, CarWashResource.class);
+    }
+    private CommentResource convertToCommentResource(Comment comment){
+        return mapper.map(comment,CommentResource.class);
     }
 }
