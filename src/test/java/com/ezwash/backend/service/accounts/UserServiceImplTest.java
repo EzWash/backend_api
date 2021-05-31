@@ -4,6 +4,7 @@ import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.Profile;
 import com.ezwash.backend.domain.model.accounts.Staff;
 import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.business.Comment;
 import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.business.Report;
 import com.ezwash.backend.domain.model.business.Service;
@@ -11,6 +12,7 @@ import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.accounts.UserRepository;
 import com.ezwash.backend.domain.repository.geographic.LocationRepository;
+import com.ezwash.backend.domain.service.accounts.CarWashService;
 import com.ezwash.backend.domain.service.accounts.UserService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.DisplayName;
@@ -52,12 +54,17 @@ public class UserServiceImplTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CarWashService carWashService;
+
     @TestConfiguration
     static class UserServiceImplTestConfiguration {
         @Bean
         public UserService userService() {
             return new UserServiceImpl();
         }
+        @Bean
+        public CarWashService carWashService(){return new CarWashServiceImpl();}
     }
 
     @Test
@@ -762,6 +769,7 @@ public class UserServiceImplTest {
                 .isEqualTo(false);
 
     }
+  
     @Test
     @DisplayName("When getService List With Invalid User Id Then Returns ResourceNotFoundException")
     public void whenGetServiceListWithInvalidUserIdThenReturnsResourceNotFoundException(){
@@ -943,5 +951,162 @@ public class UserServiceImplTest {
         assertThat(contractPage.getTotalElements())
                 .isEqualTo(1L);
     }
+  
+    @Test
+    @DisplayName("When getCommentsAndQualityLevel With Valid Car Wash Id Then Returns Comments List And Quality Level")
+    public void whenGetCommentsAndQualityLevelWithValidCarWashIdThenReturnsCommentsListAndQualityLevel(){
+        //Arrange
+        // User data
+        String first_name = "Mauricio Roe";
+        String last_name = "Castillo Vega";
+        String email = "era@gmail.com";
+        String phone_number= "987655325";
+        String gender = "M";
+        String password = "$3fsdg";
 
+        // CarWash data
+        String description = "Somos el mejor CarWash de la historia";
+        String name = "Limpieza Total";
+        String name_owner = "Carlos" ;
+
+        CarWash carWash = new CarWash()
+                .setId(1L)
+                .setDescription(description)
+                .setName(name)
+                .setName_owner(name_owner);
+        carWash.setQualification(5);
+        User user = (User) new User()
+                .setId(1L)
+                .setFirst_name(first_name)
+                .setLast_name(last_name)
+                .setEmail(email)
+                .setPhone_number(phone_number)
+                .setGender(gender);
+        user.setPassword(password);
+        //CommentData
+        String commentDescription="El peor CarWash de la historia";
+        Integer qualification=1;
+        Comment comment=(Comment)new Comment()
+                .setDescription(commentDescription)
+                .setQualification(qualification);
+
+        List<Comment>commentList=new ArrayList<>();
+        commentList.add(comment);
+        carWash.setCommentList(commentList);
+
+        when(userRepository.findById(1L))
+                .thenReturn(Optional.ofNullable(user));
+        when(carWashRepository.findById(1L))
+                .thenReturn(Optional.ofNullable(carWash));
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+
+        //Act
+        Integer foundQualification= carWashService.getCarWashQualification(1L);
+        Page<Comment> commentPage = carWashService.getCarWashComments(1L, pageable);
+
+        // Assert
+        assertThat(commentPage.getTotalElements())
+                .isEqualTo(1L);
+        assertThat(foundQualification).isEqualTo(carWash.getQualification());
+    }
+  
+    @Test
+    @DisplayName("When getCommentsAndQuality Level With Invalid Car Wash Id Then Returns ResourceNotFoundException")
+    public void whenGetCommentsAndQualityLevelWithInvalidCarWashIdThenReturnsResourceNotFoundException(){
+        // Arrange
+        Long carwashId = 1L;
+        String template = "Resource %s not found for %s with value %s";
+        String expectedMessage = String.format(template, "Car Wash", "Id", carwashId);
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+        // Act
+        Throwable exception = catchThrowable(() -> {
+            Page<Comment> commentPage = carWashService.getCarWashComments(carwashId,pageable);
+        });
+
+        // Assert
+        assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+    }
 }

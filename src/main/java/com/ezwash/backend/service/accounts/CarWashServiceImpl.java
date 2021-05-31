@@ -1,6 +1,7 @@
 package com.ezwash.backend.service.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
+import com.ezwash.backend.domain.model.business.Comment;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.service.accounts.CarWashService;
@@ -72,6 +73,19 @@ public class CarWashServiceImpl implements CarWashService {
             return new PageImpl<>(carWashList,pageable,carWashList.size());
         }
 
+    }
+
+    @Override
+    public Page<Comment> getCarWashComments(Long id, Pageable pageable) {
+        CarWash carWash=findCarWashById(id);
+        List<Comment>commentList=carWash.getCommentList();
+        return new PageImpl<>(commentList,pageable,commentList.size());
+    }
+
+    @Override
+    public Integer getCarWashQualification(Long id) {
+        CarWash carWash=findCarWashById(id);
+        return carWash.getQualification();
     }
 
     @Override
