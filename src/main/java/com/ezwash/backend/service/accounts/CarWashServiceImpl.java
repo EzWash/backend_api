@@ -102,7 +102,7 @@ public class CarWashServiceImpl implements CarWashService {
     public Page<CarWash> getCarWashByName(String name, Pageable pageable){
         List<CarWash> carWashList = carWashRepository.findCarWashByNameContains(name);
         if (carWashList.size() == 0) {
-            throw new ResourceNotFoundException("CarWash", "Qualification", "Range");
+            throw new ResourceNotFoundException("CarWash", "Name", name);
         } else {
             return new PageImpl<>(carWashList, pageable, carWashList.size());
         }
