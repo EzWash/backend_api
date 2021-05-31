@@ -1,6 +1,8 @@
 package com.ezwash.backend.domain.model.accounts;
 
 import com.ezwash.backend.domain.model.business.Comment;
+import com.ezwash.backend.domain.model.business.Contract;
+import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.model.interactions.Vehicle;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,7 +40,8 @@ public class User extends Profile {
     @OneToMany(mappedBy = "user")
     private List<Vehicle> vehicleList;
 
-    //OneToMany cards
+    @OneToMany(mappedBy = "user")
+    private List<Contract> contractList;
 
     public String getPassword() {
         return password;
@@ -82,6 +85,12 @@ public class User extends Profile {
 
     public User setVehicleList(List<Vehicle> vehicleList) {
         this.vehicleList = vehicleList;
+        return this;
+    }
+    public List<Contract>getContractList(){return contractList;}
+
+    public User setContractList(List<Contract>contractList){
+        this.contractList=contractList;
         return this;
     }
 
