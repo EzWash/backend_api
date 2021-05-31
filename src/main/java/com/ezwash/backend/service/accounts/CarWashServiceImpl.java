@@ -97,4 +97,14 @@ public class CarWashServiceImpl implements CarWashService {
             return new PageImpl<>(carWashList, pageable, carWashList.size());
         }
     }
+
+    @Override
+    public Page<CarWash> getCarWashByName(String name, Pageable pageable){
+        List<CarWash> carWashList = carWashRepository.findCarWashByNameContains(name);
+        if (carWashList.size() == 0) {
+            throw new ResourceNotFoundException("CarWash", "Name", name);
+        } else {
+            return new PageImpl<>(carWashList, pageable, carWashList.size());
+        }
+    }
 }
