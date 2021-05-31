@@ -19,4 +19,5 @@ public interface CarWashService {
     Page<CarWash> findByQualification(Integer qualification, Pageable pageable);
     Page<Comment>getCarWashComments(Long id,Pageable pageable);
     Integer getCarWashQualification(Long id);
+    Page<CarWash> getCarWashByName(String name, Pageable pageable);
 }

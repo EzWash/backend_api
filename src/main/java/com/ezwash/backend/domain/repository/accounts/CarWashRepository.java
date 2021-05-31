@@ -14,4 +14,6 @@ public interface CarWashRepository extends JpaRepository<CarWash,Long> {
 
     public List<CarWash>findByQualificationBetween(Integer q1,Integer q2);
 
+    public List<CarWash>findCarWashByNameContains(String name);
+
 }
