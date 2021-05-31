@@ -763,7 +763,7 @@ public class UserServiceImplTest {
 
     }
     @Test
-    @DisplayName("When Get Service List with inValid UserId then returns Resource Not Found Exception")
+    @DisplayName("When getService List With Invalid User Id Then Returns ResourceNotFoundException")
     public void whenGetServiceListWithInvalidUserIdThenReturnsResourceNotFoundException(){
         // Arrange
         //ServiceData
@@ -839,7 +839,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("When Get Service List with Valid UserId then returns ServiceList")
+    @DisplayName("When getServiceList With Valid User Id Then Returns Service List")
     public void whenGetServiceListWithValidUserIdThenReturnsServiceList(){
         // Arrange
         //ServiceData
