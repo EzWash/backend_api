@@ -2,6 +2,7 @@ package com.ezwash.backend.service.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.accounts.UserRepository;
@@ -76,4 +77,12 @@ public class UserServiceImpl implements UserService {
         return new PageImpl<>(carWashes, pageable, carWashes.size());
 
     }
+
+    @Override
+    public Page<Contract> getContractList(Long userId, Pageable pageable) {
+        List<Contract>contracts=findUserById(userId).getContractList();
+        return new PageImpl<>(contracts,pageable,contracts.size());
+    }
+
+
 }

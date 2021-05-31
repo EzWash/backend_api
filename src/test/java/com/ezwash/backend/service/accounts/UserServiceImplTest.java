@@ -2,7 +2,11 @@ package com.ezwash.backend.service.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.Profile;
+import com.ezwash.backend.domain.model.accounts.Staff;
 import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.business.Contract;
+import com.ezwash.backend.domain.model.business.Report;
+import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.accounts.UserRepository;
@@ -25,6 +29,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -757,6 +762,186 @@ public class UserServiceImplTest {
                 .isEqualTo(false);
 
     }
+    @Test
+    @DisplayName("When getService List With Invalid User Id Then Returns ResourceNotFoundException")
+    public void whenGetServiceListWithInvalidUserIdThenReturnsResourceNotFoundException(){
+        // Arrange
+        //ServiceData
+        String name = "Encerado";
+        String description = "Ofrecemos el servicio perfecto de encerado para que usted pueda obtener ";
+        String details = "Aceite, Pulido, Encerado";
+        Integer is_promotion= 0;
+        double price = 30.9;
+        Service service = new Service()
+                .setName(name)
+                .setDescription(description)
+                .setDetails(details)
+                .setIs_promotion(is_promotion)
+                .setPrice(price);
 
+
+        Long userId = 1L;
+        String template = "Resource %s not found for %s with value %s";
+        String expectedMessage = String.format(template, "User", "Id", userId);
+
+        List<Service>serviceList=new ArrayList<>();
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+
+        // Act
+        Throwable exception = catchThrowable(() -> {
+            Page<Contract> contractPage = userService.getContractList(userId,pageable);
+        });
+
+        // Assert
+        assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+    }
+
+    @Test
+    @DisplayName("When getServiceList With Valid User Id Then Returns Service List")
+    public void whenGetServiceListWithValidUserIdThenReturnsServiceList(){
+        // Arrange
+        //ServiceData
+        String name = "Encerado";
+        String description = "Ofrecemos el servicio perfecto de encerado para que usted pueda obtener ";
+        String details = "Aceite, Pulido, Encerado";
+        Integer is_promotion= 0;
+        double price = 30.9;
+        Service service = new Service()
+                .setId(1L)
+                .setName(name)
+                .setDescription(description)
+                .setDetails(details)
+                .setIs_promotion(is_promotion)
+                .setPrice(price);
+
+        //UserData
+        String first_name = "Mauricio Roe";
+        String last_name = "Castillo Vega";
+        String email = "era@gmail.com";
+        String phone_number= "987655325";
+        String gender = "M";
+        String password = "$3fsdg";
+
+        User user = (User) new User()
+                .setId(1L)
+                .setFirst_name(first_name)
+                .setLast_name(last_name)
+                .setEmail(email)
+                .setPhone_number(phone_number)
+                .setGender(gender);
+        user.setPassword(password);
+
+        //ContractData
+        String state="terminado";
+        Date date=new Date();
+        Report report=new Report();
+        Staff staff=new Staff();
+        Contract contract=new Contract()
+                .setDate(date)
+                .setService(service)
+                .setUser(user)
+                .setReport(report)
+                .setId(1L)
+                .setStaff(staff)
+                .setState(state);
+
+        List<Contract>contractList=new ArrayList<>();
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+
+        contractList.add(contract);
+        user.setContractList(contractList);
+
+        when(userRepository.findById(1L))
+                .thenReturn(Optional.of(user));
+
+        // Act
+        Page<Contract> contractPage = userService.getContractList(1L, pageable);
+
+        // Assert
+        assertThat(contractPage.getTotalElements())
+                .isEqualTo(1L);
+    }
 
 }
