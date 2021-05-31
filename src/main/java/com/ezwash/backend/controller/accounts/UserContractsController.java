@@ -1,10 +1,12 @@
 package com.ezwash.backend.controller.accounts;
 
 import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.service.accounts.UserService;
 import com.ezwash.backend.resource.accounts.SaveUserResource;
 import com.ezwash.backend.resource.accounts.UserResource;
+import com.ezwash.backend.resource.business.ContractResource;
 import com.ezwash.backend.resource.business.SaveServiceResource;
 import com.ezwash.backend.resource.business.ServiceResource;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,37 +25,29 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-public class UserServicesController {
+public class UserContractsController {
     @Autowired
     private ModelMapper mapper;
 
     @Autowired
     private UserService userService;
 
-    @Operation(summary = "Get all Services from User Service List",description = "Get all Services from User's Service List through the User Id",tags = {"User Services"})
+    @Operation(summary = "Get all Contracts from User Contract List",description = "Get all Services from User's Contract List through the User Id",tags = {"User Services"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Services added successfully",content = @Content(mediaType = "application/json"))
     })
-    @GetMapping("/users/{userId}/services")
-    public Page<ServiceResource>getUserServices(@PathVariable Long userId, Pageable pageable){
-        Page<Service>servicePage=userService.getServiceList(userId,pageable);
-        List<ServiceResource>serviceResources=servicePage.getContent()
+    @GetMapping("/users/{userId}/contracts")
+    public Page<ContractResource>getUserContract(@PathVariable Long userId, Pageable pageable){
+        Page<Contract>contractPage=userService.getContractList(userId,pageable);
+        List<ContractResource>contractResources=contractPage.getContent()
                 .stream()
-                .map(this::convertToServiceResource)
+                .map(this::convertToContractResource)
                 .collect(Collectors.toList());
-        return new PageImpl<>(serviceResources,pageable,serviceResources.size());
+
+        return new PageImpl<>(contractResources,pageable,contractResources.size());
     }
 
-    private User convertToUserEntity(SaveUserResource resource){
-        return mapper.map(resource,User.class);
-    }
-    private UserResource convertToUserResource(User user){
-        return mapper.map(user,UserResource.class);
-    }
-    private Service convertToServiceEntity(SaveServiceResource resource){
-        return mapper.map(resource,Service.class);
-    }
-    private ServiceResource convertToServiceResource(Service service){
-        return mapper.map(service,ServiceResource.class);
+    private ContractResource convertToContractResource(Contract contract){
+        return mapper.map(contract,ContractResource.class);
     }
 }

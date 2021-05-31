@@ -2,6 +2,7 @@ package com.ezwash.backend.domain.service.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.model.geographic.Location;
 import org.springframework.data.domain.Page;
@@ -16,5 +17,5 @@ public interface UserService {
     User deleteUserCarWash(Long userId,Long carWashId);
     User updateUser(Long userId,User userRequest);
     Page<CarWash> getLikedList(Long userId, Pageable pageable);
-    Page<Service> getServiceList(Long userId,Pageable pageable);
+    Page<Contract> getContractList(Long userId, Pageable pageable);
 }

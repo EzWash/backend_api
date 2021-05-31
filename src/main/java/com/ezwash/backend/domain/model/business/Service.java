@@ -48,9 +48,6 @@ public class Service {
     @JsonIgnore
     private List<Contract> contractList;
 
-    //ManyToMany users
-    @ManyToMany(mappedBy = "serviceList")
-    private List<User>services;
 
     public Long getId() {
         return id;
@@ -103,13 +100,6 @@ public class Service {
 
     public Service setCarWash(CarWash carWash) {
         this.carWash = carWash;
-        return this;
-    }
-
-    public List<User> getServices(){return services;}
-
-    public Service setServices(List<User>services){
-        this.services=services;
         return this;
     }
 

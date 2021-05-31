@@ -2,7 +2,10 @@ package com.ezwash.backend.service.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.Profile;
+import com.ezwash.backend.domain.model.accounts.Staff;
 import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.business.Contract;
+import com.ezwash.backend.domain.model.business.Report;
 import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
@@ -26,6 +29,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -825,7 +829,7 @@ public class UserServiceImplTest {
 
         // Act
         Throwable exception = catchThrowable(() -> {
-            Page<Service> servicePagePage = userService.getServiceList(userId, pageable);
+            Page<Contract> contractPage = userService.getContractList(userId,pageable);
         });
 
         // Assert
@@ -845,6 +849,7 @@ public class UserServiceImplTest {
         Integer is_promotion= 0;
         double price = 30.9;
         Service service = new Service()
+                .setId(1L)
                 .setName(name)
                 .setDescription(description)
                 .setDetails(details)
@@ -867,7 +872,22 @@ public class UserServiceImplTest {
                 .setPhone_number(phone_number)
                 .setGender(gender);
         user.setPassword(password);
-        List<Service>serviceList=new ArrayList<>();
+
+        //ContractData
+        String state="terminado";
+        Date date=new Date();
+        Report report=new Report();
+        Staff staff=new Staff();
+        Contract contract=new Contract()
+                .setDate(date)
+                .setService(service)
+                .setUser(user)
+                .setReport(report)
+                .setId(1L)
+                .setStaff(staff)
+                .setState(state);
+
+        List<Contract>contractList=new ArrayList<>();
         Pageable pageable = new Pageable() {
             @Override
             public int getPageNumber() {
@@ -910,17 +930,17 @@ public class UserServiceImplTest {
             }
         };
 
-        serviceList.add(service);
-        user.setServiceList(serviceList);
+        contractList.add(contract);
+        user.setContractList(contractList);
 
         when(userRepository.findById(1L))
                 .thenReturn(Optional.of(user));
 
         // Act
-        Page<Service> servicePage = userService.getServiceList(1L, pageable);
+        Page<Contract> contractPage = userService.getContractList(1L, pageable);
 
         // Assert
-        assertThat(servicePage.getTotalElements())
+        assertThat(contractPage.getTotalElements())
                 .isEqualTo(1L);
     }
 

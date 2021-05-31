@@ -1,6 +1,7 @@
 package com.ezwash.backend.domain.model.accounts;
 
 import com.ezwash.backend.domain.model.business.Comment;
+import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.model.interactions.Vehicle;
@@ -39,16 +40,8 @@ public class User extends Profile {
     @OneToMany(mappedBy = "user")
     private List<Vehicle> vehicleList;
 
-    @ManyToMany
-    @JoinTable(
-            name="user_services",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name = "service_id"))
-    private List<Service> serviceList;
-
-
-
-    //OneToMany cards
+    @OneToMany(mappedBy = "user")
+    private List<Contract> contractList;
 
     public String getPassword() {
         return password;
@@ -94,13 +87,13 @@ public class User extends Profile {
         this.vehicleList = vehicleList;
         return this;
     }
+    public List<Contract>getContractList(){return contractList;}
 
-    public List<Service>getServiceList(){return serviceList;}
-
-    public User setServiceList(List<Service> serviceList){
-        this.serviceList=serviceList;
+    public User setContractList(List<Contract>contractList){
+        this.contractList=contractList;
         return this;
     }
+
     public boolean isCarWashAlready(CarWash carWash) {return this.getLikedCarwashes().contains(carWash);}
 
     public User addCarWashToLikedList(CarWash carWash){
