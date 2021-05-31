@@ -953,8 +953,8 @@ public class UserServiceImplTest {
     }
   
     @Test
-    @DisplayName("When Get Comments And Quality Level with Valid CarWashId then Returns CommentsList and Quality Level")
-    public void whenGetCommentsAndQualitityLevelWithValidCarWashIdThenReturnsCommentsListAndQualityLevel(){
+    @DisplayName("When getCommentsAndQualityLevel With Valid Car Wash Id Then Returns Comments List And Quality Level")
+    public void whenGetCommentsAndQualityLevelWithValidCarWashIdThenReturnsCommentsListAndQualityLevel(){
         //Arrange
         // User data
         String first_name = "Mauricio Roe";
@@ -1051,8 +1051,8 @@ public class UserServiceImplTest {
     }
   
     @Test
-    @DisplayName("When Get Comments And Quality Level with Invalid CarWashId then Returns Resource Not Found Exception")
-    public void whenGetCommentsAndQualitityLevelWithInvalidCarWashIdThenReturnsResourceNotFoundException(){
+    @DisplayName("When getCommentsAndQuality Level With Invalid Car Wash Id Then Returns ResourceNotFoundException")
+    public void whenGetCommentsAndQualityLevelWithInvalidCarWashIdThenReturnsResourceNotFoundException(){
         // Arrange
         Long carwashId = 1L;
         String template = "Resource %s not found for %s with value %s";
