@@ -101,9 +101,10 @@ public class User extends Profile {
             this.getLikedCarwashes().add(carWash);
         return this;
     }
-    public User deleteCarWashFromLikedList(CarWash carWash){
-        if(this.isCarWashAlready(carWash))
+    public User deleteCarWashFromLikedList(CarWash carWash) {
+        if (this.isCarWashAlready(carWash)){
             this.getLikedCarwashes().remove(carWash);
-        return this;
+            return this;
+        }else return null;
     }
 }
