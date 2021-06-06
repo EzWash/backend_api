@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,12 +39,8 @@ public class BackendApplication {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("postgres://dxwwkedunljski:4f7cb4c76d0b0fefa1178212c152ae440ddd2d26959ac45746a2428b0eb8f6eb@ec2-34-193-113-223.compute-1.amazonaws.com:5432/db0ao2sva7m71v");
-        dataSource.setUsername("dxwwkedunljski");
-        dataSource.setPassword("4f7cb4c76d0b0fefa1178212c152ae440ddd2d26959ac45746a2428b0eb8f6eb");
-        return dataSource;
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(dbUrl);
+        return new HikariDataSource(config);
     }
-
 }
