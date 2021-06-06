@@ -87,8 +87,9 @@ public class User extends Profile {
     public boolean isCarWashAlready(CarWash carWash) {return this.getLikedCarwashes().contains(carWash);}
 
     public User addCarWashToLikedList(CarWash carWash){
-        if(!this.isCarWashAlready(carWash))
+        if(!this.isCarWashAlready(carWash)){
             this.getLikedCarwashes().add(carWash);
-        return this;
+            return this;
+        }else return null;
     }
 }

@@ -42,6 +42,11 @@ public class Service {
     @JsonIgnore
     private List<Contract> contractList;
 
+    //ManyToMany contracts - service
+    @ManyToMany(mappedBy = "services")
+    @JsonIgnore
+    private List<Contract> contracts;
+
     public Long getId() {
         return id;
     }
@@ -102,6 +107,15 @@ public class Service {
 
     public Service setContractList(List<Contract> contractList) {
         this.contractList = contractList;
+        return this;
+    }
+
+    public List<Contract> getContracts() {
+        return contracts;
+    }
+
+    public Service setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
         return this;
     }
 }

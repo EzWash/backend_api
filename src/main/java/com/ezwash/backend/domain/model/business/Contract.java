@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="contracts")
@@ -30,10 +31,6 @@ public class Contract {
     @Column(columnDefinition = "Varchar(50) default 'recojo'")
     private String state;
 
-    @NotNull
-    @Temporal(TemporalType.TIME)
-    private Date date;
-
     //ManyToOne staff
     @ManyToOne
     @JoinColumn(name = "staff_id",nullable = false)
@@ -42,6 +39,15 @@ public class Contract {
     //OneToOne report
     @OneToOne(mappedBy = "contract")
     private Report report;
+
+    //ManyToMany contract-service
+    @ManyToMany
+    @JoinTable(
+            name = "contract_services",
+            joinColumns = @JoinColumn(name = "contract_id"),
+            inverseJoinColumns = @JoinColumn(name = "service_id"))
+    private List<Service> services;
+
 
     public Long getId() {
         return id;
@@ -79,15 +85,6 @@ public class Contract {
         return this;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public Contract setDate(Date date) {
-        this.date = date;
-        return this;
-    }
-
     public Staff getStaff() {
         return staff;
     }
@@ -103,6 +100,15 @@ public class Contract {
 
     public Contract setReport(Report report) {
         this.report = report;
+        return this;
+    }
+
+    public List<Service> getServices() {
+        return services;
+    }
+
+    public Contract setServices(List<Service> services) {
+        this.services = services;
         return this;
     }
 }
