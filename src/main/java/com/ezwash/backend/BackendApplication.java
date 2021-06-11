@@ -34,13 +34,5 @@ public class BackendApplication {
     @Bean
     public ModelMapper modelMapper(){return new ModelMapper();}
 
-    @Value("${spring.datasource.url}")
-    private String dbUrl;
 
-    @Bean
-    public DataSource dataSource() {
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(dbUrl);
-        return new HikariDataSource(config);
-    }
 }
