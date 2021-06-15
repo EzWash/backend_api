@@ -1,14 +1,14 @@
 package com.ezwash.backend.controller.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
-import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.business.Comment;
 import com.ezwash.backend.domain.service.accounts.CarWashService;
-import com.ezwash.backend.domain.service.accounts.UserService;
+import com.ezwash.backend.domain.service.accounts.CustomerService;
 import com.ezwash.backend.resource.accounts.CarWashResource;
 import com.ezwash.backend.resource.accounts.SaveCarWashResource;
-import com.ezwash.backend.resource.accounts.SaveUserResource;
-import com.ezwash.backend.resource.accounts.UserResource;
+import com.ezwash.backend.resource.accounts.SaveCustomerResource;
+import com.ezwash.backend.resource.accounts.CustomerResource;
 import com.ezwash.backend.resource.business.CommentResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,13 +17,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,12 +29,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-public class UserCarWashesController {
+public class CustomerCarWashesController {
     @Autowired
     private ModelMapper mapper;
 
     @Autowired
-    private UserService userService;
+    private CustomerService customerService;
     @Autowired
     private CarWashService carWashService;
 
@@ -45,10 +43,10 @@ public class UserCarWashesController {
             @ApiResponse(responseCode = "200", description = "Car Wash added successfully", content = @Content(mediaType = "application/json"))
     })
     @PostMapping("/users/{userId}/carwashes/{carwashId}")
-    public UserResource addUserCarWash(
+    public CustomerResource addUserCarWash(
             @PathVariable Long userId,
             @PathVariable Long carwashId){
-        return convertToUserResource(userService.addUserCarwash(userId, carwashId));
+        return convertToUserResource(customerService.addCustomerCarwash(userId, carwashId));
     }
 
     @Operation(summary = "Get all Car Washes from User's liked list", description = "Get all Car Washes from the User's liked list through the User Id", tags = {"User CarWashes"})
@@ -57,7 +55,7 @@ public class UserCarWashesController {
     })
     @GetMapping("/users/{userId}/carwashes")
     public Page<CarWashResource> getLikedList(@PathVariable Long userId, Pageable pageable){
-        Page<CarWash> carWashPage = userService.getLikedList(userId, pageable);
+        Page<CarWash> carWashPage = customerService.getLikedList(userId, pageable);
         List<CarWashResource> carWashResources = carWashPage.getContent()
                 .stream()
                 .map(this::convertToCarWashResource)
@@ -91,19 +89,19 @@ public class UserCarWashesController {
             @ApiResponse(responseCode = "200", description = "Car Wash deleted successfully", content = @Content(mediaType = "application/json"))
     })
     @DeleteMapping("/users/{userId}/carwashes/{carwashId}")
-    public UserResource deleteUserCarWash(
+    public CustomerResource deleteUserCarWash(
             @PathVariable Long userId,
             @PathVariable Long carwashId){
-        return convertToUserResource(userService.deleteUserCarWash(userId,carwashId));
+        return convertToUserResource(customerService.deleteCustomerCarWash(userId,carwashId));
     }
 
-    private User convertToUserEntity(SaveUserResource resource){
+    private Customer convertToUserEntity(SaveCustomerResource resource){
 
-        return mapper.map(resource, User.class);
+        return mapper.map(resource, Customer.class);
     }
 
-    private UserResource convertToUserResource(User user){
-        return mapper.map(user, UserResource.class);
+    private CustomerResource convertToUserResource(Customer customer){
+        return mapper.map(customer, CustomerResource.class);
     }
 
     private CarWash convertToCarWashEntity(SaveCarWashResource resource){

@@ -1,8 +1,5 @@
 package com.ezwash.backend.resource.interactions;
 
-import com.ezwash.backend.domain.model.accounts.User;
-import com.ezwash.backend.domain.model.geographic.Location;
-
 import javax.validation.constraints.NotNull;
 
 public class SaveVehicleResource {

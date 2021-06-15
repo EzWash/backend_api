@@ -1,7 +1,7 @@
 package com.ezwash.backend.domain.model.business;
 
+import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.accounts.Staff;
-import com.ezwash.backend.domain.model.accounts.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,7 +23,7 @@ public class Contract {
     //ManyToOne users
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Customer customer;
 
     @NotNull
     @NotBlank
@@ -61,12 +61,12 @@ public class Contract {
         return this;
     }
 
-    public User getUser() {
-        return user;
+    public Customer getUser() {
+        return customer;
     }
 
-    public Contract setUser(User user) {
-        this.user = user;
+    public Contract setUser(Customer customer) {
+        this.customer = customer;
         return this;
     }
 

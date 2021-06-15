@@ -1,9 +1,5 @@
 package com.ezwash.backend.domain.model.interactions;
 
-import com.ezwash.backend.domain.model.accounts.User;
-import com.ezwash.backend.domain.model.geographic.Department;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

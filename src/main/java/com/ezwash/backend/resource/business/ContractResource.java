@@ -7,7 +7,7 @@ import java.util.Date;
 public class ContractResource {
 
     private Long service_id;
-    private Long user_id;
+    private Long customer_id;
     private Date date;
     private Long staff_id;
     private Report report;
@@ -22,12 +22,12 @@ public class ContractResource {
         return this;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public Long getCustomer_id() {
+        return customer_id;
     }
 
-    public ContractResource setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public ContractResource setCustomer_id(Long customer_id) {
+        this.customer_id = customer_id;
         return this;
     }
 

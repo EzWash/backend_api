@@ -1,8 +1,7 @@
 package com.ezwash.backend.controller.interactions;
-import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.model.interactions.Vehicle;
-import com.ezwash.backend.domain.repository.interactions.VehicleRepository;
 import com.ezwash.backend.domain.service.interactions.VehicleService;
 import com.ezwash.backend.resource.interactions.SaveVehicleResource;
 import com.ezwash.backend.resource.interactions.VehicleResource;
@@ -33,12 +32,12 @@ public class VehiclesController {
     @PostMapping ("/vehicles")
     public VehicleResource createVehicle (@Valid @RequestBody SaveVehicleResource resource){
         Location location = vehicleService.getLocationById(resource.getLocation());
-        User user = vehicleService.getUserById(resource.getUser());
+        Customer customer = vehicleService.getUserById(resource.getUser());
         Vehicle vehicle= convertToEntity(resource);
         vehicle.setLocation(location);
-        vehicle.setUser(user);
+        vehicle.setUser(customer);
         VehicleResource vehicleResource = convertToResource(vehicleService.createVehicle(vehicle))
-                .setUser_Id(resource.getUser());
+                .setCustomer_Id(resource.getUser());
         return vehicleResource;
     }
 
@@ -48,7 +47,5 @@ public class VehiclesController {
     private VehicleResource convertToResource (Vehicle vehicle){
         return mapper.map(vehicle,VehicleResource.class);
     }
-
-
 
 }

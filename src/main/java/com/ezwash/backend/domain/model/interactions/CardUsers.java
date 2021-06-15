@@ -1,7 +1,6 @@
 package com.ezwash.backend.domain.model.interactions;
 
-import com.ezwash.backend.domain.model.accounts.CarWash;
-import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.accounts.Customer;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -13,14 +12,14 @@ import javax.persistence.Table;
 public class CardUsers extends Card{
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Customer customer;
 
-    public User getUser() {
-        return user;
+    public Customer getUser() {
+        return customer;
     }
 
-    public CardUsers setUser(User user) {
-        this.user = user;
+    public CardUsers setUser(Customer customer) {
+        this.customer = customer;
         return this;
     }
 }
