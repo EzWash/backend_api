@@ -28,7 +28,7 @@ public class ReportsController {
     @Autowired
     private ModelMapper mapper;
 
-    @Operation(summary = "Create Reports", description = "Create and return a Report", tags = {"Reports"})
+    @Operation(summary = "Create Reports", description = "Create and return a Report", tags = {"Contracts"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Report created successfully", content = @Content(mediaType = "application/json"))
     })
