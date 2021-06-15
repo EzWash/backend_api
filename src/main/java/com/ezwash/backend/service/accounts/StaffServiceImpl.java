@@ -7,7 +7,12 @@ import com.ezwash.backend.domain.repository.accounts.StaffRepository;
 import com.ezwash.backend.domain.service.accounts.StaffService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class StaffServiceImpl implements StaffService {
@@ -37,4 +42,14 @@ public class StaffServiceImpl implements StaffService {
                     return staffRepository.save(staff);
                 }).orElseThrow(() -> new ResourceNotFoundException("Staff", "Id", staffId));
     }
+
+    @Override
+    public Page<Staff> getStaffByCarWashId(Long carWashId, Pageable pageable){
+        return carWashRepository.findById(carWashId).map(carWash ->{
+            List<Staff> staff=carWash.getStaffList();
+            int staffCount=staff.size();
+            return new PageImpl<>(staff,pageable,staffCount);
+        }).orElseThrow(() -> new ResourceNotFoundException("Car Wash","Id",carWashId));
+    }
+
 }
