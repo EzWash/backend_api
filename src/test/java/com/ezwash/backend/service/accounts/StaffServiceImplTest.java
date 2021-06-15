@@ -7,6 +7,7 @@ import com.ezwash.backend.domain.repository.accounts.StaffRepository;
 import com.ezwash.backend.domain.service.accounts.StaffService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
 import com.ezwash.backend.service.accounts.StaffServiceImpl;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -293,4 +297,137 @@ public class StaffServiceImplTest {
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage(expectedMessage);
     }
+
+    @Test
+    @DisplayName ("When getStaffById With Valid CarWashId Then Returns Staff's List")
+    public void whenGetStaffByIdWithValidCarWashIdThenReturnsStaff(){
+        //Arrange
+         //Creating CarWash
+        CarWash carWash = new CarWash().setId(1L);
+
+        //Creating Staff
+        Staff staff= (Staff) new Staff().setId(1L);
+
+        List<Staff> staff_carwash = new ArrayList<>();
+        staff_carwash.add(staff);
+
+        carWash.setStaffList(staff_carwash);
+
+
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+
+        when(carWashRepository.findById(1L))
+                .thenReturn(Optional.of(carWash));
+
+        // Act
+        Page<Staff> staffPage = staffService.getStaffByCarWashId(1L, pageable);
+
+        // Assert
+        assertThat(staffPage.getTotalElements())
+                .isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("When getStaffByCarWashId With Invalid CarWash Id Then Returns ResourceNotFoundException")
+    public void whengetStaffByCarWashIdWithInvalidCarWashIdThenReturnsResourceNotFoundException(){
+        // Arrange
+        Long carWashId = 1L;
+        String template = "Resource %s not found for %s with value %s";
+        String expectedMessage = String.format(template, "Car Wash", "Id", carWashId);
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+
+        // Act
+        Throwable exception = Assertions.catchThrowable(() -> {
+            Page<Staff> staffPage = staffService.getStaffByCarWashId(carWashId, pageable);
+        });
+
+        // Assert
+        assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+
+    }
+    
 }
