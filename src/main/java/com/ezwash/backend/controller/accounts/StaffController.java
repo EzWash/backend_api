@@ -12,9 +12,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -33,8 +38,20 @@ public class StaffController {
     public StaffResource updateStaff(
             @PathVariable Long carwashId,
             @PathVariable Long staffId,
-            @Valid @RequestBody SaveStaffResource resource){
-        return convertToResource(staffService.updateStaff(carwashId,staffId,convertToEntity(resource)));
+            @Valid @RequestBody SaveStaffResource resource) {
+        return convertToResource(staffService.updateStaff(carwashId, staffId, convertToEntity(resource)));
+    }
+
+    @Operation(summary = "Get a Car Wash's staff", description = "Get a staff person given the Car Wash ID and the Staff ID", tags = {"Car Washes"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Staff obtained successfully", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/carwashes/{carWashId}/staff")
+    public Page<StaffResource> getStaffByCarWashId(@PathVariable Long carWashId,Pageable pageable){
+        Page<Staff> staffPage = staffService.getStaffByCarWashId(carWashId, pageable);
+        List<StaffResource> resources = staffPage.getContent().stream()
+                .map(this::convertToResource).collect(Collectors.toList());
+        return new PageImpl<>(resources, pageable, resources.size());
     }
 
     private Staff convertToEntity(SaveStaffResource resource){return mapper.map(resource,Staff.class);}
