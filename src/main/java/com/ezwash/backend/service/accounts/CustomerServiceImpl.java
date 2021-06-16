@@ -5,15 +5,10 @@ import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
-<<<<<<< HEAD:src/main/java/com/ezwash/backend/service/accounts/UserServiceImpl.java
-import com.ezwash.backend.domain.repository.accounts.UserRepository;
 import com.ezwash.backend.domain.repository.business.ServiceRepository;
 import com.ezwash.backend.domain.repository.geographic.LocationRepository;
-import com.ezwash.backend.domain.service.accounts.UserService;
-=======
 import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
 import com.ezwash.backend.domain.service.accounts.CustomerService;
->>>>>>> 78f4d1ee502df118a33528746df55ccffdd7369f:src/main/java/com/ezwash/backend/service/accounts/CustomerServiceImpl.java
 import com.ezwash.backend.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 

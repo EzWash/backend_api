@@ -28,12 +28,10 @@ public class BackendApplication {
     @Bean
     public ModelMapper modelMapper(){return new ModelMapper();}
 
-<<<<<<< HEAD
+
     @Value("${spring.datasource.url}")
     private String dbUrl;
 
 
-=======
->>>>>>> 78f4d1ee502df118a33528746df55ccffdd7369f
 
 }
