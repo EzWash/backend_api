@@ -42,7 +42,7 @@ public class StaffController {
         return convertToResource(staffService.updateStaff(carwashId, staffId, convertToEntity(resource)));
     }
 
-    @Operation(summary = "Get a Car Wash's staff", description = "Get a staff person given the Car Wash ID and the Staff ID", tags = {"Car Washes"})
+    @Operation(summary = "Get a Car Wash's staff", description = "Get a staff person given the Car Wash ID", tags = {"Car Washes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Staff obtained successfully", content = @Content(mediaType = "application/json"))
     })

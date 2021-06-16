@@ -5,7 +5,12 @@ import com.ezwash.backend.domain.repository.business.ServiceRepository;
 import com.ezwash.backend.domain.service.business.ServiceService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ServiceServiceImpl implements ServiceService {
@@ -38,6 +43,15 @@ public class ServiceServiceImpl implements ServiceService {
                     .setDetails(serviceInfo.getDetails());
                     return serviceRepository.save(service);
                 }).orElseThrow(() -> new ResourceNotFoundException("Service", "Id", serviceId));
+    }
+
+    @Override
+    public Page<com.ezwash.backend.domain.model.business.Service> getServiceByCarWashId(Long carWashId, Pageable pageable){
+        return carWashRepository.findById(carWashId).map(carWash ->{
+            List<com.ezwash.backend.domain.model.business.Service> service=carWash.getServiceList();
+            int serviceCount=service.size();
+            return new PageImpl<>(service,pageable,serviceCount);
+        }).orElseThrow(() -> new ResourceNotFoundException("Car Wash","Id",carWashId));
     }
 
 }
