@@ -103,4 +103,5 @@ class VehicleServiceImplTest {
         Assertions.assertThat(exception).isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage(expectedMessage);
     }
+
 }
