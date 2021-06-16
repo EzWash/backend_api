@@ -7,7 +7,9 @@ import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
 import com.ezwash.backend.domain.repository.geographic.LocationRepository;
 import com.ezwash.backend.domain.repository.interactions.VehicleRepository;
 import com.ezwash.backend.domain.service.interactions.VehicleService;
+import com.ezwash.backend.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,6 +39,12 @@ public class VehicleServiceImpl implements VehicleService {
         return customerRepository.findById(id).get();
     }
 
-
+    @Override
+    public ResponseEntity<?> deleteCarById (Long id_car){
+        Vehicle vehicle = vehicleRepository.findById(id_car).orElseThrow(()-> new ResourceNotFoundException(
+                "Vehicle","Id", id_car));
+        vehicleRepository.delete(vehicle);
+        return ResponseEntity.ok().build();
+    }
 
 }
