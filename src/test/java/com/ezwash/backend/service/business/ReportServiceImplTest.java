@@ -73,8 +73,8 @@ public class ReportServiceImplTest {
     }
 
     @Test
-    @DisplayName("When createCriticalReport With Invalid Contract Id Then Returns Report")
-    public void whenCreatedCriticalReportWithInvalidContractIdThenReturnsReport(){
+    @DisplayName("When createCriticalReport With Invalid Contract Id Then Returns ResourceNotFoundException")
+    public void whenCreatedCriticalReportWithInvalidContractIdThenReturnsResourceNotFoundException(){
 
         String template = "Resource %s not found for %s with value %s";
         String expectedMessage = String.format(template, "Contract", "Id", 1L);

@@ -1,12 +1,23 @@
 package com.ezwash.backend.resource.business;
 
+import com.ezwash.backend.domain.model.business.Contract;
+
 import javax.validation.constraints.NotNull;
 
 public class SaveReportResource {
     @NotNull
     private String description;
-    @NotNull
-    private String contract_id;
+
+    private Contract contract;
+
+    public Contract getContract() {
+        return contract;
+    }
+
+    public SaveReportResource setContract(Contract contract) {
+        this.contract = contract;
+        return this;
+    }
 
     public String getDescription() {
         return description;
@@ -17,12 +28,5 @@ public class SaveReportResource {
         return this;
     }
 
-    public String getContract_id() {
-        return contract_id;
-    }
 
-    public SaveReportResource setContract_id(String contract_id) {
-        this.contract_id = contract_id;
-        return this;
-    }
 }
