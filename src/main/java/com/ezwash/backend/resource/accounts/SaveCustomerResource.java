@@ -1,10 +1,9 @@
 package com.ezwash.backend.resource.accounts;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class SaveUserResource extends SaveProfileResource {
+public class SaveCustomerResource extends SaveProfileResource {
 
     @NotNull
     @NotBlank
@@ -17,7 +16,7 @@ public class SaveUserResource extends SaveProfileResource {
         return location;
     }
 
-    public SaveUserResource setLocation(Long location) {
+    public SaveCustomerResource setLocation(Long location) {
         this.location = location;
         return this;
     }
@@ -26,7 +25,7 @@ public class SaveUserResource extends SaveProfileResource {
         return password;
     }
 
-    public SaveUserResource setPassword(String password) {
+    public SaveCustomerResource setPassword(String password) {
         this.password = password;
         return this;
     }

@@ -4,6 +4,8 @@ import com.ezwash.backend.domain.model.AuditModel;
 import com.ezwash.backend.domain.model.business.Comment;
 import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.model.geographic.Location;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.security.core.userdetails.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -58,7 +60,7 @@ public class CarWash extends AuditModel {
 
     //ManyToMany users_liked
     @ManyToMany(mappedBy = "likedCarwashes")
-    private List<User> likes;
+    private List<Customer> likes;
 
     public Long getId() {
         return id;
@@ -150,11 +152,11 @@ public class CarWash extends AuditModel {
         return this;
     }
 
-    public List<User> getLikes() {
+    public List<Customer> getLikes() {
         return likes;
     }
 
-    public CarWash setLikes(List<User> likes) {
+    public CarWash setLikes(List<Customer> likes) {
         this.likes = likes;
         return this;
     }

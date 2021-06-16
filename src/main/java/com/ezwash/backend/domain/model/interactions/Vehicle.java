@@ -1,6 +1,6 @@
 package com.ezwash.backend.domain.model.interactions;
 
-import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,7 +32,7 @@ public class Vehicle {
     @ManyToOne (fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     @JsonIgnore
-    private User user;
+    private Customer customer;
 
     //ManyToOne location
 
@@ -77,12 +77,12 @@ public class Vehicle {
         return this;
     }
 
-    public User getUser() {
-        return user;
+    public Customer getUser() {
+        return customer;
     }
 
-    public Vehicle setUser(User user) {
-        this.user = user;
+    public Vehicle setUser(Customer customer) {
+        this.customer = customer;
         return this;
     }
 

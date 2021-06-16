@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,12 +21,6 @@ import javax.sql.DataSource;
 @SpringBootApplication
 public class BackendApplication {
 
-    @RequestMapping("/")
-    @ResponseBody
-    String home() {
-        return "Hello World!";
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
     }
@@ -33,9 +28,12 @@ public class BackendApplication {
     @Bean
     public ModelMapper modelMapper(){return new ModelMapper();}
 
+<<<<<<< HEAD
     @Value("${spring.datasource.url}")
     private String dbUrl;
 
 
+=======
+>>>>>>> 78f4d1ee502df118a33528746df55ccffdd7369f
 
 }

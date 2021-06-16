@@ -1,7 +1,7 @@
 package com.ezwash.backend.domain.model.business;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
-import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.accounts.Customer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -22,9 +22,9 @@ public class Comment {
 
     //ManyToOne users
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     @JsonIgnore
-    private User user;
+    private Customer customer;
 
     @Lob
     @NotNull
@@ -51,12 +51,12 @@ public class Comment {
         return this;
     }
 
-    public User getUser() {
-        return user;
+    public Customer getUser() {
+        return customer;
     }
 
-    public Comment setUser(User user) {
-        this.user = user;
+    public Comment setUser(Customer customer) {
+        this.customer = customer;
         return this;
     }
 

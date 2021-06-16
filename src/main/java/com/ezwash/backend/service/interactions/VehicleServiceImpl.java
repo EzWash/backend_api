@@ -1,9 +1,9 @@
 package com.ezwash.backend.service.interactions;
 
-import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.model.interactions.Vehicle;
-import com.ezwash.backend.domain.repository.accounts.UserRepository;
+import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
 import com.ezwash.backend.domain.repository.geographic.LocationRepository;
 import com.ezwash.backend.domain.repository.interactions.VehicleRepository;
 import com.ezwash.backend.domain.service.interactions.VehicleService;
@@ -19,7 +19,7 @@ public class VehicleServiceImpl implements VehicleService {
     private LocationRepository locationRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private CustomerRepository customerRepository;
 
     @Override
     public Vehicle createVehicle (Vehicle vehicle){
@@ -33,8 +33,8 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public User  getUserById( Long id){
-        return userRepository.findById(id).get();
+    public Customer getUserById(Long id){
+        return customerRepository.findById(id).get();
     }
 
 

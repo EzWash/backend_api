@@ -1,7 +1,7 @@
 package com.ezwash.backend.domain.model.geographic;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
-import com.ezwash.backend.domain.model.accounts.User;
+import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.interactions.Vehicle;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -48,7 +48,7 @@ public class Location {
     //OneToMany user
     @OneToOne(mappedBy = "location")
     @JsonIgnore
-    private User user;
+    private Customer customer;
 
     public Long getId() {
         return id;

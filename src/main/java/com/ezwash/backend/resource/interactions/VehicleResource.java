@@ -1,7 +1,6 @@
 package com.ezwash.backend.resource.interactions;
 
 
-import com.ezwash.backend.domain.model.accounts.User;
 import com.ezwash.backend.domain.model.geographic.Location;
 
 public class VehicleResource {
@@ -10,7 +9,7 @@ public class VehicleResource {
     private String brand;
     private String registration_plate;
     private Location location;
-    private Long user_Id;
+    private Long customer_Id;
 
     public String getModel() {
         return model;
@@ -48,12 +47,12 @@ public class VehicleResource {
         return this;
     }
 
-    public Long getUser_Id() {
-        return user_Id;
+    public Long getCustomer_Id() {
+        return customer_Id;
     }
 
-    public VehicleResource setUser_Id(Long user_Id) {
-        this.user_Id = user_Id;
+    public VehicleResource setCustomer_Id(Long customer_Id) {
+        this.customer_Id = customer_Id;
         return this;
     }
 }

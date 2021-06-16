@@ -1,24 +1,22 @@
 package com.ezwash.backend.service.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
-import com.ezwash.backend.domain.model.accounts.Profile;
+import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.accounts.Staff;
-import com.ezwash.backend.domain.model.accounts.User;
 import com.ezwash.backend.domain.model.business.Comment;
 import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.business.Report;
 import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
-import com.ezwash.backend.domain.repository.accounts.UserRepository;
+import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
 import com.ezwash.backend.domain.repository.geographic.LocationRepository;
 import com.ezwash.backend.domain.service.accounts.CarWashService;
-import com.ezwash.backend.domain.service.accounts.UserService;
+import com.ezwash.backend.domain.service.accounts.CustomerService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,10 +24,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,13 +33,12 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class UserServiceImplTest {
+public class CustomerServiceImplTest {
     @MockBean
-    private UserRepository userRepository;
+    private CustomerRepository customerRepository;
 
     @MockBean
     private CarWashRepository carWashRepository;
@@ -52,7 +47,7 @@ public class UserServiceImplTest {
     private LocationRepository locationRepository;
 
     @Autowired
-    private UserService userService;
+    private CustomerService customerService;
 
     @Autowired
     private CarWashService carWashService;
@@ -60,8 +55,8 @@ public class UserServiceImplTest {
     @TestConfiguration
     static class UserServiceImplTestConfiguration {
         @Bean
-        public UserService userService() {
-            return new UserServiceImpl();
+        public CustomerService userService() {
+            return new CustomerServiceImpl();
         }
         @Bean
         public CarWashService carWashService(){return new CarWashServiceImpl();}
@@ -90,7 +85,7 @@ public class UserServiceImplTest {
                 .setLattitude(lattitude)
                 .setLongitude(longitude);
 
-        User user = (User) new User()
+        Customer customer = (Customer) new Customer()
                 .setPassword(password)
                 .setLocation(location)
                 .setFirst_name(first_name)
@@ -99,7 +94,7 @@ public class UserServiceImplTest {
                 .setPhone_number(phone_number)
                 .setGender(gender);
 
-        when(userRepository.save(user)).thenReturn((User) new User()
+        when(customerRepository.save(customer)).thenReturn((Customer) new Customer()
                 .setPassword(password)
                 .setLocation(location)
                 .setFirst_name(first_name)
@@ -109,11 +104,11 @@ public class UserServiceImplTest {
                 .setGender(gender)
                 .setId(1L));
         //Act
-        User createdUser = userService.createUser(user, location);
+        Customer createdCustomer = customerService.createCustomer(customer, location);
 
         //Assert
-        assertThat(createdUser.getFirst_name()).isEqualTo(first_name);
-        assertThat(createdUser.getLast_name()).isEqualTo(last_name);
+        assertThat(createdCustomer.getFirst_name()).isEqualTo(first_name);
+        assertThat(createdCustomer.getLast_name()).isEqualTo(last_name);
     }
     @Test
     @DisplayName("When updateUser With Valid UserId and Valid Attributes Then Returns User")
@@ -149,7 +144,7 @@ public class UserServiceImplTest {
                 .setLattitude(lattitude)
                 .setLongitude(longitude);
 
-        User user = (User) new User()
+        Customer customer = (Customer) new Customer()
                 .setPassword(password)
                 .setLocation(location)
                 .setFirst_name(first_name)
@@ -157,7 +152,7 @@ public class UserServiceImplTest {
                 .setEmail(email)
                 .setPhone_number(phone_number)
                 .setGender(gender);
-        User userUpdate=(User) new User()
+        Customer customerUpdate =(Customer) new Customer()
                 .setPassword(password)
                 .setLocation(location)
                 .setFirst_name(first_name2)
@@ -166,16 +161,16 @@ public class UserServiceImplTest {
                 .setPhone_number(phone_number2)
                 .setGender(gender2);
 
-        when(userRepository.findById(1L))
-                .thenReturn(Optional.ofNullable(user));
+        when(customerRepository.findById(1L))
+                .thenReturn(Optional.ofNullable(customer));
 
-        when(userRepository.save(user))
-                .thenReturn(user);
+        when(customerRepository.save(customer))
+                .thenReturn(customer);
         //Act
-        User foundUser=userService.updateUser(1L,userUpdate);
+        Customer foundCustomer = customerService.updateCustomer(1L, customerUpdate);
         //Assert
-        assertThat(foundUser.getFirst_name()).isEqualTo(first_name2);
-        assertThat(foundUser.getLast_name()).isEqualTo(last_name2);
+        assertThat(foundCustomer.getFirst_name()).isEqualTo(first_name2);
+        assertThat(foundCustomer.getLast_name()).isEqualTo(last_name2);
 
     }
     @Test
@@ -212,7 +207,7 @@ public class UserServiceImplTest {
                 .setLattitude(lattitude)
                 .setLongitude(longitude);
 
-        User user = (User) new User()
+        Customer customer = (Customer) new Customer()
                 .setPassword(password)
                 .setLocation(location)
                 .setFirst_name(first_name)
@@ -220,7 +215,7 @@ public class UserServiceImplTest {
                 .setEmail(email)
                 .setPhone_number(phone_number)
                 .setGender(gender);
-        User userUpdate=(User) new User()
+        Customer customerUpdate =(Customer) new Customer()
                 .setPassword(password)
                 .setLocation(location)
                 .setFirst_name(first_name2)
@@ -231,12 +226,12 @@ public class UserServiceImplTest {
         String template = "Resource %s not found for %s with value %s";
 
         String expectedMessage=String.format(template,"User","Id",2L);
-        when(userRepository.findById(2L))
+        when(customerRepository.findById(2L))
                 .thenReturn(Optional.empty());
 
         //Act
         Throwable exception = catchThrowable(() -> {
-            User foundUser = userService.updateUser(2L,userUpdate);
+            Customer foundCustomer = customerService.updateCustomer(2L, customerUpdate);
         });
         //Assert
             assertThat(exception).isInstanceOf(ResourceNotFoundException.class)
@@ -286,7 +281,7 @@ public class UserServiceImplTest {
 
         List<CarWash> likedCarWashes = new ArrayList<>();
 
-        User user = (User) new User()
+        Customer customer = (Customer) new Customer()
                 .setId(1L)
                 .setFirst_name(first_name)
                 .setLast_name(last_name)
@@ -294,8 +289,8 @@ public class UserServiceImplTest {
                 .setPhone_number(phone_number)
                 .setGender(gender);
 
-        user.setPassword(password);
-        user.setLikedCarwashes(likedCarWashes);
+        customer.setPassword(password);
+        customer.setLikedCarwashes(likedCarWashes);
 
         CarWash carWash = new CarWash()
                 .setId(1L)
@@ -306,18 +301,18 @@ public class UserServiceImplTest {
         when(carWashRepository.findById(1L))
                 .thenReturn(java.util.Optional.ofNullable(carWash));
 
-        when(userRepository.findById(1L))
-                .thenReturn(Optional.ofNullable(user));
+        when(customerRepository.findById(1L))
+                .thenReturn(Optional.ofNullable(customer));
 
-        when(userRepository.save(user))
-                .thenReturn(user);
+        when(customerRepository.save(customer))
+                .thenReturn(customer);
 
         String template = "Resource %s not found for %s with value %s";
         // Act
-        User foundUser = userService.addUserCarwash(1L, 1L);
+        Customer foundCustomer = customerService.addCustomerCarwash(1L, 1L);
 
         // Assert
-        assertThat(foundUser.getLikedCarwashes().contains(carWash))
+        assertThat(foundCustomer.getLikedCarwashes().contains(carWash))
                 .isEqualTo(true);
     }
 
@@ -350,7 +345,7 @@ public class UserServiceImplTest {
 
         // Act
         Throwable exception = catchThrowable(() -> {
-            User foundUser = userService.addUserCarwash(1L, 2L);
+            Customer foundCustomer = customerService.addCustomerCarwash(1L, 2L);
         });
 
         // Assert
@@ -377,7 +372,7 @@ public class UserServiceImplTest {
 
         List<CarWash> likedCarWashes = new ArrayList<>();
 
-        User user = (User) new User()
+        Customer customer = (Customer) new Customer()
                 .setId(1L)
                 .setFirst_name(first_name)
                 .setLast_name(last_name)
@@ -385,8 +380,8 @@ public class UserServiceImplTest {
                 .setPhone_number(phone_number)
                 .setGender(gender);
 
-        user.setPassword(password);
-        user.setLikedCarwashes(likedCarWashes);
+        customer.setPassword(password);
+        customer.setLikedCarwashes(likedCarWashes);
 
         //Location attributes Car Wash
         Long location_id2 = 2L;
@@ -412,12 +407,12 @@ public class UserServiceImplTest {
         when(carWashRepository.findById(1L))
                 .thenReturn(Optional.ofNullable(carWash));
 
-        when(userRepository.findById(2L))
+        when(customerRepository.findById(2L))
                 .thenReturn(Optional.empty());
 
         // Act
         Throwable exception = catchThrowable(() -> {
-            User foundUser = userService.deleteUserCarWash(2L, 1L);
+            Customer foundCustomer = customerService.deleteCustomerCarWash(2L, 1L);
         });
 
         // Assert
@@ -455,7 +450,7 @@ public class UserServiceImplTest {
 
         // Act
         Throwable exception = catchThrowable(() -> {
-            User foundUser = userService.deleteUserCarWash(1L, 2L);
+            Customer foundCustomer = customerService.deleteCustomerCarWash(1L, 2L);
         });
 
         // Assert
@@ -484,7 +479,7 @@ public class UserServiceImplTest {
 
         List<CarWash> likedCarWashes = new ArrayList<>();
 
-        User user = (User) new User()
+        Customer customer = (Customer) new Customer()
                 .setId(1L)
                 .setFirst_name(first_name)
                 .setLast_name(last_name)
@@ -492,8 +487,8 @@ public class UserServiceImplTest {
                 .setPhone_number(phone_number)
                 .setGender(gender);
 
-        user.setPassword(password);
-        user.setLikedCarwashes(likedCarWashes);
+        customer.setPassword(password);
+        customer.setLikedCarwashes(likedCarWashes);
 
         //Location attributes Car Wash
         Long location_id2 = 2L;
@@ -519,12 +514,12 @@ public class UserServiceImplTest {
         when(carWashRepository.findById(1L))
                 .thenReturn(Optional.ofNullable(carWash));
 
-        when(userRepository.findById(2L))
+        when(customerRepository.findById(2L))
                 .thenReturn(Optional.empty());
 
         // Act
         Throwable exception = catchThrowable(() -> {
-            User foundedUser = userService.addUserCarwash(2L, 1L);
+            Customer foundedCustomer = customerService.addCustomerCarwash(2L, 1L);
         });
 
         // Assert
@@ -559,7 +554,7 @@ public class UserServiceImplTest {
         List<CarWash> likedCarWashes = new ArrayList<>();
         likedCarWashes.add(carWash);
 
-        User user = (User) new User()
+        Customer customer = (Customer) new Customer()
                 .setId(1L)
                 .setFirst_name(first_name)
                 .setLast_name(last_name)
@@ -567,8 +562,8 @@ public class UserServiceImplTest {
                 .setPhone_number(phone_number)
                 .setGender(gender);
 
-        user.setPassword(password);
-        user.setLikedCarwashes(likedCarWashes);
+        customer.setPassword(password);
+        customer.setLikedCarwashes(likedCarWashes);
 
         Pageable pageable = new Pageable() {
             @Override
@@ -612,11 +607,11 @@ public class UserServiceImplTest {
             }
         };
 
-        when(userRepository.findById(1L))
-                .thenReturn(Optional.of(user));
+        when(customerRepository.findById(1L))
+                .thenReturn(Optional.of(customer));
 
         // Act
-        Page<CarWash> carWashPage = userService.getLikedList(1L, pageable);
+        Page<CarWash> carWashPage = customerService.getLikedList(1L, pageable);
 
         // Assert
         assertThat(carWashPage.getTotalElements())
@@ -678,7 +673,7 @@ public class UserServiceImplTest {
 
         // Act
         Throwable exception = catchThrowable(() -> {
-            Page<CarWash> carWashPage = userService.getLikedList(userId, pageable);
+            Page<CarWash> carWashPage = customerService.getLikedList(userId, pageable);
         });
 
         // Assert
@@ -733,7 +728,7 @@ public class UserServiceImplTest {
 
         List<CarWash> likedCarWashes = new ArrayList<>();
 
-        User user = (User) new User()
+        Customer customer = (Customer) new Customer()
                 .setId(1L)
                 .setFirst_name(first_name)
                 .setLast_name(last_name)
@@ -741,8 +736,8 @@ public class UserServiceImplTest {
                 .setPhone_number(phone_number)
                 .setGender(gender);
 
-        user.setPassword(password);
-        user.setLikedCarwashes(likedCarWashes);
+        customer.setPassword(password);
+        customer.setLikedCarwashes(likedCarWashes);
      
         CarWash carWash = new CarWash()
                 .setId(1L)
@@ -753,19 +748,19 @@ public class UserServiceImplTest {
         when(carWashRepository.findById(1L))
                 .thenReturn(java.util.Optional.ofNullable(carWash));
 
-        when(userRepository.findById(1L))
-                .thenReturn(Optional.ofNullable(user));
+        when(customerRepository.findById(1L))
+                .thenReturn(Optional.ofNullable(customer));
 
-        when(userRepository.save(user))
-                .thenReturn(user);
+        when(customerRepository.save(customer))
+                .thenReturn(customer);
 
-        User foundUser = userService.addUserCarwash(1L, 1L);
+        Customer foundCustomer = customerService.addCustomerCarwash(1L, 1L);
 
         // Act
-        userService.deleteUserCarWash(1L,1L);
+        customerService.deleteCustomerCarWash(1L,1L);
 
         // Assert
-        assertThat(foundUser.getLikedCarwashes().contains(carWash))
+        assertThat(foundCustomer.getLikedCarwashes().contains(carWash))
                 .isEqualTo(false);
 
     }
@@ -837,7 +832,7 @@ public class UserServiceImplTest {
 
         // Act
         Throwable exception = catchThrowable(() -> {
-            Page<Contract> contractPage = userService.getContractList(userId,pageable);
+            Page<Contract> contractPage = customerService.getContractList(userId,pageable);
         });
 
         // Assert
@@ -872,14 +867,14 @@ public class UserServiceImplTest {
         String gender = "M";
         String password = "$3fsdg";
 
-        User user = (User) new User()
+        Customer customer = (Customer) new Customer()
                 .setId(1L)
                 .setFirst_name(first_name)
                 .setLast_name(last_name)
                 .setEmail(email)
                 .setPhone_number(phone_number)
                 .setGender(gender);
-        user.setPassword(password);
+        customer.setPassword(password);
 
         //ContractData
         String state="terminado";
@@ -889,7 +884,7 @@ public class UserServiceImplTest {
         Contract contract=new Contract()
                 .setDate(date)
                 .setService(service)
-                .setUser(user)
+                .setUser(customer)
                 .setReport(report)
                 .setId(1L)
                 .setStaff(staff)
@@ -939,13 +934,13 @@ public class UserServiceImplTest {
         };
 
         contractList.add(contract);
-        user.setContractList(contractList);
+        customer.setContractList(contractList);
 
-        when(userRepository.findById(1L))
-                .thenReturn(Optional.of(user));
+        when(customerRepository.findById(1L))
+                .thenReturn(Optional.of(customer));
 
         // Act
-        Page<Contract> contractPage = userService.getContractList(1L, pageable);
+        Page<Contract> contractPage = customerService.getContractList(1L, pageable);
 
         // Assert
         assertThat(contractPage.getTotalElements())
@@ -975,14 +970,14 @@ public class UserServiceImplTest {
                 .setName(name)
                 .setName_owner(name_owner);
         carWash.setQualification(5);
-        User user = (User) new User()
+        Customer customer = (Customer) new Customer()
                 .setId(1L)
                 .setFirst_name(first_name)
                 .setLast_name(last_name)
                 .setEmail(email)
                 .setPhone_number(phone_number)
                 .setGender(gender);
-        user.setPassword(password);
+        customer.setPassword(password);
         //CommentData
         String commentDescription="El peor CarWash de la historia";
         Integer qualification=1;
@@ -994,8 +989,8 @@ public class UserServiceImplTest {
         commentList.add(comment);
         carWash.setCommentList(commentList);
 
-        when(userRepository.findById(1L))
-                .thenReturn(Optional.ofNullable(user));
+        when(customerRepository.findById(1L))
+                .thenReturn(Optional.ofNullable(customer));
         when(carWashRepository.findById(1L))
                 .thenReturn(Optional.ofNullable(carWash));
         Pageable pageable = new Pageable() {

@@ -2,7 +2,7 @@ package com.ezwash.backend.resource.accounts;
 
 import com.ezwash.backend.domain.model.geographic.Location;
 
-public class UserResource extends ProfileResource {
+public class CustomerResource extends ProfileResource {
     private String password;
     private Location location;
 
@@ -10,7 +10,7 @@ public class UserResource extends ProfileResource {
         return location;
     }
 
-    public UserResource setLocation(Location location) {
+    public CustomerResource setLocation(Location location) {
         this.location = location;
         return this;
     }
@@ -19,7 +19,7 @@ public class UserResource extends ProfileResource {
         return password;
     }
 
-    public UserResource setPassword(String password) {
+    public CustomerResource setPassword(String password) {
         this.password = password;
         return this;
     }

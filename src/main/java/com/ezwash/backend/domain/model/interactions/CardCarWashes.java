@@ -1,7 +1,6 @@
 package com.ezwash.backend.domain.model.interactions;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
-import com.ezwash.backend.domain.model.accounts.User;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;

@@ -1,26 +1,20 @@
 package com.ezwash.backend.service.interactions;
 
-import com.ezwash.backend.domain.model.accounts.CarWash;
-import com.ezwash.backend.domain.model.accounts.User;
 import com.ezwash.backend.domain.model.interactions.Vehicle;
-import com.ezwash.backend.domain.repository.accounts.UserRepository;
+import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
 import com.ezwash.backend.domain.repository.geographic.LocationRepository;
 import com.ezwash.backend.domain.repository.interactions.VehicleRepository;
-import com.ezwash.backend.domain.service.accounts.UserService;
 import com.ezwash.backend.domain.service.interactions.VehicleService;
-import com.ezwash.backend.service.accounts.UserServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -29,7 +23,7 @@ class VehicleServiceImplTest {
     private VehicleRepository vehicleRepository;
 
     @MockBean
-    private UserRepository userRepository;
+    private CustomerRepository customerRepository;
 
     @MockBean
     private LocationRepository locationRepository;
