@@ -100,8 +100,7 @@ class VehicleServiceImplTest {
             ResponseEntity<?> response= vehicleService.deleteCarById(1L);
         });
         //Assert
-        Assertions.assertThat(exception)
-                .isInstanceOf(ResourceNotFoundException.class)
+        Assertions.assertThat(exception).isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage(expectedMessage);
     }
 }
