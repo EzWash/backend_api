@@ -6,6 +6,7 @@ import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.accounts.UserRepository;
+import com.ezwash.backend.domain.repository.business.ServiceRepository;
 import com.ezwash.backend.domain.repository.geographic.LocationRepository;
 import com.ezwash.backend.domain.service.accounts.UserService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
@@ -28,6 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private CarWashRepository carWashRepository;
+
+    @Autowired
+    private ServiceRepository serviceRepository;
 
     @Override
     public User createUser(User user, Location location) {
@@ -83,6 +87,5 @@ public class UserServiceImpl implements UserService {
         List<Contract>contracts=findUserById(userId).getContractList();
         return new PageImpl<>(contracts,pageable,contracts.size());
     }
-
 
 }

@@ -36,14 +36,6 @@ public class BackendApplication {
     @Value("${spring.datasource.url}")
     private String dbUrl;
 
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("postgres://dxwwkedunljski:4f7cb4c76d0b0fefa1178212c152ae440ddd2d26959ac45746a2428b0eb8f6eb@ec2-34-193-113-223.compute-1.amazonaws.com:5432/db0ao2sva7m71v");
-        dataSource.setUsername("dxwwkedunljski");
-        dataSource.setPassword("4f7cb4c76d0b0fefa1178212c152ae440ddd2d26959ac45746a2428b0eb8f6eb");
-        return dataSource;
-    }
+
 
 }
