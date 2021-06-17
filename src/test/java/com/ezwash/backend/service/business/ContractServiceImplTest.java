@@ -7,6 +7,7 @@ import com.ezwash.backend.domain.repository.business.ContractRepository;
 import com.ezwash.backend.domain.service.business.ContractService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
 import net.bytebuddy.TypeCache;
+import org.apache.tomcat.util.http.parser.ContentRange;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.error.ShouldBeAfterOrEqualTo;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
-
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -220,8 +221,8 @@ public class ContractServiceImplTest {
     }
 
     @Test
-    @DisplayName("When getContractsByState With Valid State And There Are No Contracts With That State Then Returns Contracts")
-    public void whenGetContractsByStateWithValidStateAndThereAreNoContractsWithThatStateThenReturnsContracts(){
+    @DisplayName("When getContractsByState With Valid State And There Are No Contracts With That State Then Returns ResourceNotFoundException")
+    public void whenGetContractsByStateWithValidStateAndThereAreNoContractsWithThatStateThenReturnsResourceFoundException(){
         String state = "pending";
         String template = "Resource %s not found for %s with value %s";
         String expectedMessage = String.format(template, "Contracts", "Found", 0);
@@ -292,8 +293,8 @@ public class ContractServiceImplTest {
     }
 
     @Test
-    @DisplayName("When getContractsByState With Invalid State Then Returns Contracts")
-    public void whenGetContractsByStateWithInvalidStateThenReturnsContracts(){
+    @DisplayName("When getContractsByState With Invalid State Then Returns ResourceNotFoundException")
+    public void whenGetContractsByStateWithInvalidStateThenReturnsResourceNotFoundException(){
         String state = "nose";
         String template = "Resource %s not found for %s with value %s";
         String expectedMessage = String.format(template, "State", "Invalid", state);
@@ -342,6 +343,93 @@ public class ContractServiceImplTest {
 
         Throwable exception = Assertions.catchThrowable(() -> {
             Page<Contract> contractPage = contractService.getContractsByState(state, pageable);
+        });
+
+        //Assert
+        Assertions.assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+    }
+
+    @Test
+    @DisplayName("When updateContractState With Valid Arguments Then Returns Contract")
+    public void whenUpdateContractStateWithValidArgumentsThenReturnsContract(){
+       String state = "pending";
+       String new_state = "active";
+       Long contractId = 1L;
+
+       Contract contract = new Contract()
+               .setState(state)
+               .setId(contractId);
+
+       Contract newContract = new Contract()
+               .setState(new_state)
+               .setId(contractId);
+
+       when(contractRepository.findById(contractId)).thenReturn(Optional.ofNullable(contract));
+
+       when(contractRepository.save(contract)).thenReturn(newContract);
+
+       Contract contractUpdated = contractService.updateContractState(contractId,new_state);
+
+       assertThat(contractUpdated.getState()).isEqualTo(new_state);
+    }
+
+    @Test
+    @DisplayName("When updateContractState With Invalid State And Contract State Is Not Finished Then Returns ResourceNotFoundException")
+    public void whenUpdateContractStateWithInvalidStateAndContractStateIsNotFinishedThenReturnsResourceNotFoundException(){
+       String state = "estadobueno";
+       Long contractId = 1L;
+       String template = "Resource %s not found for %s with value %s";
+       String expectedMessage = String.format(template, "State", "Invalid", state);
+
+       Throwable exception = Assertions.catchThrowable(() -> {
+            Contract contractPage = contractService.updateContractState(contractId, state);
+        });
+
+        //Assert
+        Assertions.assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+    }
+
+    @Test
+    @DisplayName("When updateContractState With Invalid Contract Id Then Returns ResourceNotFoundException")
+    public void whenUpdateContractStateWithInvalidContractIdThenReturnsResourceNotFoundException(){
+       String state = "active";
+       Long contractId = 1L;
+       String template = "Resource %s not found for %s with value %s";
+       String expectedMessage = String.format(template, "Contract", "Id", contractId);
+
+       when(contractRepository.findById(contractId)).thenReturn(Optional.empty());
+
+       Throwable exception = Assertions.catchThrowable(() -> {
+            Contract contractPage = contractService.updateContractState(contractId, state);
+        });
+
+        //Assert
+        Assertions.assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+    }
+
+    @Test
+    @DisplayName("When updateContractState With Valid State And Contract State Is Finished Then Returns ResourceNotFoundException")
+    public void whenUpdateContractStateWithValidStateAndContractStateIsFinishedThenReturnsResourceNotFoundException(){
+       String state = "finished";
+       String new_state = "active";
+       Long contractId = 1L;
+       String template = "Resource %s not found for %s with value %s";
+       String expectedMessage = String.format(template, "Contract", "State", state);
+
+       Contract contract = new Contract()
+               .setState(state)
+               .setId(contractId);
+
+       when(contractRepository.findById(contractId)).thenReturn(Optional.ofNullable(contract));
+
+       Throwable exception = Assertions.catchThrowable(() -> {
+            Contract contractPage = contractService.updateContractState(contractId, new_state);
         });
 
         //Assert
