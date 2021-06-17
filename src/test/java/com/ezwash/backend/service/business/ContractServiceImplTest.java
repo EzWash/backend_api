@@ -152,5 +152,201 @@ public class ContractServiceImplTest {
                 .hasMessage(expectedMessage);
     }
 
+    @Test
+    @DisplayName("When getContractsByState With Valid State And There Are Contracts With That State Then Returns Contracts")
+    public void whenGetContractsByStateWithValidStateAndThereAreContractsWithThatStateThenReturnsContracts(){
+        String state = "pending";
 
+        Contract contract = new Contract()
+                .setState(state);
+
+        String state2 = "active";
+
+        Contract contract2 = new Contract()
+                .setState(state2);
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+        List<Contract> contractList = new ArrayList<>();
+        contractList.add(contract);
+
+
+        when(contractRepository.findContractByStateEquals("pending"))
+                .thenReturn(contractList);
+
+
+        Page<Contract> contractPage = contractService.getContractsByState("pending", pageable);
+
+        assertThat(contractPage.getTotalElements()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("When getContractsByState With Valid State And There Are No Contracts With That State Then Returns Contracts")
+    public void whenGetContractsByStateWithValidStateAndThereAreNoContractsWithThatStateThenReturnsContracts(){
+        String state = "pending";
+        String template = "Resource %s not found for %s with value %s";
+        String expectedMessage = String.format(template, "Contracts", "Found", 0);
+
+        Contract contract = new Contract()
+                .setState(state);
+
+        Contract contract2 = new Contract()
+                .setState(state);
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+        List<Contract> contractList = new ArrayList<>();
+
+
+        when(contractRepository.findContractByStateEquals("pending"))
+                .thenReturn(contractList);
+
+
+        Throwable exception = Assertions.catchThrowable(() -> {
+            Page<Contract> contractPage = contractService.getContractsByState(state, pageable);
+        });
+
+        //Assert
+
+        Assertions.assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+    }
+
+    @Test
+    @DisplayName("When getContractsByState With Invalid State Then Returns Contracts")
+    public void whenGetContractsByStateWithInvalidStateThenReturnsContracts(){
+        String state = "nose";
+        String template = "Resource %s not found for %s with value %s";
+        String expectedMessage = String.format(template, "State", "Invalid", state);
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+
+        Throwable exception = Assertions.catchThrowable(() -> {
+            Page<Contract> contractPage = contractService.getContractsByState(state, pageable);
+        });
+
+        //Assert
+        Assertions.assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+    }
 }

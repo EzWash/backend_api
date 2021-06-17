@@ -51,8 +51,10 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public Page<Contract> getContractsByState(String state, Pageable pageable){
        List<Contract>  contractList = contractRepository.findContractByStateEquals(state);
+       if (!(state.equals("pending")) && !(state.equals("active")) && !(state.equals("washing")) && !(state.equals("readytogo")) && !(state.equals("finished")) )
+           throw new ResourceNotFoundException("State", "Invalid", state);
        if (contractList.size() == 0){
-           throw new ResourceNotFoundException("Contract", "State", state);
+           throw new ResourceNotFoundException("Contracts", "Found", 0);
        } else{
            return new PageImpl<>(contractList, pageable,  contractList.size());
        }
