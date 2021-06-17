@@ -1,6 +1,7 @@
 package com.ezwash.backend.service.business;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
+import com.ezwash.backend.domain.model.accounts.Staff;
 import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.business.ServiceRepository;
@@ -17,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.ArrayList;
 import java.util.List;
@@ -354,4 +358,135 @@ public class ServiceServiceImplTest {
                 .hasMessage(expectedMessage);
     }
 
+    @Test
+    @DisplayName ("When getServiceByCarWashId With Valid CarWashId Then Returns Service's List")
+    public void whenGetServiceByCarWashIdWithValidCarWashIdThenReturnsService(){
+        //Arrange
+        //Creating CarWash
+        CarWash carWash = new CarWash().setId(1L);
+
+        //Creating Staff
+        Service service= (Service) new Service().setId(1L);
+
+        List<Service> service_carwash = new ArrayList<>();
+        service_carwash.add(service);
+
+        carWash.setServiceList(service_carwash);
+
+
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+
+        when(carWashRepository.findById(1L))
+                .thenReturn(Optional.of(carWash));
+
+        // Act
+        Page<Service> servicePage = serviceService.getServiceByCarWashId(1L, pageable);
+
+        // Assert
+        Assertions.assertThat(servicePage.getTotalElements())
+                .isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("When getServiceByCarWashId With Invalid CarWash Id Then Returns ResourceNotFoundException")
+    public void whenGetServiceByCarWashIdWithInvalidCarWashIdThenReturnsResourceNotFoundException(){
+        // Arrange
+        Long carWashId = 1L;
+        String template = "Resource %s not found for %s with value %s";
+        String expectedMessage = String.format(template, "Car Wash", "Id", carWashId);
+
+        Pageable pageable = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return 0;
+            }
+
+            @Override
+            public int getPageSize() {
+                return 5;
+            }
+
+            @Override
+            public long getOffset() {
+                return 0;
+            }
+
+            @Override
+            public Sort getSort() {
+                return null;
+            }
+
+            @Override
+            public Pageable next() {
+                return null;
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return null;
+            }
+
+            @Override
+            public Pageable first() {
+                return null;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return false;
+            }
+        };
+
+        // Act
+        Throwable exception = Assertions.catchThrowable(() -> {
+            Page<Service> servicePage =  serviceService.getServiceByCarWashId(carWashId, pageable);
+        });
+
+        // Assert
+        Assertions.assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+
+    }
 }

@@ -5,8 +5,9 @@ import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
+
+
 import com.ezwash.backend.domain.repository.business.ServiceRepository;
-import com.ezwash.backend.domain.repository.geographic.LocationRepository;
 import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
 import com.ezwash.backend.domain.service.accounts.CustomerService;
 import com.ezwash.backend.exception.ResourceNotFoundException;

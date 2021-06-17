@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 
@@ -40,6 +41,17 @@ public class VehiclesController {
                 .setCustomer_Id(resource.getUser());
         return vehicleResource;
     }
+
+    @Operation(summary = "Delete Vehicle", description = "Delete Vehicle's User", tags = {"Users"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Vehicle's user deleted successfully", content = @Content(mediaType = "application/json"))
+    })
+
+    @DeleteMapping("/vehicles/{idCar}/customer")
+    public ResponseEntity<?> deleteCarById (@PathVariable Long idCar){
+        return vehicleService.deleteCarById(idCar);
+    }
+
 
     private Vehicle convertToEntity(SaveVehicleResource resource){
         return mapper.map(resource,Vehicle.class);
