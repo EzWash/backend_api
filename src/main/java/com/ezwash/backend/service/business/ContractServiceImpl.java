@@ -68,7 +68,7 @@ public class ContractServiceImpl implements ContractService {
                .orElseThrow(() -> new ResourceNotFoundException("Contract", "Id", contractId));
 
        if (contract.getState().equals("finished"))
-           throw new ResourceNotFoundException("Contract", "State", state);
+           throw new ResourceNotFoundException("Contract", "State", contract.getState());
 
        contract.setState(state);
 
