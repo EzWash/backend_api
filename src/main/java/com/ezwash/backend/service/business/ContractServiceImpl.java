@@ -14,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @org.springframework.stereotype.Service
 public class ContractServiceImpl implements ContractService {
-    @Autowired
-    private CustomerRepository customerRepository;
+
 
     @Autowired
     private StaffRepository staffRepository;
@@ -23,8 +22,7 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     private ContractRepository contractRepository;
 
-    @Autowired
-    private ServiceRepository serviceRepository;
+
 
     public Contract findContractById(Long id) {
         return contractRepository.findById(id)
@@ -40,7 +38,7 @@ public class ContractServiceImpl implements ContractService {
                 .orElseThrow(() -> new ResourceNotFoundException("Contract", "Id", contractId));
 
         contract.setStaff(staff);
-
+        staff.getContractList().add(contract);
         return contractRepository.save(contract);
 
     }
