@@ -220,8 +220,8 @@ public class ContractServiceImplTest {
     }
 
     @Test
-    @DisplayName("When getContractsByState With Valid State And There Are No Contracts With That State Then Returns Contracts")
-    public void whenGetContractsByStateWithValidStateAndThereAreNoContractsWithThatStateThenReturnsContracts(){
+    @DisplayName("When getContractsByState With Valid State And There Are No Contracts With That State Then Returns ResourceNotFoundException")
+    public void whenGetContractsByStateWithValidStateAndThereAreNoContractsWithThatStateThenReturnsResourceFoundException(){
         String state = "pending";
         String template = "Resource %s not found for %s with value %s";
         String expectedMessage = String.format(template, "Contracts", "Found", 0);
@@ -292,8 +292,8 @@ public class ContractServiceImplTest {
     }
 
     @Test
-    @DisplayName("When getContractsByState With Invalid State Then Returns Contracts")
-    public void whenGetContractsByStateWithInvalidStateThenReturnsContracts(){
+    @DisplayName("When getContractsByState With Invalid State Then Returns ResourceNotFoundException")
+    public void whenGetContractsByStateWithInvalidStateThenReturnsResourceNotFoundException(){
         String state = "nose";
         String template = "Resource %s not found for %s with value %s";
         String expectedMessage = String.format(template, "State", "Invalid", state);

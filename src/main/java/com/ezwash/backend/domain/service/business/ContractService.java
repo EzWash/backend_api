@@ -11,4 +11,5 @@ public interface ContractService {
     Contract findContractById(Long id);
     Contract designateStaffToContract(Long contractId, Long staffId);
     Page<Contract> getContractsByState(String state, Pageable pageable);
+    Contract updateContractState(Long contractId, String state);
 }

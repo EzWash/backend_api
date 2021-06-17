@@ -31,7 +31,7 @@ public class ContractsController {
     private ModelMapper mapper;
 
 
-    @Operation(summary = "Update a Contract's Staff", description = "Update Contract's Staff given Staff Id and Contract Id", tags = {"Contracts"})
+    @Operation(summary = "Update a Contract Staff", description = "Update Contract Staff given Staff Id and Contract Id", tags = {"Contracts"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Contract updated successfully", content = @Content(mediaType = "application/json"))
     })
@@ -54,6 +54,14 @@ public class ContractsController {
         return new PageImpl<>(contractResourceList,pageable,contractResourceList.size());
     }
 
+    @Operation(summary = "Update a Contract State", description = "Update Contract State given Contract Id and State", tags = {"Contracts"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Contract updated successfully", content = @Content(mediaType = "application/json"))
+    })
+    @PutMapping("/contracts/{contractId}/states/{state}")
+    public ContractResource updateContractState(@PathVariable Long contractId, @PathVariable String state){
+       return convertToResource(contractService.updateContractState(contractId, state));
+    }
 
     private Contract convertToEntity(SaveContractResource resource){
         return mapper.map(resource, Contract.class);
