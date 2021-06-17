@@ -1,11 +1,11 @@
 package com.ezwash.backend.domain.model.business;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -43,9 +43,15 @@ public class Service {
     private CarWash carWash;
 
     //OneToMany contracts
-    @OneToMany(mappedBy = "service")
-    @JsonIgnore
-    private List<Contract> contractList;
+    @ManyToMany(cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE
+    })
+    @JoinTable(name = "contracts_services",
+        joinColumns = @JoinColumn(name = "service_id"),
+        inverseJoinColumns = @JoinColumn(name = "contract_id")
+    )
+    private List<Contract> contracts = new ArrayList<>();
 
 
     public Long getId() {
@@ -102,12 +108,12 @@ public class Service {
         return this;
     }
 
-    public List<Contract> getContractList() {
-        return contractList;
+    public List<Contract> getContracts() {
+        return contracts;
     }
 
-    public Service setContractList(List<Contract> contractList) {
-        this.contractList = contractList;
+    public Service setContracts(List<Contract> contractList) {
+        this.contracts = contractList;
         return this;
     }
 

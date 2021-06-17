@@ -6,7 +6,9 @@ import com.ezwash.backend.domain.model.accounts.Staff;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="contracts")
@@ -15,19 +17,14 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //ManyToOne services
-    @ManyToOne
-    @JoinColumn(name = "service_id", nullable = false)
-    private Service service;
 
-    //ManyToOne users
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private Customer customer;
 
     @NotNull
     @NotBlank
-    @Column(columnDefinition = "Varchar(50) default 'recojo'")
+    @Column(columnDefinition = "Varchar(50) default 'pending'")
     private String state;
 
     @NotNull
@@ -43,6 +40,18 @@ public class Contract {
     @OneToOne(mappedBy = "contract")
     private Report report;
 
+    @ElementCollection
+    private List<Long> servicesIds;
+
+
+    @ManyToMany(mappedBy = "contracts")
+    private List<Service> services = new ArrayList<>();
+
+
+    public Contract setServicesIds(List<Long> servicesIds) {
+        this.servicesIds = servicesIds;
+        return this;
+    }
     public Long getId() {
         return id;
     }
@@ -52,12 +61,21 @@ public class Contract {
         return this;
     }
 
-    public Service getService() {
-        return service;
+    public List<Service> getServices() {
+        return services;
     }
 
-    public Contract setService(Service service) {
-        this.service = service;
+    public Contract setServices(List<Service> serviceList) {
+        this.services = serviceList;
+        return this;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public Contract setCustomer(Customer customer) {
+        this.customer = customer;
         return this;
     }
 

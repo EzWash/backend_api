@@ -883,7 +883,6 @@ public class CustomerServiceImplTest {
         Staff staff=new Staff();
         Contract contract=new Contract()
                 .setDate(date)
-                .setService(service)
                 .setUser(customer)
                 .setReport(report)
                 .setId(1L)

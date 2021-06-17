@@ -3,6 +3,7 @@ package com.ezwash.backend.resource.business;
 import com.ezwash.backend.domain.model.business.Report;
 
 import java.util.Date;
+import java.util.List;
 
 public class ContractResource {
 
@@ -11,7 +12,6 @@ public class ContractResource {
     private Date date;
     private Long staff_id;
     private Report report;
-
 
     public Long getService_id() {
         return service_id;

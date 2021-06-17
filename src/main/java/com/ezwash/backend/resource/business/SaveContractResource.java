@@ -4,6 +4,7 @@ import com.ezwash.backend.domain.model.business.Report;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 public class SaveContractResource {
     @NotNull
