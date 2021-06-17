@@ -9,7 +9,6 @@ public class SaveCommentResource {
     private String description;
 
     @NotNull
-    @NotBlank
     private Integer qualification;
 
     public String getDescription() {
