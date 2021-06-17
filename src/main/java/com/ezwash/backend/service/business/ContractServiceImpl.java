@@ -11,6 +11,11 @@ import com.ezwash.backend.domain.repository.business.ServiceRepository;
 import com.ezwash.backend.domain.service.business.ContractService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 @org.springframework.stereotype.Service
 public class ContractServiceImpl implements ContractService {
@@ -41,6 +46,16 @@ public class ContractServiceImpl implements ContractService {
         staff.getContractList().add(contract);
         return contractRepository.save(contract);
 
+    }
+
+    @Override
+    public Page<Contract> getContractsByState(String state, Pageable pageable){
+       List<Contract>  contractList = contractRepository.findContractByStateEquals(state);
+       if (contractList.size() == 0){
+           throw new ResourceNotFoundException("Contract", "State", state);
+       } else{
+           return new PageImpl<>(contractList, pageable,  contractList.size());
+       }
     }
 
 }

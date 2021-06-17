@@ -2,6 +2,7 @@ package com.ezwash.backend.resource.business;
 
 import com.ezwash.backend.domain.model.business.Report;
 
+import javax.swing.plaf.nimbus.State;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,16 @@ public class ContractResource {
     private Date date;
     private Long staff_id;
     private Report report;
+    private String state;
+
+    public String getState() {
+        return state;
+    }
+
+    public ContractResource setState(String state) {
+        this.state = state;
+        return this;
+    }
 
     public Long getService_id() {
         return service_id;

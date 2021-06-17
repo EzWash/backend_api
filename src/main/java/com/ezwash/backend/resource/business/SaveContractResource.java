@@ -2,6 +2,7 @@ package com.ezwash.backend.resource.business;
 
 import com.ezwash.backend.domain.model.business.Report;
 
+import javax.swing.plaf.nimbus.State;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,16 @@ public class SaveContractResource {
     private Long staff_id;
     @NotNull
     private Report report;
+    private String state;
+
+    public String getState() {
+        return state;
+    }
+
+    public SaveContractResource setState(String state) {
+        this.state = state;
+        return this;
+    }
 
     public Long getService_id() {
         return service_id;
