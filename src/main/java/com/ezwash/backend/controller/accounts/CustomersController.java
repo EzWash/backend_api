@@ -30,25 +30,25 @@ public class CustomersController {
     @Autowired
     private ModelMapper mapper;
 
-    @Operation(summary = "Create Customers", description = "Create users", tags = {"Users"})
+    @Operation(summary = "Create Customers", description = "Create users", tags = {"Customers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User created successfully", content = @Content(mediaType = "application/json"))
     })
-    @PostMapping ("/users")
+    @PostMapping ("/customers")
     public CustomerResource createUser(@Valid @RequestBody SaveCustomerResource resource){
         Location location= locationService.getLocationById(resource.getLocation());
         Customer customer = convertToEntity(resource);
         return convertToResource(customerService.createCustomer(customer, location));
     }
 
-    @Operation(summary = "Update User", description = "Update User's information", tags = {"Users"})
+    @Operation(summary = "Update User", description = "Update User's information", tags = {"Customers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User's info updated successfully", content = @Content(mediaType = "application/json"))
     })
-    @PutMapping("/users/{userId}")
-    public CustomerResource updateUser(@PathVariable Long userId, @Valid @RequestBody SaveCustomerResource resource){
+    @PutMapping("/customers/{customerId}")
+    public CustomerResource updateUser(@PathVariable Long customerId, @Valid @RequestBody SaveCustomerResource resource){
         Customer customer =convertToEntity(resource);
-        return convertToResource(customerService.updateCustomer(userId, customer));
+        return convertToResource(customerService.updateCustomer(customerId, customer));
 
     }
     private Customer convertToEntity(SaveCustomerResource resource){

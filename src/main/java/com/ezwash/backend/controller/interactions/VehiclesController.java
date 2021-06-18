@@ -42,12 +42,12 @@ public class VehiclesController {
         return vehicleResource;
     }
 
-    @Operation(summary = "Delete Vehicle", description = "Delete Vehicle's User", tags = {"Users"})
+    @Operation(summary = "Delete Vehicle", description = "Delete Vehicle's User", tags = {"Vehicles"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vehicle's user deleted successfully", content = @Content(mediaType = "application/json"))
     })
 
-    @DeleteMapping("/vehicles/{idCar}/customer")
+    @DeleteMapping("/vehicles/{idCar}/customers")
     public ResponseEntity<?> deleteCarById (@PathVariable Long idCar){
         return vehicleService.deleteCarById(idCar);
     }

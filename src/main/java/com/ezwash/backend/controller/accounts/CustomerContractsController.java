@@ -26,13 +26,13 @@ public class CustomerContractsController {
     @Autowired
     private CustomerService customerService;
 
-    @Operation(summary = "Get all Contracts from User Contract List",description = "Get all Services from User's Contract List through the User Id",tags = {"User Services"})
+    @Operation(summary = "Get all Contracts from User Contract List",description = "Get all Services from User's Contract List through the User Id",tags = {"Customers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Services added successfully",content = @Content(mediaType = "application/json"))
     })
-    @GetMapping("/users/{userId}/contracts")
-    public Page<ContractResource>getUserContract(@PathVariable Long userId, Pageable pageable){
-        Page<Contract>contractPage= customerService.getContractList(userId,pageable);
+    @GetMapping("/customers/{customerId}/contracts")
+    public Page<ContractResource>getUserContract(@PathVariable Long customerId, Pageable pageable){
+        Page<Contract>contractPage= customerService.getContractList(customerId,pageable);
         List<ContractResource>contractResources=contractPage.getContent()
                 .stream()
                 .map(this::convertToContractResource)

@@ -37,7 +37,7 @@ public class CarWashesController {
     @Autowired
     private ModelMapper mapper;
 
-    @Operation(summary = "Create CarWashes", description = "Create and return a Car Wash", tags = {"Car Washes"})
+    @Operation(summary = "Create CarWashes", description = "Create and return a Car Wash", tags = {"CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWash created successfully", content = @Content(mediaType = "application/json"))
     })
@@ -48,7 +48,7 @@ public class CarWashesController {
        return convertToResource(carWashService.createCarWash(carWash, location));
     }
 
-    @Operation(summary = "Get near Car Washes", description = "Get all Car Washes within a radius in kilometers", tags = {"Car Washes"})
+    @Operation(summary = "Get near Car Washes", description = "Get all Car Washes within a radius in kilometers", tags = {"CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWashes founded", content = @Content(mediaType = "application/json"))
     })
@@ -64,7 +64,7 @@ public class CarWashesController {
         return new PageImpl<>(resources, pageable, resources.size());
     }
 
-    @Operation(summary = "Edit Car Washes", description = "The Car Wash's owner can edit the Car Wash's data", tags = {"Car Washes"})
+    @Operation(summary = "Edit Car Washes", description = "The Car Wash's owner can edit the Car Wash's data", tags = {"CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWash updated", content = @Content(mediaType = "application/json"))
     })
@@ -86,7 +86,7 @@ public class CarWashesController {
         return convertToResource(carWashService.findCarWashById(carwashId));
     }
 
-    @Operation(summary = "Get CarWashes by Qualification", description = "Get a Car Wash by Qualification", tags = {"Car Washes"})
+    @Operation(summary = "Get CarWashes by Qualification", description = "Get a Car Wash by Qualification", tags = {"CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWashes By Qualification got successfully", content = @Content(mediaType = "application/json"))
     })
@@ -101,7 +101,7 @@ public class CarWashesController {
     }
 
 
-    @Operation(summary = "Get CarWashes by Range Qualification", description = "Get a Car Wash by Range Qualification", tags = {"Car Washes"})
+    @Operation(summary = "Get CarWashes by Range Qualification", description = "Get a Car Wash by Range Qualification", tags = {"CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWashes By Range of Qualification got successfully", content = @Content(mediaType = "application/json"))
     })
@@ -117,7 +117,7 @@ public class CarWashesController {
     }
 
 
-    @Operation(summary = "Get CarWashes by Name", description = "Get all Car Wash that their Names contains some word", tags = {"Car Washes"})
+    @Operation(summary = "Get CarWashes by Name", description = "Get all Car Wash that their Names contains some word", tags = {"CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWashes By Name got successfully", content = @Content(mediaType = "application/json"))
     })

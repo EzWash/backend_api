@@ -30,7 +30,7 @@ public class StaffController {
     @Autowired
     private ModelMapper mapper;
 
-    @Operation(summary = "Update a Car Wash's staff", description = "Update a staff person given the Car Wash ID and the Staff ID", tags = {"Staff"})
+    @Operation(summary = "Update a Car Wash's staff", description = "Update a staff person given the Car Wash ID and the Staff ID", tags = {"CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Staff updated successfully", content = @Content(mediaType = "application/json"))
     })
@@ -42,7 +42,7 @@ public class StaffController {
         return convertToResource(staffService.updateStaff(carwashId, staffId, convertToEntity(resource)));
     }
 
-    @Operation(summary = "Get a Car Wash's staff", description = "Get a staff person given the Car Wash ID", tags = {"Car Washes"})
+    @Operation(summary = "Get a Car Wash's staff", description = "Get a staff person given the Car Wash ID", tags = {"CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Staff obtained successfully", content = @Content(mediaType = "application/json"))
     })

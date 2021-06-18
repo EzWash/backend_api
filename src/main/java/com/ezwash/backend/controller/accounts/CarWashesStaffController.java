@@ -27,7 +27,7 @@ public class CarWashesStaffController {
     @Autowired
     private ModelMapper mapper;
 
-    @Operation(summary = "Create CarWashes", description = "Create a Car Wash", tags = {"CarWashes and Staff"})
+    @Operation(summary = "Create CarWashes", description = "Create a Car Wash", tags = {"CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWash returned", content = @Content(mediaType = "application/json"))
     })

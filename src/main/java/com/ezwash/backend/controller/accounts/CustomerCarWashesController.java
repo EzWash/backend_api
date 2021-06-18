@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Page;
@@ -35,46 +36,47 @@ public class CustomerCarWashesController {
 
     @Autowired
     private CustomerService customerService;
+
     @Autowired
     private CarWashService carWashService;
 
-    @Operation(summary = "Add Car Wash to User's Liked List", description = "Add Car Wash to User's Liked list through the User Id and Car Wash Id", tags = {"User CarWashes"})
+    @Operation(summary = "Add Car Wash to User's Liked List", description = "Add Car Wash to User's Liked list through the User Id and Car Wash Id", tags = {"Customers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Car Wash added successfully", content = @Content(mediaType = "application/json"))
     })
-    @PostMapping("/users/{userId}/carwashes/{carwashId}")
+    @PostMapping("/customers/{customerId}/carwashes/{carwashId}")
     public CustomerResource addUserCarWash(
-            @PathVariable Long userId,
+            @PathVariable Long customerId,
             @PathVariable Long carwashId){
-        return convertToUserResource(customerService.addCustomerCarwash(userId, carwashId));
+        return convertToUserResource(customerService.addCustomerCarwash(customerId, carwashId));
     }
 
-    @Operation(summary = "Get all Car Washes from User's liked list", description = "Get all Car Washes from the User's liked list through the User Id", tags = {"User CarWashes"})
+    @Operation(summary = "Get all Car Washes from User's liked list", description = "Get all Car Washes from the User's liked list through the User Id", tags = {"Customers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Car Wash added successfully", content = @Content(mediaType = "application/json"))
     })
-    @GetMapping("/users/{userId}/carwashes")
-    public Page<CarWashResource> getLikedList(@PathVariable Long userId, Pageable pageable){
-        Page<CarWash> carWashPage = customerService.getLikedList(userId, pageable);
+    @GetMapping("/customers/{customerId}/carwashes")
+    public Page<CarWashResource> getLikedList(@PathVariable Long customerId, Pageable pageable){
+        Page<CarWash> carWashPage = customerService.getLikedList(customerId, pageable);
         List<CarWashResource> carWashResources = carWashPage.getContent()
                 .stream()
                 .map(this::convertToCarWashResource)
                 .collect(Collectors.toList());
         return new PageImpl<>(carWashResources, pageable, carWashResources.size());
     }
-    @Operation(summary = "Get CarWash Qualification",description = "Get CarWash Qualification through CarWash Id",tags = {"User CarWashes"})
+    @Operation(summary = "Get CarWash Qualification",description = "Get CarWash Qualification through CarWash Id",tags = {"Customers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Car Wash Qualification added successfully",content = @Content(mediaType = "application/json"))
     })
-    @GetMapping("/users/carwashes/{carwashId}/qualification")
+    @GetMapping("/customers/carwashes/{carwashId}/qualification")
     public int getCarWashQualification(@PathVariable Long carwashId){
         return carWashService.getCarWashQualification(carwashId);
     }
-    @Operation(summary = "Get CarWash Comment List",description = "Get CarWash Comment List through CarWashId",tags = {"User CarWashes"})
+    @Operation(summary = "Get CarWash Comment List",description = "Get CarWash Comment List through CarWashId",tags = {"Customers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Car Wash CommentList added successfully",content = @Content(mediaType = "application/json"))
     })
-    @GetMapping("/users/carwashes/{carwashId}")
+    @GetMapping("/customers/carwashes/{carwashId}")
     public Page<CommentResource>getCarWashCommentList(@PathVariable Long carwashId,Pageable pageable){
         Page<Comment>commentPage=carWashService.getCarWashComments(carwashId,pageable);
         List<CommentResource>commentResources=commentPage.getContent()
@@ -84,15 +86,15 @@ public class CustomerCarWashesController {
         return new PageImpl<>(commentResources,pageable,commentResources.size());
 
     }
-    @Operation(summary = "Delete a Car Wash from User's liked list", description = "Delete a Car Wash from User's liked list through the User Id and Car Wash Id", tags = {"User CarWashes"})
+    @Operation(summary = "Delete a Car Wash from User's liked list", description = "Delete a Car Wash from User's liked list through the User Id and Car Wash Id", tags = {"Customers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Car Wash deleted successfully", content = @Content(mediaType = "application/json"))
     })
-    @DeleteMapping("/users/{userId}/carwashes/{carwashId}")
+    @DeleteMapping("/customers/{customerId}/carwashes/{carwashId}")
     public CustomerResource deleteUserCarWash(
-            @PathVariable Long userId,
+            @PathVariable Long customerId,
             @PathVariable Long carwashId){
-        return convertToUserResource(customerService.deleteCustomerCarWash(userId,carwashId));
+        return convertToUserResource(customerService.deleteCustomerCarWash(customerId,carwashId));
     }
 
     private Customer convertToUserEntity(SaveCustomerResource resource){

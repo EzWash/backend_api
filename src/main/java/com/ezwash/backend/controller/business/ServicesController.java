@@ -35,7 +35,7 @@ public class ServicesController {
     @Autowired
     private ModelMapper mapper;
 
-    @Operation(summary = "Create a Car Wash's service", description = "Create service given the Car Wash ID", tags = {"Services"})
+    @Operation(summary = "Create a Car Wash's service", description = "Create service given the Car Wash ID", tags = {"CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Services created successfully", content = @Content(mediaType = "application/json"))
     })
@@ -56,7 +56,7 @@ public class ServicesController {
         return convertToResource(serviceService.getServiceById(serviceId));
     }
 
-    @Operation(summary = "Update a Car Wash's service", description = "Update a service given the Car Wash ID and the Service ID", tags = {"Services"})
+    @Operation(summary = "Update a Car Wash's service", description = "Update a service given the Car Wash ID and the Service ID", tags = {"CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Service updated successfully", content = @Content(mediaType = "application/json"))
     })
@@ -68,7 +68,7 @@ public class ServicesController {
         return convertToResource(serviceService.updateService(carwashId,serviceId,convertToEntity(resource)));
     }
 
-    @Operation(summary = "Get a Car Wash's service", description = "Get a service given the Car Wash ID", tags = {"Car Washes"})
+    @Operation(summary = "Get a Car Wash's service", description = "Get a service given the Car Wash ID", tags = {"CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Service obtained successfully", content = @Content(mediaType = "application/json"))
     })
