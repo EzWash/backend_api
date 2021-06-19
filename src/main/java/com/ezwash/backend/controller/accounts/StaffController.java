@@ -42,16 +42,13 @@ public class StaffController {
         return convertToResource(staffService.updateStaff(carwashId, staffId, convertToEntity(resource)));
     }
 
-    @Operation(summary = "Get a Car Wash's staff", description = "Get a staff person given the Car Wash ID", tags = {"CarWashes"})
+    @Operation(summary = "Get a Car Wash's staff", description = "Get a staff person given the Car Wash D", tags = {"CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Staff obtained successfully", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/carwashes/{carWashId}/staff")
-    public Page<StaffResource> getStaffByCarWashId(@PathVariable Long carWashId,Pageable pageable){
-        Page<Staff> staffPage = staffService.getStaffByCarWashId(carWashId, pageable);
-        List<StaffResource> resources = staffPage.getContent().stream()
-                .map(this::convertToResource).collect(Collectors.toList());
-        return new PageImpl<>(resources, pageable, resources.size());
+    public List<Staff> getStaffByCarWashId(@PathVariable(value = "carWashId") Long Id){
+        return staffService.getStaffByCarWashId(Id);
     }
 
     private Staff convertToEntity(SaveStaffResource resource){return mapper.map(resource,Staff.class);}

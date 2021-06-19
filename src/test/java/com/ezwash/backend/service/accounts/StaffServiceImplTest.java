@@ -297,7 +297,7 @@ public class StaffServiceImplTest {
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage(expectedMessage);
     }
-
+/*
     @Test
     @DisplayName ("When getStaffById With Valid CarWashId Then Returns Staff's List")
     public void whenGetStaffByIdWithValidCarWashIdThenReturnsStaff(){
@@ -429,5 +429,5 @@ public class StaffServiceImplTest {
                 .hasMessage(expectedMessage);
 
     }
-    
+    */
 }
