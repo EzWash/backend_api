@@ -44,12 +44,8 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Page<Staff> getStaffByCarWashId(Long carWashId, Pageable pageable){
-        return carWashRepository.findById(carWashId).map(carWash ->{
-            List<Staff> staff=carWash.getStaffList();
-            int staffCount=staff.size();
-            return new PageImpl<>(staff,pageable,staffCount);
-        }).orElseThrow(() -> new ResourceNotFoundException("Car Wash","Id",carWashId));
+    public List<Staff> getStaffByCarWashId(Long carWashId){
+        return staffRepository.listStaffByCarWashId(carWashId);
     }
 
 }
