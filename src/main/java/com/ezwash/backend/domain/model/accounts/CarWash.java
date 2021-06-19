@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.User;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,9 +21,18 @@ public class CarWash extends AuditModel {
     private Long id;
 
     @NotNull
+    private String email;
+
+    @NotNull
+    private String password;
+
+    @NotNull
     @NotBlank
     @Lob
     private String description;
+
+    @NotNull
+    private Date birth_date;
 
     @NotNull
     @NotBlank
@@ -32,6 +42,14 @@ public class CarWash extends AuditModel {
     @NotNull
     @NotBlank
     private String name_owner;
+
+    @NotNull
+    @Column(length = 9)
+    private String phone_number;
+
+    @NotNull
+    @Column(length = 11)
+    private String ruc;
 
     @Column(columnDefinition = "integer default 0")
     private Integer qualification;
@@ -158,6 +176,61 @@ public class CarWash extends AuditModel {
 
     public CarWash setLikes(List<Customer> likes) {
         this.likes = likes;
+        return this;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public CarWash setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public CarWash setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public CarWash setQualification(Integer qualification) {
+        this.qualification = qualification;
+        return this;
+    }
+
+    public CarWash setAvailable(Integer available) {
+        this.available = available;
+        return this;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public CarWash setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+        return this;
+    }
+
+    public String getRuc() {
+        return ruc;
+    }
+
+    public CarWash setRuc(String ruc) {
+        this.ruc = ruc;
+        return this;
+    }
+
+    public Date getBirth_date() {
+        return birth_date;
+    }
+
+    public CarWash setBirth_date(Date birth_date) {
+        this.birth_date = birth_date;
         return this;
     }
 }
