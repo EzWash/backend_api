@@ -297,7 +297,7 @@ public class StaffServiceImplTest {
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage(expectedMessage);
     }
-/*
+
     @Test
     @DisplayName ("When getStaffById With Valid CarWashId Then Returns Staff's List")
     public void whenGetStaffByIdWithValidCarWashIdThenReturnsStaff(){
@@ -315,57 +315,17 @@ public class StaffServiceImplTest {
 
 
 
-        Pageable pageable = new Pageable() {
-            @Override
-            public int getPageNumber() {
-                return 0;
-            }
+        when(carWashRepository.existsById(1L))
+                .thenReturn(true);
 
-            @Override
-            public int getPageSize() {
-                return 5;
-            }
-
-            @Override
-            public long getOffset() {
-                return 0;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public Pageable next() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousOrFirst() {
-                return null;
-            }
-
-            @Override
-            public Pageable first() {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-        };
-
-        when(carWashRepository.findById(1L))
-                .thenReturn(Optional.of(carWash));
+        when(staffRepository.listStaffByCarWashId(1L)).thenReturn(carWash.getStaffList());
 
         // Act
-        Page<Staff> staffPage = staffService.getStaffByCarWashId(1L, pageable);
+        List<Staff> staffListService = staffService.getStaffByCarWashId(1L);
 
         // Assert
-        assertThat(staffPage.getTotalElements())
-                .isEqualTo(1);
+        assertThat(staffListService.size())
+                .isEqualTo(carWash.getStaffList().size());
     }
 
     @Test
@@ -374,53 +334,12 @@ public class StaffServiceImplTest {
         // Arrange
         Long carWashId = 1L;
         String template = "Resource %s not found for %s with value %s";
-        String expectedMessage = String.format(template, "Car Wash", "Id", carWashId);
+        String expectedMessage = String.format(template, "CarWash", "Id", carWashId);
 
-        Pageable pageable = new Pageable() {
-            @Override
-            public int getPageNumber() {
-                return 0;
-            }
-
-            @Override
-            public int getPageSize() {
-                return 5;
-            }
-
-            @Override
-            public long getOffset() {
-                return 0;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public Pageable next() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousOrFirst() {
-                return null;
-            }
-
-            @Override
-            public Pageable first() {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-        };
 
         // Act
         Throwable exception = Assertions.catchThrowable(() -> {
-            Page<Staff> staffPage = staffService.getStaffByCarWashId(carWashId, pageable);
+            List<Staff> staffList = staffService.getStaffByCarWashId(carWashId);
         });
 
         // Assert
@@ -429,5 +348,39 @@ public class StaffServiceImplTest {
                 .hasMessage(expectedMessage);
 
     }
-    */
+
+    @Test
+    @DisplayName("When getStaffByCarWashId With Valid CarWash Id And Empty List Then Returns ResourceNotFoundException")
+    public void whenGetStaffByCarWashIdWithValidCarWashIdAndEmptyListThenReturnsResourceNotFoundException(){
+        // Arrange
+        Long carWashId = 1L;
+        String template = "Resource %s not found for %s with value %s";
+        String expectedMessage = String.format(template, "StaffList", "Size", 0);
+
+        CarWash carWash = new CarWash().setId(1L);
+        //Creating Staff
+        Staff staff= (Staff) new Staff().setId(1L);
+
+        List<Staff> staff_carwash = new ArrayList<>();
+
+        carWash.setStaffList(staff_carwash);
+
+
+
+        when(carWashRepository.existsById(1L))
+                .thenReturn(true);
+
+        when(staffRepository.listStaffByCarWashId(1L)).thenReturn(carWash.getStaffList());
+        // Act
+        Throwable exception = Assertions.catchThrowable(() -> {
+            List<Staff> staffList = staffService.getStaffByCarWashId(carWashId);
+        });
+
+        // Assert
+        assertThat(exception)
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage(expectedMessage);
+
+    }
+
 }

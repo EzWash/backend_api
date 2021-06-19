@@ -45,6 +45,11 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public List<Staff> getStaffByCarWashId(Long carWashId){
+        if(!carWashRepository.existsById(carWashId))
+            throw new ResourceNotFoundException("CarWash", "Id", carWashId);
+        List<Staff> staffList = staffRepository.listStaffByCarWashId(carWashId);
+        if(staffList.size() == 0)
+            throw new ResourceNotFoundException("StaffList", "Size", 0);
         return staffRepository.listStaffByCarWashId(carWashId);
     }
 
