@@ -11,6 +11,7 @@ public class SaveCommentResource {
     @NotNull
     private Integer qualification;
 
+
     public String getDescription() {
         return description;
     }

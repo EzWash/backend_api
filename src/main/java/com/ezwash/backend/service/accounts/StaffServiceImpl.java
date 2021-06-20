@@ -50,7 +50,7 @@ public class StaffServiceImpl implements StaffService {
         List<Staff> staffList = staffRepository.listStaffByCarWashId(carWashId);
         if(staffList.size() == 0)
             throw new ResourceNotFoundException("StaffList", "Size", 0);
-        return staffRepository.listStaffByCarWashId(carWashId);
+        return staffList;
     }
 
 }

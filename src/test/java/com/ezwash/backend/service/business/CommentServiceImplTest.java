@@ -3,10 +3,12 @@ package com.ezwash.backend.service.business;
 import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.business.Comment;
+import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
 import com.ezwash.backend.domain.repository.business.CommentRepository;
+import com.ezwash.backend.domain.repository.business.ContractRepository;
 import com.ezwash.backend.domain.service.business.CommentService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
 import org.assertj.core.api.Assertions;
@@ -38,6 +40,9 @@ public class CommentServiceImplTest {
 
     @MockBean
     private CommentRepository commentRepository;
+
+    @MockBean
+    private ContractRepository contractRepository;
 
     @Autowired
     private CommentService commentService;
@@ -102,9 +107,15 @@ public class CommentServiceImplTest {
                 .setDescription("Es un muy buen CarWash")
                 .setQualification(5);
 
+        Contract contract = new Contract();
+
+        comment.setContract(contract);
+
         when(customerRepository.findById(1L)).thenReturn(Optional.ofNullable(customer));
 
         when(carWashRepository.findById(1L)).thenReturn(Optional.ofNullable(carWash));
+
+        when(contractRepository.findById(1L)).thenReturn(Optional.ofNullable(contract));
 
         when(commentRepository.save(comment))
                 .thenReturn(
@@ -114,9 +125,10 @@ public class CommentServiceImplTest {
                         .setUser(customer)
                         .setDescription(comment.getDescription())
                         .setQualification(comment.getQualification())
+                        .setContract(comment.getContract())
                 );
 
-        Comment createdComment = commentService.postComment(customerId, carWashId, comment);
+        Comment createdComment = commentService.postComment(customerId, carWashId,1L, comment);
 
         assertThat(createdComment.getId()).isEqualTo(1L);
 
@@ -137,7 +149,7 @@ public class CommentServiceImplTest {
 
 
         Throwable exception = Assertions.catchThrowable(() ->{
-            Comment createdComment = commentService.postComment(1L,1L, comment);
+            Comment createdComment = commentService.postComment(1L,1L, 1L, comment);
         });
 
         Assertions.assertThat(exception)
@@ -191,7 +203,7 @@ public class CommentServiceImplTest {
 
 
         Throwable exception = Assertions.catchThrowable(() ->{
-            Comment createdComment = commentService.postComment(1L,1L, comment);
+            Comment createdComment = commentService.postComment(1L,1L, 1L, comment);
         });
 
         Assertions.assertThat(exception)

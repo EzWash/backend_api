@@ -17,7 +17,6 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private Customer customer;
@@ -28,7 +27,6 @@ public class Contract {
     private String state;
 
     @NotNull
-    @Temporal(TemporalType.TIME)
     private Date date;
 
     //ManyToOne staff
@@ -42,6 +40,10 @@ public class Contract {
 
     @ElementCollection
     private List<Long> servicesIds;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
 
 
     @ManyToMany(mappedBy = "contracts")
@@ -121,6 +123,19 @@ public class Contract {
 
     public Contract setReport(Report report) {
         this.report = report;
+        return this;
+    }
+
+    public List<Long> getServicesIds() {
+        return servicesIds;
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public Contract setComment(Comment comment) {
+        this.comment = comment;
         return this;
     }
 }

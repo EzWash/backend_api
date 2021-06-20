@@ -33,6 +33,27 @@ public class Comment {
     @NotNull
     private Integer qualification;
 
+    @OneToOne(mappedBy = "comment")
+    private Contract contract;
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public Comment setCustomer(Customer customer) {
+        this.customer = customer;
+        return this;
+    }
+
+    public Contract getContract() {
+        return contract;
+    }
+
+    public Comment setContract(Contract contract) {
+        this.contract = contract;
+        return this;
+    }
+
     public Long getId() {
         return id;
     }

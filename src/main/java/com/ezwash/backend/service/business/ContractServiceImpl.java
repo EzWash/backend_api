@@ -27,6 +27,9 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     private ContractRepository contractRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
 
 
     public Contract findContractById(Long id) {
@@ -49,15 +52,23 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public Page<Contract> getContractsByState(String state, Pageable pageable){
+    public List<Contract> getContractsByState(String state, Long customerId){
         if (!(state.equals("pending")) && !(state.equals("active")) && !(state.equals("washing")) && !(state.equals("readytogo")) && !(state.equals("finished")) )
             throw new ResourceNotFoundException("State", "Invalid", state);
-        List<Contract>  contractList = contractRepository.findContractByStateEquals(state);
-        if (contractList.size() == 0){
-           throw new ResourceNotFoundException("Contracts", "Found", 0);
-        } else{
-           return new PageImpl<>(contractList, pageable,  contractList.size());
-        }
+        if (!customerRepository.existsById(customerId))
+            throw new ResourceNotFoundException("Customer", "Id", customerId);
+        List<Contract>  contractList = contractRepository.findContractByStateEqualsAndCustomerId(state, customerId);
+        return contractList;
+    }
+
+    @Override
+    public List<Contract> getContractsByStateNot(String state, Long customerId){
+        if (!(state.equals("pending")) && !(state.equals("active")) && !(state.equals("washing")) && !(state.equals("readytogo")) && !(state.equals("finished")) )
+            throw new ResourceNotFoundException("State", "Invalid", state);
+        if (!customerRepository.existsById(customerId))
+            throw new ResourceNotFoundException("Customer", "Id", customerId);
+        List<Contract>  contractList = contractRepository.findContractByStateNotAndCustomerId(state, customerId);
+        return contractList;
     }
 
     @Override

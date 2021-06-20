@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,7 @@ public class CustomerContractsController {
     @Autowired
     private ModelMapper mapper;
 
+
     @Autowired
     private CustomerService customerService;
 
@@ -31,14 +33,11 @@ public class CustomerContractsController {
             @ApiResponse(responseCode = "200",description = "Services added successfully",content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/customers/{customerId}/contracts")
-    public Page<ContractResource>getUserContract(@PathVariable Long customerId, Pageable pageable){
-        Page<Contract>contractPage= customerService.getContractList(customerId,pageable);
-        List<ContractResource>contractResources=contractPage.getContent()
-                .stream()
-                .map(this::convertToContractResource)
+    public List<ContractResource>getUserContract(@PathVariable Long customerId){
+        List<Contract>contractList= customerService.getContractList(customerId);
+        List<ContractResource> contractResourceList = contractList.stream().map(this::convertToContractResource)
                 .collect(Collectors.toList());
-
-        return new PageImpl<>(contractResources,pageable,contractResources.size());
+        return contractResourceList;
     }
 
     private ContractResource convertToContractResource(Contract contract){

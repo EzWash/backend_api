@@ -3,10 +3,13 @@ package com.ezwash.backend.service.business;
 import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.business.Comment;
+import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
 import com.ezwash.backend.domain.repository.business.CommentRepository;
+import com.ezwash.backend.domain.repository.business.ContractRepository;
 import com.ezwash.backend.domain.service.business.CommentService;
+import com.ezwash.backend.domain.service.business.ContractService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,15 +29,21 @@ public class CommentServiceImpl implements CommentService {
    @Autowired
    private CustomerRepository customerRepository;
 
+   @Autowired
+   private ContractRepository contractRepository;
+
    @Override
-   public Comment postComment(Long customerId, Long carWashId, Comment comment){
+   public Comment postComment(Long customerId, Long carWashId, Long contractId, Comment comment){
       Customer customer = customerRepository.findById(customerId)
               .orElseThrow(() -> new ResourceNotFoundException("Customer", "Id", customerId));
 
       CarWash carWash = carWashRepository.findById(carWashId)
               .orElseThrow(() -> new ResourceNotFoundException("CarWash", "Id", carWashId));
+
+      Contract contract = contractRepository.findById(contractId).get();
       comment.setCarWash(carWash);
       comment.setUser(customer);
+      comment.setContract(contract);
 
       return commentRepository.save(comment);
    }

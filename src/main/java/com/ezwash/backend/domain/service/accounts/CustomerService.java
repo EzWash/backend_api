@@ -7,6 +7,8 @@ import com.ezwash.backend.domain.model.geographic.Location;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface CustomerService {
     Customer createCustomer(Customer customer, Location location);
     Customer findCustomerById(Long id);
@@ -14,5 +16,5 @@ public interface CustomerService {
     Customer deleteCustomerCarWash(Long customerId, Long carWashId);
     Customer updateCustomer(Long customerId, Customer customerRequest);
     Page<CarWash> getLikedList(Long customerId, Pageable pageable);
-    Page<Contract> getContractList(Long customerId, Pageable pageable);
+    List<Contract> getContractList(Long customerId);
 }
