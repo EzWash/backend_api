@@ -1,6 +1,7 @@
 package com.ezwash.backend.domain.model.business;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -38,8 +39,9 @@ public class Service {
     private Double price;
 
     //ManyToOne carwashes
-    @ManyToOne
-    @JoinColumn(name = "carwash_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "carwash_id", nullable = false)
+    @JsonIgnore
     private CarWash carWash;
 
     //OneToMany contracts

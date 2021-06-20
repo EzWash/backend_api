@@ -73,11 +73,8 @@ public class ServicesController {
             @ApiResponse(responseCode = "200", description = "Service obtained successfully", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/carwashes/{carWashId}/service")
-    public Page<ServiceResource> getServiceByCarWashId(@PathVariable Long carWashId, Pageable pageable){
-        Page<Service> servicePage = serviceService.getServiceByCarWashId(carWashId, pageable);
-        List<ServiceResource> resources = servicePage.getContent().stream()
-                .map(this::convertToResource).collect(Collectors.toList());
-        return new PageImpl<>(resources, pageable, resources.size());
+    public List<Service> getServiceByCarWashId(@PathVariable Long carWashId){
+        return serviceService.getServiceByCarWashId(carWashId);
     }
 
     private Service convertToEntity(SaveServiceResource resource){
