@@ -36,7 +36,7 @@ public class Location {
     private District district;
 
     //OneToMany vehicle
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "location")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "location_id")
     @JsonIgnore
     private List<Vehicle> vehicle;
 

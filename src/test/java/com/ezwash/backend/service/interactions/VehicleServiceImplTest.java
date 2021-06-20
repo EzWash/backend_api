@@ -1,6 +1,7 @@
 package com.ezwash.backend.service.interactions;
 
 import com.ezwash.backend.domain.model.accounts.Staff;
+import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.model.interactions.Vehicle;
 import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
 import com.ezwash.backend.domain.repository.geographic.LocationRepository;
@@ -57,14 +58,14 @@ class VehicleServiceImplTest {
         String registration_plate= "ABC-234";
 
         Vehicle vehicle = new Vehicle().setModel(model).setBrand(brand).setRegistration_plate(registration_plate);
-
+        Location location =new Location();
         when(vehicleRepository.save(vehicle)).thenReturn(new Vehicle()
                 .setModel(model)
                 .setBrand(brand)
                 .setRegistration_plate(registration_plate)
                 .setId(1L));
         // Act
-        Vehicle createdVehicle = vehicleService.createVehicle(vehicle);
+        Vehicle createdVehicle = vehicleService.createVehicle(vehicle,location);
 
         // Assert
         assertThat(createdVehicle.getModel()).isEqualTo(model);
@@ -77,7 +78,8 @@ class VehicleServiceImplTest {
         //Arrange
         Vehicle vehicle = new Vehicle().setId(1L);
         when (vehicleRepository.findById(1L)).thenReturn(Optional.of(vehicle));
-        Vehicle vehicle2= vehicleService.createVehicle(vehicle);
+        Location location =new Location();
+        Vehicle vehicle2= vehicleService.createVehicle(vehicle,location);
 
         //Act
         ResponseEntity<?> response= vehicleService.deleteCarById(1L);

@@ -10,9 +10,7 @@ public class SaveVehicleResource {
     @NotNull
     private String registration_plate;
     @NotNull
-    private Long location;
-    @NotNull
-    private Long user;
+    private Long location_id;
 
     public String getModel() {
         return model;
@@ -41,21 +39,14 @@ public class SaveVehicleResource {
         return this;
     }
 
-    public Long getLocation() {
-        return location;
+    public Long getLocation_id() {
+        return location_id;
     }
 
-    public SaveVehicleResource setLocation(Long location) {
-        this.location = location;
+    public SaveVehicleResource setLocation_id(Long location_id) {
+        this.location_id = location_id;
         return this;
     }
 
-    public Long getUser() {
-        return user;
-    }
 
-    public SaveVehicleResource setUser(Long user) {
-        this.user = user;
-        return this;
-    }
 }

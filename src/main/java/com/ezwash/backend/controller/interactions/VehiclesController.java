@@ -2,6 +2,8 @@ package com.ezwash.backend.controller.interactions;
 import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.model.interactions.Vehicle;
+import com.ezwash.backend.domain.service.accounts.CustomerService;
+import com.ezwash.backend.domain.service.geographic.LocationService;
 import com.ezwash.backend.domain.service.interactions.VehicleService;
 import com.ezwash.backend.resource.interactions.SaveVehicleResource;
 import com.ezwash.backend.resource.interactions.VehicleResource;
@@ -24,22 +26,23 @@ public class VehiclesController {
     private VehicleService vehicleService;
 
     @Autowired
+    private CustomerService customerService;
+    @Autowired
+    private LocationService locationService;
+    @Autowired
     private ModelMapper mapper;
 
-    @Operation(summary = "Create a Vehicle", description = "Create the User's Vehicle given an ID", tags = {"Vehicles"})
+    @Operation(summary = "Create a Vehicle", description = "Create the User's Vehicle given an ID", tags = {"Customers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All Posts returned", content = @Content(mediaType = "application/json"))
     })
-    @PostMapping ("/vehicles")
-    public VehicleResource createVehicle (@Valid @RequestBody SaveVehicleResource resource){
-        Location location = vehicleService.getLocationById(resource.getLocation());
-        Customer customer = vehicleService.getUserById(resource.getUser());
-        Vehicle vehicle= convertToEntity(resource);
-        vehicle.setLocation(location);
+    @PostMapping ("customers/{customer_id}/vehicles")
+    public VehicleResource createVehicle (@Valid @RequestBody SaveVehicleResource resource,@PathVariable Long customer_id){
+        Customer customer = customerService.findCustomerById(customer_id);
+        Vehicle vehicle = convertToEntity(resource);
         vehicle.setUser(customer);
-        VehicleResource vehicleResource = convertToResource(vehicleService.createVehicle(vehicle))
-                .setCustomer_Id(resource.getUser());
-        return vehicleResource;
+        Location location = locationService.getLocationById(resource.getLocation_id());
+        return convertToResource(vehicleService.createVehicle(vehicle,location));
     }
 
     @Operation(summary = "Delete Vehicle", description = "Delete Vehicle's User", tags = {"Vehicles"})

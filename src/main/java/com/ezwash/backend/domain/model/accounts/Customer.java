@@ -24,8 +24,7 @@ public class Customer extends Profile {
     private Location location;
 
     @ManyToMany
-    @JoinTable(
-            name = "carwash_like",
+    @JoinTable(name = "carwash_like",
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "carwash_id"))
     private List<CarWash> likedCarwashes;

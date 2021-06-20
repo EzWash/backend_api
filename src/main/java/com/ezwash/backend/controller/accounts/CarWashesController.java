@@ -89,6 +89,7 @@ public class CarWashesController {
     })
     @GetMapping("/carwashes/{carwashId}")
     public CarWashResource getCarWashById(@PathVariable Long carwashId){
+        System.out.println("Entré");
         return convertToResource(carWashService.findCarWashById(carwashId));
     }
 

@@ -30,7 +30,7 @@ public class Vehicle {
 
     //ManyToOne user
     @ManyToOne (fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false, updatable = false)
+    @JoinColumn(name = "customer_id", nullable = false, updatable = false)
     @JsonIgnore
     private Customer customer;
 
@@ -39,7 +39,7 @@ public class Vehicle {
     @ManyToOne (fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "location_id", nullable = false, updatable = false)
     @JsonIgnore
-    private Location location;
+    private Location location_id;
 
     public Long getId() {
         return id;
@@ -86,12 +86,12 @@ public class Vehicle {
         return this;
     }
 
-    public Location getLocation() {
-        return location;
+    public Location getLocation_id() {
+        return location_id;
     }
 
-    public Vehicle setLocation(Location location) {
-        this.location = location;
+    public Vehicle setLocation_id(Location location_id) {
+        this.location_id = location_id;
         return this;
     }
 }

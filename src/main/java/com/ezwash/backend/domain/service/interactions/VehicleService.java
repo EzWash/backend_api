@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface VehicleService {
 
-    Vehicle createVehicle (Vehicle vehicle);
+    Vehicle createVehicle (Vehicle vehicle, Location location);
     Location getLocationById(Long id);
     Customer getUserById(Long id);
     ResponseEntity<?> deleteCarById (Long id_car);
