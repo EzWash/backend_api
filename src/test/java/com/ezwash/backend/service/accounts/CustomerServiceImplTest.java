@@ -569,56 +569,14 @@ public class CustomerServiceImplTest {
         customer.setPassword(password);
         customer.setLikedCarwashes(likedCarWashes);
 
-        Pageable pageable = new Pageable() {
-            @Override
-            public int getPageNumber() {
-                return 0;
-            }
-
-            @Override
-            public int getPageSize() {
-                return 5;
-            }
-
-            @Override
-            public long getOffset() {
-                return 0;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public Pageable next() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousOrFirst() {
-                return null;
-            }
-
-            @Override
-            public Pageable first() {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-        };
-
         when(customerRepository.findById(1L))
                 .thenReturn(Optional.of(customer));
 
         // Act
-        Page<CarWash> carWashPage = customerService.getLikedList(1L, pageable);
+        List<CarWash> carWashPage = customerService.getLikedList(1L);
 
         // Assert
-        assertThat(carWashPage.getTotalElements())
+        assertThat(carWashPage.size())
                 .isEqualTo(1L);
 
     }
@@ -633,51 +591,10 @@ public class CustomerServiceImplTest {
         String template = "Resource %s not found for %s with value %s";
         String expectedMessage = String.format(template, "User", "Id", userId);
 
-        Pageable pageable = new Pageable() {
-            @Override
-            public int getPageNumber() {
-                return 0;
-            }
-
-            @Override
-            public int getPageSize() {
-                return 5;
-            }
-
-            @Override
-            public long getOffset() {
-                return 0;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public Pageable next() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousOrFirst() {
-                return null;
-            }
-
-            @Override
-            public Pageable first() {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-        };
 
         // Act
         Throwable exception = catchThrowable(() -> {
-            Page<CarWash> carWashPage = customerService.getLikedList(userId, pageable);
+            List<CarWash> carWashPage = customerService.getLikedList(userId);
         });
 
         // Assert

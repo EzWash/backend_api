@@ -75,9 +75,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Page<CarWash> getLikedList(Long userId, Pageable pageable) {
+    public List<CarWash> getLikedList(Long userId) {
         List<CarWash> carWashes = findCustomerById(userId).getLikedCarwashes();
-        return new PageImpl<>(carWashes, pageable, carWashes.size());
+        return carWashes;
 
     }
 

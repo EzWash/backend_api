@@ -4,12 +4,21 @@ package com.ezwash.backend.resource.interactions;
 import com.ezwash.backend.domain.model.geographic.Location;
 
 public class VehicleResource {
-
+    private Long id;
     private String model;
     private String brand;
     private String registration_plate;
     private Location location_id;
     private Long customer_Id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public VehicleResource setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public String getModel() {
         return model;

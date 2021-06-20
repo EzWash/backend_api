@@ -56,13 +56,12 @@ public class CustomerCarWashesController {
             @ApiResponse(responseCode = "200", description = "Car Wash added successfully", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/customers/{customerId}/carwashes")
-    public Page<CarWashResource> getLikedList(@PathVariable Long customerId, Pageable pageable){
-        Page<CarWash> carWashPage = customerService.getLikedList(customerId, pageable);
-        List<CarWashResource> carWashResources = carWashPage.getContent()
+    public List<CarWashResource> getLikedList(@PathVariable Long customerId, Pageable pageable){
+        List<CarWashResource> carWashResources = customerService.getLikedList(customerId)
                 .stream()
                 .map(this::convertToCarWashResource)
                 .collect(Collectors.toList());
-        return new PageImpl<>(carWashResources, pageable, carWashResources.size());
+        return carWashResources;
     }
     @Operation(summary = "Get CarWash Qualification",description = "Get CarWash Qualification through CarWash Id",tags = {"Customers"})
     @ApiResponses(value = {
