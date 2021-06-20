@@ -2,18 +2,19 @@ package com.ezwash.backend.resource.accounts;
 
 import com.ezwash.backend.domain.model.geographic.Location;
 
+import java.util.Date;
+
 public class CarWashResource {
-
+    private Long id;
+    private String email;
     private String description;
-
+    private Date birth_date;
     private String name;
-
     private String name_owner;
-
-    private int qualification;
-
-    private int available;
-
+    private String phone_number;
+    private String ruc;
+    private Integer qualification;
+    private Integer available;
     private Location location;
 
     public String getDescription() {
@@ -67,6 +68,61 @@ public class CarWashResource {
 
     public CarWashResource setLocation(Location location) {
         this.location = location;
+        return this;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public CarWashResource setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public CarWashResource setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public Date getBirth_date() {
+        return birth_date;
+    }
+
+    public CarWashResource setBirth_date(Date birth_date) {
+        this.birth_date = birth_date;
+        return this;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public CarWashResource setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+        return this;
+    }
+
+    public String getRuc() {
+        return ruc;
+    }
+
+    public CarWashResource setRuc(String ruc) {
+        this.ruc = ruc;
+        return this;
+    }
+
+    public CarWashResource setQualification(Integer qualification) {
+        this.qualification = qualification;
+        return this;
+    }
+
+    public CarWashResource setAvailable(Integer available) {
+        this.available = available;
         return this;
     }
 }

@@ -24,7 +24,8 @@ public class VehicleServiceImpl implements VehicleService {
     private CustomerRepository customerRepository;
 
     @Override
-    public Vehicle createVehicle (Vehicle vehicle){
+    public Vehicle createVehicle (Vehicle vehicle,Location location){
+        vehicle.setLocation_id(location);
         return vehicleRepository.save(vehicle);
     }
 

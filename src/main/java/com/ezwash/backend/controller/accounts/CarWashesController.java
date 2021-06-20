@@ -19,6 +19,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,9 +45,12 @@ public class CarWashesController {
             @ApiResponse(responseCode = "200", description = "CarWash created successfully", content = @Content(mediaType = "application/json"))
     })
     @PostMapping("/carwashes")
-    public CarWashResource createCarWash(@Valid @RequestBody SaveCarWashResource resource){
-       Location location = locationService.getLocationById(resource.getLocation()) ;
+    public CarWashResource createCarWash(@Valid @RequestBody SaveCarWashResource resource) throws ParseException {
+       Location location = locationService.getLocationById(resource.getLocation_id());
+       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-MM");
+       Date birth_date = simpleDateFormat.parse(resource.getBirth_date()) ;
        CarWash carWash = convertToEntity(resource);
+       carWash.setBirth_date(birth_date);
        return convertToResource(carWashService.createCarWash(carWash, location));
     }
 
@@ -71,7 +77,7 @@ public class CarWashesController {
     @PutMapping("carwashes/{carwashId}")
     public CarWashResource updateCarWash(@PathVariable Long carwashId, @RequestBody SaveCarWashResource resource){
         CarWash carWash = convertToEntity(resource);
-        Location location = locationService.getLocationById(resource.getLocation());
+        Location location = locationService.getLocationById(resource.getLocation_id());
         CarWashResource carWashResource = convertToResource(carWashService.editCarWash(carwashId, carWash, location));
         return carWashResource;
     }
@@ -83,6 +89,7 @@ public class CarWashesController {
     })
     @GetMapping("/carwashes/{carwashId}")
     public CarWashResource getCarWashById(@PathVariable Long carwashId){
+        System.out.println("Entré");
         return convertToResource(carWashService.findCarWashById(carwashId));
     }
 

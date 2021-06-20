@@ -6,6 +6,8 @@ import com.ezwash.backend.domain.model.business.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface ServiceService {
     Service createService(Service service);
 
@@ -13,6 +15,6 @@ public interface ServiceService {
 
     Service updateService(Long carWashId, Long serviceId, Service serviceInfo);
 
-    Page<Service> getServiceByCarWashId(Long carWashId, Pageable pageable);
+    List<Service> getServiceByCarWashId(Long carWashId);
 
 }

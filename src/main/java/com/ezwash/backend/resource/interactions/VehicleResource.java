@@ -8,7 +8,7 @@ public class VehicleResource {
     private String model;
     private String brand;
     private String registration_plate;
-    private Location location;
+    private Location location_id;
     private Long customer_Id;
 
     public String getModel() {
@@ -38,12 +38,12 @@ public class VehicleResource {
         return this;
     }
 
-    public Location getLocation() {
-        return location;
+    public Location getLocation_id() {
+        return location_id;
     }
 
-    public VehicleResource setLocation(Location location) {
-        this.location = location;
+    public VehicleResource setLocation_id(Location location_id) {
+        this.location_id = location_id;
         return this;
     }
 

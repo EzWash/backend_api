@@ -1,5 +1,6 @@
 package com.ezwash.backend.service.business;
 
+import com.ezwash.backend.domain.model.accounts.Staff;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.business.ServiceRepository;
 import com.ezwash.backend.domain.service.business.ServiceService;
@@ -46,12 +47,14 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public Page<com.ezwash.backend.domain.model.business.Service> getServiceByCarWashId(Long carWashId, Pageable pageable){
-        return carWashRepository.findById(carWashId).map(carWash ->{
-            List<com.ezwash.backend.domain.model.business.Service> service=carWash.getServiceList();
-            int serviceCount=service.size();
-            return new PageImpl<>(service,pageable,serviceCount);
-        }).orElseThrow(() -> new ResourceNotFoundException("Car Wash","Id",carWashId));
+    public List<com.ezwash.backend.domain.model.business.Service> getServiceByCarWashId(Long carWashId){
+        if(!carWashRepository.existsById(carWashId))
+            throw new ResourceNotFoundException("CarWash", "Id", carWashId);
+        List<com.ezwash.backend.domain.model.business.Service> serviceList =
+                serviceRepository.listServiceByCarWashId(carWashId);
+        if(serviceList.size() == 0)
+            throw new ResourceNotFoundException("ServiceList", "Size", 0);
+        return serviceRepository.listServiceByCarWashId(carWashId);
     }
 
 }
