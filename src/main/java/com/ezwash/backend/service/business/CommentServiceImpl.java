@@ -2,6 +2,7 @@ package com.ezwash.backend.service.business;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.Customer;
+import com.ezwash.backend.domain.model.accounts.Staff;
 import com.ezwash.backend.domain.model.business.Comment;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
@@ -37,6 +38,16 @@ public class CommentServiceImpl implements CommentService {
       comment.setUser(customer);
 
       return commentRepository.save(comment);
+   }
+
+   @Override
+   public List<Comment> getCommentByCarWashId(Long carWashId){
+      if(!carWashRepository.existsById(carWashId))
+         throw new ResourceNotFoundException("CarWash", "Id", carWashId);
+      List<Comment> commentList = commentRepository.listCommentByCarWashId(carWashId);
+      if(commentList.size() == 0)
+         throw new ResourceNotFoundException("CommentList", "Size", 0);
+      return commentRepository.listCommentByCarWashId(carWashId);
    }
 
 }

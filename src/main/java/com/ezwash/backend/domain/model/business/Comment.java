@@ -15,7 +15,7 @@ public class Comment {
     private Long id;
 
     //ManyToOne carwashes
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "carwash_id", nullable = false)
     @JsonIgnore
     private CarWash carWash;
