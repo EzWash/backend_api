@@ -611,10 +611,10 @@ public class CustomerServiceImplTest {
                 .thenReturn(Optional.of(customer));
 
         // Act
-        Page<CarWash> carWashPage = customerService.getLikedList(1L, pageable);
+        List<CarWash> carWashPage = customerService.getLikedList(1L);
 
         // Assert
-        assertThat(carWashPage.getTotalElements())
+        assertThat(carWashPage.size())
                 .isEqualTo(1L);
 
     }
@@ -673,7 +673,7 @@ public class CustomerServiceImplTest {
 
         // Act
         Throwable exception = catchThrowable(() -> {
-            Page<CarWash> carWashPage = customerService.getLikedList(userId, pageable);
+            List<CarWash> carWashPage = customerService.getLikedList(userId);
         });
 
         // Assert
