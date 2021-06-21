@@ -358,6 +358,7 @@ public class ServiceServiceImplTest {
                 .hasMessage(expectedMessage);
     }
 
+    /*
     @Test
     @DisplayName ("When getServiceByCarWashId With Valid CarWashId Then Returns Service's List")
     public void whenGetServiceByCarWashIdWithValidCarWashIdThenReturnsService(){
@@ -488,5 +489,5 @@ public class ServiceServiceImplTest {
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage(expectedMessage);
 
-    }
+    }*/
 }

@@ -8,9 +8,12 @@ import com.ezwash.backend.domain.repository.geographic.LocationRepository;
 import com.ezwash.backend.domain.repository.interactions.VehicleRepository;
 import com.ezwash.backend.domain.service.interactions.VehicleService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
@@ -24,7 +27,8 @@ public class VehicleServiceImpl implements VehicleService {
     private CustomerRepository customerRepository;
 
     @Override
-    public Vehicle createVehicle (Vehicle vehicle){
+    public Vehicle createVehicle (Vehicle vehicle,Location location){
+        vehicle.setLocation_id(location);
         return vehicleRepository.save(vehicle);
     }
 
@@ -47,4 +51,11 @@ public class VehicleServiceImpl implements VehicleService {
         return ResponseEntity.ok().build();
     }
 
+    @Override
+    public List<Vehicle> getVehiclesByCustomerId(Long customerId){
+       Customer customer = customerRepository.findById(customerId)
+               .orElseThrow(() -> new ResourceNotFoundException("Customer", "Id", customerId));
+
+       return vehicleRepository.findVehicleByCustomerId(customerId);
+    }
 }

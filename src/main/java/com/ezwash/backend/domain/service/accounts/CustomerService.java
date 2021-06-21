@@ -16,5 +16,5 @@ public interface CustomerService {
     Customer deleteCustomerCarWash(Long customerId, Long carWashId);
     Customer updateCustomer(Long customerId, Customer customerRequest);
     List<CarWash> getLikedList(Long customerId);
-    Page<Contract> getContractList(Long customerId, Pageable pageable);
+    List<Contract> getContractList(Long customerId);
 }

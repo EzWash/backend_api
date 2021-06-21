@@ -1,6 +1,8 @@
 package com.ezwash.backend.resource.business;
 
+import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.business.Report;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.swing.plaf.nimbus.State;
 import java.util.Date;
@@ -14,9 +16,38 @@ public class ContractResource {
     private Long staff_id;
     private Report report;
     private String state;
+    private Long carWash_id;
+    private String carWash_name;
 
     public String getState() {
         return state;
+    }
+
+    public Long getCarWash_id() {
+        return carWash_id;
+    }
+
+    public String getCarWash_name() {
+        return carWash_name;
+    }
+
+    public ContractResource setCarWash_name(String carWash_name) {
+        this.carWash_name = carWash_name;
+        return this;
+    }
+
+    public ContractResource setCarWash_id(Long carWash_id) {
+        this.carWash_id = carWash_id;
+        return this;
+    }
+
+    public Report getReport() {
+        return report;
+    }
+
+    public ContractResource setReport(Report report) {
+        this.report = report;
+        return this;
     }
 
     public ContractResource setState(String state) {
@@ -60,12 +91,5 @@ public class ContractResource {
         return this;
     }
 
-    public Report getReport() {
-        return report;
-    }
 
-    public ContractResource setReport(Report report) {
-        this.report = report;
-        return this;
-    }
 }

@@ -40,18 +40,33 @@ public class ContractsController {
        return convertToResource(contractService.designateStaffToContract(contractId, staffId));
     }
 
-    @Operation(summary = "Get Contracts by State", description = "Get all Contracts that their States are equals to given State", tags = {"Contracts"})
+    @Operation(summary = "Get Contracts by State and Customer Id", description = "Get all Contracts that their States are equals to given State and Customer Id", tags = {"Customers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Contracts by State got successfully", content = @Content(mediaType = "application/json"))
     })
-    @GetMapping("/contracts/states/{state}")
-    public Page<ContractResource> getContractsByState(@PathVariable String state, Pageable pageable){
-        Page<Contract> contractPage = contractService.getContractsByState(state, pageable);
-        List<ContractResource> contractResourceList = contractPage.getContent()
+    @GetMapping("/customers/{customerId}/contracts/states/{state}")
+    public List<ContractResource> getContractsByState(@PathVariable String state, @PathVariable Long customerId){
+        List<Contract> contractList = contractService.getContractsByState(state, customerId);
+        List<ContractResource> contractResourceList = contractList
                 .stream()
                 .map(this::convertToResource)
                 .collect(Collectors.toList());
-        return new PageImpl<>(contractResourceList,pageable,contractResourceList.size());
+        return contractResourceList;
+    }
+
+
+    @Operation(summary = "Get Contracts by State Not and Customer Id", description = "Get all Contracts that their States are not to given State and Customer Id", tags = {"Customers"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Contracts by State got successfully", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/customers/{customerId}/contracts/states/not/{state}")
+    public List<ContractResource> getContractsByStateNot(@PathVariable String state, @PathVariable Long customerId){
+        List<Contract> contractList = contractService.getContractsByStateNot(state, customerId);
+        List<ContractResource> contractResourceList = contractList
+                .stream()
+                .map(this::convertToResource)
+                .collect(Collectors.toList());
+        return contractResourceList;
     }
 
     @Operation(summary = "Update a Contract State", description = "Update Contract State given Contract Id and State", tags = {"Contracts"})
@@ -68,6 +83,11 @@ public class ContractsController {
     }
 
     private ContractResource convertToResource(Contract contract){
-        return mapper.map(contract, ContractResource.class);
+        ContractResource resource = mapper.map(contract, ContractResource.class);
+        resource.setCarWash_id(contract.getStaff().getCarWash().getId());
+        resource.setCarWash_name(contract.getStaff().getCarWash().getName());
+        resource.setStaff_id(contract.getStaff().getId());
+        resource.setCustomer_id(contract.getCustomer().getId());
+        return resource;
     }
 }

@@ -10,6 +10,7 @@ import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
+import com.ezwash.backend.domain.repository.business.ServiceRepository;
 import com.ezwash.backend.domain.repository.geographic.LocationRepository;
 import com.ezwash.backend.domain.service.accounts.CarWashService;
 import com.ezwash.backend.domain.service.accounts.CustomerService;
@@ -44,6 +45,9 @@ public class CustomerServiceImplTest {
     private CarWashRepository carWashRepository;
 
     @MockBean
+    private ServiceRepository serviceRepository;
+
+    @MockBean
     private LocationRepository locationRepository;
 
     @Autowired
@@ -55,7 +59,7 @@ public class CustomerServiceImplTest {
     @TestConfiguration
     static class UserServiceImplTestConfiguration {
         @Bean
-        public CustomerService userService() {
+        public CustomerService customerService() {
             return new CustomerServiceImpl();
         }
         @Bean
@@ -565,48 +569,6 @@ public class CustomerServiceImplTest {
         customer.setPassword(password);
         customer.setLikedCarwashes(likedCarWashes);
 
-        Pageable pageable = new Pageable() {
-            @Override
-            public int getPageNumber() {
-                return 0;
-            }
-
-            @Override
-            public int getPageSize() {
-                return 5;
-            }
-
-            @Override
-            public long getOffset() {
-                return 0;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public Pageable next() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousOrFirst() {
-                return null;
-            }
-
-            @Override
-            public Pageable first() {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-        };
-
         when(customerRepository.findById(1L))
                 .thenReturn(Optional.of(customer));
 
@@ -629,47 +591,6 @@ public class CustomerServiceImplTest {
         String template = "Resource %s not found for %s with value %s";
         String expectedMessage = String.format(template, "User", "Id", userId);
 
-        Pageable pageable = new Pageable() {
-            @Override
-            public int getPageNumber() {
-                return 0;
-            }
-
-            @Override
-            public int getPageSize() {
-                return 5;
-            }
-
-            @Override
-            public long getOffset() {
-                return 0;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public Pageable next() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousOrFirst() {
-                return null;
-            }
-
-            @Override
-            public Pageable first() {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-        };
 
         // Act
         Throwable exception = catchThrowable(() -> {
@@ -766,8 +687,8 @@ public class CustomerServiceImplTest {
     }
   
     @Test
-    @DisplayName("When getService List With Invalid User Id Then Returns ResourceNotFoundException")
-    public void whenGetServiceListWithInvalidUserIdThenReturnsResourceNotFoundException(){
+    @DisplayName("When getContractList With Invalid Customer Id Then Returns ResourceNotFoundException")
+    public void whenGetContractListWithInvalidCustomerIdThenReturnsResourceNotFoundException(){
         // Arrange
         //ServiceData
         String name = "Encerado";
@@ -785,54 +706,14 @@ public class CustomerServiceImplTest {
 
         Long userId = 1L;
         String template = "Resource %s not found for %s with value %s";
-        String expectedMessage = String.format(template, "User", "Id", userId);
+        String expectedMessage = String.format(template, "Customer", "Id", userId);
 
         List<Service>serviceList=new ArrayList<>();
-        Pageable pageable = new Pageable() {
-            @Override
-            public int getPageNumber() {
-                return 0;
-            }
 
-            @Override
-            public int getPageSize() {
-                return 5;
-            }
-
-            @Override
-            public long getOffset() {
-                return 0;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public Pageable next() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousOrFirst() {
-                return null;
-            }
-
-            @Override
-            public Pageable first() {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-        };
-
+        when(customerRepository.existsById(userId)).thenReturn(false);
         // Act
         Throwable exception = catchThrowable(() -> {
-            Page<Contract> contractPage = customerService.getContractList(userId,pageable);
+            List<Contract> contractList = customerService.getContractList(userId);
         });
 
         // Assert
@@ -842,8 +723,8 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    @DisplayName("When getServiceList With Valid User Id Then Returns Service List")
-    public void whenGetServiceListWithValidUserIdThenReturnsServiceList(){
+    @DisplayName("When getContractList With Valid Customer Id Then Returns Service List")
+    public void whenGetContractListWithValidCustomerIdThenReturnsServiceList(){
         // Arrange
         //ServiceData
         String name = "Encerado";
@@ -890,60 +771,21 @@ public class CustomerServiceImplTest {
                 .setState(state);
 
         List<Contract>contractList=new ArrayList<>();
-        Pageable pageable = new Pageable() {
-            @Override
-            public int getPageNumber() {
-                return 0;
-            }
-
-            @Override
-            public int getPageSize() {
-                return 5;
-            }
-
-            @Override
-            public long getOffset() {
-                return 0;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public Pageable next() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousOrFirst() {
-                return null;
-            }
-
-            @Override
-            public Pageable first() {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-        };
 
         contractList.add(contract);
         customer.setContractList(contractList);
 
-        when(customerRepository.findById(1L))
-                .thenReturn(Optional.of(customer));
+        when(customerRepository.existsById(1L))
+                .thenReturn(true);
+
+        when(customerRepository.findById(1L)).thenReturn(Optional.ofNullable(customer));
 
         // Act
-        Page<Contract> contractPage = customerService.getContractList(1L, pageable);
+        List<Contract> contractList1 = customerService.getContractList(1L);
 
         // Assert
-        assertThat(contractPage.getTotalElements())
-                .isEqualTo(1L);
+        assertThat(contractList1.size())
+                .isEqualTo(1);
     }
   
     @Test

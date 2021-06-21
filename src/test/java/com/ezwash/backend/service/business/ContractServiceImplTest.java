@@ -1,7 +1,9 @@
 package com.ezwash.backend.service.business;
 
+import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.accounts.Staff;
 import com.ezwash.backend.domain.model.business.Contract;
+import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
 import com.ezwash.backend.domain.repository.accounts.StaffRepository;
 import com.ezwash.backend.domain.repository.business.ContractRepository;
 import com.ezwash.backend.domain.service.business.ContractService;
@@ -13,6 +15,7 @@ import org.assertj.core.error.ShouldBeAfterOrEqualTo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -40,6 +43,9 @@ public class ContractServiceImplTest {
 
     @MockBean
     private StaffRepository staffRepository;
+
+    @MockBean
+    private CustomerRepository customerRepository;
 
     @Autowired
     private ContractService contractService;
@@ -154,8 +160,8 @@ public class ContractServiceImplTest {
     }
 
     @Test
-    @DisplayName("When getContractsByState With Valid State And There Are Contracts With That State Then Returns Contracts")
-    public void whenGetContractsByStateWithValidStateAndThereAreContractsWithThatStateThenReturnsContracts(){
+    @DisplayName("When getContractsByState With Valid State And Valid Customer Id Then Returns Contracts")
+    public void whenGetContractsByStateWithValidStateAndValidCustomerIdThenReturnsContracts(){
         String state = "pending";
 
         Contract contract = new Contract()
@@ -166,66 +172,29 @@ public class ContractServiceImplTest {
         Contract contract2 = new Contract()
                 .setState(state2);
 
-        Pageable pageable = new Pageable() {
-            @Override
-            public int getPageNumber() {
-                return 0;
-            }
-
-            @Override
-            public int getPageSize() {
-                return 5;
-            }
-
-            @Override
-            public long getOffset() {
-                return 0;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public Pageable next() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousOrFirst() {
-                return null;
-            }
-
-            @Override
-            public Pageable first() {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-        };
         List<Contract> contractList = new ArrayList<>();
         contractList.add(contract);
 
+        Long customerId = 1L;
+        Customer customer = (Customer)new Customer()
+                .setId(customerId);
 
-        when(contractRepository.findContractByStateEquals("pending"))
+        when(contractRepository.findContractByStateEqualsAndCustomerId("pending",customerId))
                 .thenReturn(contractList);
 
+        when(customerRepository.existsById(customerId)).thenReturn(true);
 
-        Page<Contract> contractPage = contractService.getContractsByState("pending", pageable);
+        List<Contract> contractList1 = contractService.getContractsByState("pending", customerId);
 
-        assertThat(contractPage.getTotalElements()).isEqualTo(1);
+        assertThat(contractList1.size()).isEqualTo(1);
     }
 
     @Test
-    @DisplayName("When getContractsByState With Valid State And There Are No Contracts With That State Then Returns ResourceNotFoundException")
-    public void whenGetContractsByStateWithValidStateAndThereAreNoContractsWithThatStateThenReturnsResourceFoundException(){
+    @DisplayName("When getContractsByState With Invalid Customer Id Then Returns ResourceNotFoundException")
+    public void whenGetContractsByStateWithInvalidCustomerIdThenReturnsResourceFoundException(){
         String state = "pending";
         String template = "Resource %s not found for %s with value %s";
-        String expectedMessage = String.format(template, "Contracts", "Found", 0);
+        String expectedMessage = String.format(template, "Customer", "Id", 0);
 
         Contract contract = new Contract()
                 .setState(state);
@@ -233,56 +202,21 @@ public class ContractServiceImplTest {
         Contract contract2 = new Contract()
                 .setState(state);
 
-        Pageable pageable = new Pageable() {
-            @Override
-            public int getPageNumber() {
-                return 0;
-            }
+        Long customerId = 1L;
+        Customer customer = (Customer) new Customer()
+                .setId(customerId);
 
-            @Override
-            public int getPageSize() {
-                return 5;
-            }
-
-            @Override
-            public long getOffset() {
-                return 0;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public Pageable next() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousOrFirst() {
-                return null;
-            }
-
-            @Override
-            public Pageable first() {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-        };
         List<Contract> contractList = new ArrayList<>();
 
 
-        when(contractRepository.findContractByStateEquals("pending"))
+        when(contractRepository.findContractByStateEqualsAndCustomerId("pending", customerId))
                 .thenReturn(contractList);
+
+        when(customerRepository.existsById(customerId)).thenReturn(false);
 
 
         Throwable exception = Assertions.catchThrowable(() -> {
-            Page<Contract> contractPage = contractService.getContractsByState(state, pageable);
+            List<Contract> contractList1 = contractService.getContractsByState(state, customerId);
         });
 
         //Assert
@@ -299,50 +233,9 @@ public class ContractServiceImplTest {
         String template = "Resource %s not found for %s with value %s";
         String expectedMessage = String.format(template, "State", "Invalid", state);
 
-        Pageable pageable = new Pageable() {
-            @Override
-            public int getPageNumber() {
-                return 0;
-            }
-
-            @Override
-            public int getPageSize() {
-                return 5;
-            }
-
-            @Override
-            public long getOffset() {
-                return 0;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public Pageable next() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousOrFirst() {
-                return null;
-            }
-
-            @Override
-            public Pageable first() {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-        };
 
         Throwable exception = Assertions.catchThrowable(() -> {
-            Page<Contract> contractPage = contractService.getContractsByState(state, pageable);
+            List<Contract> contractPage = contractService.getContractsByState(state, 1L);
         });
 
         //Assert
