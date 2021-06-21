@@ -33,7 +33,7 @@ public class CommentsController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Comment created successfully", content = @Content(mediaType = "application/json"))
     })
-    @PostMapping("/customers/{customerId}/carwashes/{carWashId}/contract/{contractId}/comments")
+    @PostMapping("/customers/{customerId}/carwashes/{carWashId}/contracts/{contractId}/comments")
     public CommentResource postComment(@PathVariable Long customerId, @PathVariable Long carWashId,
                                        @PathVariable Long contractId, @Valid @RequestBody  SaveCommentResource resource){
         Comment comment = convertToEntity(resource);
