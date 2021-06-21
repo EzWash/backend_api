@@ -58,8 +58,6 @@ public class CarWashesController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWashes founded", content = @Content(mediaType = "application/json"))
     })
-
-
     @GetMapping("/carwashes/{lattitude}/{longitude}/{distance}")
     public Page<CarWashResource> getNearCarWashes(@PathVariable double lattitude, @PathVariable double longitude, @PathVariable double distance, Pageable pageable){
         List<CarWashResource> resources = carWashService.getCarWashesLessThanDistance(lattitude, longitude, distance, pageable)

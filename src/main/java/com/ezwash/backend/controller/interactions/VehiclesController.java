@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -55,6 +57,19 @@ public class VehiclesController {
         return vehicleService.deleteCarById(idCar);
     }
 
+    @Operation(summary = "Get Vehicles by Customer Id", description = "Get all Vehicles given Customer Id", tags = {"Customers"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Vehicles got successfully", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/customers/{customerId}/vehicles/list")
+    public List<VehicleResource> getContractsByState(@PathVariable Long customerId){
+        List<Vehicle> vehicleList = vehicleService.getVehiclesByCustomerId(customerId);
+        List<VehicleResource> vehicleResourceList = vehicleList
+                .stream()
+                .map(this::convertToResource)
+                .collect(Collectors.toList());
+        return vehicleResourceList;
+    }
 
     private Vehicle convertToEntity(SaveVehicleResource resource){
         return mapper.map(resource,Vehicle.class);
