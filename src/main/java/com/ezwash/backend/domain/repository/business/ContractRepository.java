@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ContractRepository extends JpaRepository<Contract, Long> {
-    List<Contract> findContractByStateEquals(String state);
+    List<Contract> findContractByStateEqualsAndCustomerId(String state, Long customerId);
+    List<Contract> findContractByStateNotAndCustomerId(String state, Long customerId);
 }

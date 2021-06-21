@@ -8,16 +8,8 @@ public class SaveReportResource {
     @NotNull
     private String description;
 
-    private Contract contract;
 
-    public Contract getContract() {
-        return contract;
-    }
 
-    public SaveReportResource setContract(Contract contract) {
-        this.contract = contract;
-        return this;
-    }
 
     public String getDescription() {
         return description;

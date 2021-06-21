@@ -10,6 +10,7 @@ import java.util.List;
 public interface ContractService {
     Contract findContractById(Long id);
     Contract designateStaffToContract(Long contractId, Long staffId);
-    Page<Contract> getContractsByState(String state, Pageable pageable);
+    List<Contract> getContractsByState(String state, Long customerId);
+    List<Contract> getContractsByStateNot(String state, Long customerId);
     Contract updateContractState(Long contractId, String state);
 }

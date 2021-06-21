@@ -82,9 +82,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Page<Contract> getContractList(Long userId, Pageable pageable) {
+    public List<Contract> getContractList(Long userId) {
+        if(!customerRepository.existsById(userId))
+            throw new ResourceNotFoundException("Customer","Id", userId);
         List<Contract>contracts= findCustomerById(userId).getContractList();
-        return new PageImpl<>(contracts,pageable,contracts.size());
+        return contracts;
     }
 
 }

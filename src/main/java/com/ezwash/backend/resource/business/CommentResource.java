@@ -5,6 +5,7 @@ public class CommentResource {
     private String description;
     private Integer qualification;
 
+
     public Long getId() {
         return id;
     }
