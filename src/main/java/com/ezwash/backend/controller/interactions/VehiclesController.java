@@ -61,7 +61,7 @@ public class VehiclesController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vehicles got successfully", content = @Content(mediaType = "application/json"))
     })
-    @GetMapping("/customers/{customerId}/vehicles/list")
+    @GetMapping("/customers/{customerId}/vehicles/lists")
     public List<VehicleResource> getContractsByState(@PathVariable Long customerId){
         List<Vehicle> vehicleList = vehicleService.getVehiclesByCustomerId(customerId);
         List<VehicleResource> vehicleResourceList = vehicleList

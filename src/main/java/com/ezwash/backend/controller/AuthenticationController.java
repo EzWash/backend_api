@@ -4,6 +4,10 @@ import com.ezwash.backend.domain.service.DefaultUserDetailsService;
 import com.ezwash.backend.service.communication.AuthenticationRequest;
 import com.ezwash.backend.service.communication.AuthenticationResponse;
 import com.ezwash.backend.util.JwtCenter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +30,10 @@ public class AuthenticationController {
     @Autowired
     private DefaultUserDetailsService userDetailsService;
 
+    @Operation(summary = "Login User", description = "Authenticates an User", tags = {"Security"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Authenticated success", content = @Content(mediaType = "application/json"))
+    })
     @PostMapping("/sign-in")
     public ResponseEntity<?> generateAuthenticationToken(
             @RequestBody AuthenticationRequest request)

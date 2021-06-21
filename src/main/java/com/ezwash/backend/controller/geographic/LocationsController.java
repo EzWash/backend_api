@@ -4,6 +4,10 @@ import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.service.geographic.LocationService;
 import com.ezwash.backend.resource.geographic.LocationResource;
 import com.ezwash.backend.resource.geographic.SaveLocationResource;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +21,10 @@ public class LocationsController {
    @Autowired
    private LocationService locationService;
 
+   @Operation(summary = "Create a Location based on Address", description = "Create a location based on address, latitude and longitude", tags = {"Location"})
+   @ApiResponses(value = {
+           @ApiResponse(responseCode = "200", description = "Locations created successfully", content = @Content(mediaType = "application/json"))
+   })
    @PostMapping("/locations")
    public LocationResource createLocation(
            @RequestBody SaveLocationResource resource

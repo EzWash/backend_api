@@ -68,7 +68,7 @@ public class CustomerCarWashesController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Car Wash Qualification added successfully",content = @Content(mediaType = "application/json"))
     })
-    @GetMapping("/customers/carwashes/{carwashId}/qualification")
+    @GetMapping("/customers/carwashes/{carwashId}/qualifications")
     public int getCarWashQualification(@PathVariable Long carwashId){
         return carWashService.getCarWashQualification(carwashId);
     }
