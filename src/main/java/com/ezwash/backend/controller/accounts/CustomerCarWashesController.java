@@ -34,6 +34,7 @@ public class CustomerCarWashesController {
     @Autowired
     private ModelMapper mapper;
 
+    @Qualifier("customerServiceImpl")
     @Autowired
     private CustomerService customerService;
 
@@ -56,7 +57,7 @@ public class CustomerCarWashesController {
             @ApiResponse(responseCode = "200", description = "Car Wash added successfully", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/customers/{customerId}/carwashes")
-    public List<CarWashResource> getLikedList(@PathVariable Long customerId, Pageable pageable){
+    public List<CarWashResource> getLikedList(@PathVariable Long customerId){
         List<CarWashResource> carWashResources = customerService.getLikedList(customerId)
                 .stream()
                 .map(this::convertToCarWashResource)
@@ -67,7 +68,7 @@ public class CustomerCarWashesController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Car Wash Qualification added successfully",content = @Content(mediaType = "application/json"))
     })
-    @GetMapping("/customers/carwashes/{carwashId}/qualification")
+    @GetMapping("/customers/carwashes/{carwashId}/qualifications")
     public int getCarWashQualification(@PathVariable Long carwashId){
         return carWashService.getCarWashQualification(carwashId);
     }

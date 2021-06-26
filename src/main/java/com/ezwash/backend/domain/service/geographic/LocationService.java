@@ -4,4 +4,5 @@ import com.ezwash.backend.domain.model.geographic.Location;
 
 public interface LocationService {
     Location getLocationById(Long Id);
+    Location createLocation(Location location);
 }

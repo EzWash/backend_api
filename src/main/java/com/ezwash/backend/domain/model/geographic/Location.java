@@ -30,8 +30,8 @@ public class Location {
     private Double longitude;
 
     //ManyToOne district
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "district_id", nullable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "district_id", nullable = true, updatable = false)
     @JsonIgnore
     private District district;
 

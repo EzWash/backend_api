@@ -58,8 +58,6 @@ public class CarWashesController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWashes founded", content = @Content(mediaType = "application/json"))
     })
-
-
     @GetMapping("/carwashes/{lattitude}/{longitude}/{distance}")
     public Page<CarWashResource> getNearCarWashes(@PathVariable double lattitude, @PathVariable double longitude, @PathVariable double distance, Pageable pageable){
         List<CarWashResource> resources = carWashService.getCarWashesLessThanDistance(lattitude, longitude, distance, pageable)
@@ -83,7 +81,7 @@ public class CarWashesController {
     }
 
 
-    @Operation(summary = "Get CarWashes", description = "Get a Car Wash", tags = {"Car Washes"})
+    @Operation(summary = "Get CarWashes", description = "Get a Car Wash", tags = {"CarWashes"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWash got successfully", content = @Content(mediaType = "application/json"))
     })
@@ -97,7 +95,7 @@ public class CarWashesController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWashes By Qualification got successfully", content = @Content(mediaType = "application/json"))
     })
-    @GetMapping("/carwashes/qualification/{qualification}")
+    @GetMapping("/carwashes/qualifications/{qualification}")
     public Page<CarWashResource> findByQualification(@PathVariable(value="qualification") Integer qualification,Pageable pageable){
         Page<CarWash> carWashPage = carWashService.findByQualification(qualification,pageable);
         List<CarWashResource> carWashResource = carWashPage.getContent()
@@ -112,7 +110,7 @@ public class CarWashesController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWashes By Range of Qualification got successfully", content = @Content(mediaType = "application/json"))
     })
-    @GetMapping("/carwashes/qualification/{qualification1}/{qualification2}")
+    @GetMapping("/carwashes/qualifications/{qualification1}/{qualification2}")
     public Page<CarWashResource> findByQualificationRange(@PathVariable(value="qualification1") Integer qualification,@PathVariable(value="qualification2") Integer qualification2,
                                                      Pageable pageable){
         Page<CarWash> carWashPage = carWashService.findByQualificationRange(qualification,qualification2,pageable);
@@ -128,7 +126,7 @@ public class CarWashesController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWashes By Name got successfully", content = @Content(mediaType = "application/json"))
     })
-    @GetMapping("/carwashes/name/{name}")
+    @GetMapping("/carwashes/names/{name}")
     public Page<CarWashResource> getCarWashByName(@PathVariable(value="name") String name, Pageable pageable){
         Page<CarWash> carWashPage = carWashService.getCarWashByName(name, pageable);
         List<CarWashResource> carWashResource = carWashPage.getContent()
