@@ -30,11 +30,11 @@ public class CustomersController {
     @Autowired
     private ModelMapper mapper;
 
-    @Operation(summary = "Create Customers", description = "Create users", tags = {"Customers"})
+    @Operation(summary = "Create Customers", description = "Create users", tags = {"Security"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User created successfully", content = @Content(mediaType = "application/json"))
     })
-    @PostMapping ("/customers")
+    @PostMapping ("/auth/customers")
     public CustomerResource createUser(@Valid @RequestBody SaveCustomerResource resource){
         Location location= locationService.getLocationById(resource.getLocation());
         Customer customer = convertToEntity(resource);
