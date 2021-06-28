@@ -2,15 +2,12 @@ package com.ezwash.backend.resource.accounts;
 
 public class ProfileResource {
 
+    private Long Id;
     private String first_name;
     private String last_name;
     private String email;
-
     private String phone_number;
-
     private String gender;
-
-
 
     public String getFirst_name() {
         return first_name;
@@ -54,6 +51,15 @@ public class ProfileResource {
 
     public ProfileResource setGender(String gender) {
         this.gender = gender;
+        return this;
+    }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public ProfileResource setId(Long id) {
+        Id = id;
         return this;
     }
 }

@@ -1,22 +1,23 @@
 package com.ezwash.backend.service.communication;
 
+import com.ezwash.backend.resource.accounts.UserDTO;
+
 import java.io.Serializable;
 
 public class AuthenticationResponse implements Serializable {
-    private String username;
+    private UserDTO user;
     private String token;
 
-    public AuthenticationResponse(String username, String token) {
-        this.username = username;
+    public AuthenticationResponse(UserDTO user, String token) {
+        this.user = user;
         this.token = token;
     }
 
-    public String getUsername() {
-        return username;
+    public UserDTO getUser() {
+        return user;
     }
 
     public String getToken() {
         return token;
     }
-
 }

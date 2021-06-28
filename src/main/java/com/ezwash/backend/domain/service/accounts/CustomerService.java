@@ -12,6 +12,7 @@ import java.util.List;
 public interface CustomerService {
     Customer createCustomer(Customer customer, Location location);
     Customer findCustomerById(Long id);
+    Customer findCustomerByEmail(String email);
     Customer addCustomerCarwash(Long customerId, Long carWashId);
     Customer deleteCustomerCarWash(Long customerId, Long carWashId);
     Customer updateCustomer(Long customerId, Customer customerRequest);

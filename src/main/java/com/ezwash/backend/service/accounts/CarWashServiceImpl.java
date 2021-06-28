@@ -47,6 +47,11 @@ public class CarWashServiceImpl implements CarWashService {
     }
 
     @Override
+    public CarWash findCarWashByEmail(String email) {
+        return carWashRepository.findCarWashByEmail(email);
+    }
+
+    @Override
     public Page<CarWash> getCarWashesLessThanDistance(double lt_1, double lg_1, double distance, Pageable pageable) {
         List<CarWash> carWashesNear = new ArrayList<>();
         Page<CarWash> carWashes = carWashRepository.findAll(pageable)
