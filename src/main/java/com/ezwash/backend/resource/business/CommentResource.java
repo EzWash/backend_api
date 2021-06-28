@@ -4,7 +4,36 @@ public class CommentResource {
     private Long id;
     private String description;
     private Integer qualification;
+    private String first_name;
+    private String last_name;
+    private Long customer_id;
 
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public CommentResource setFirst_name(String first_name) {
+        this.first_name = first_name;
+        return this;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public CommentResource setLast_name(String last_name) {
+        this.last_name = last_name;
+        return this;
+    }
+
+    public Long getCustomer_id() {
+        return customer_id;
+    }
+
+    public CommentResource setCustomer_id(Long customer_id) {
+        this.customer_id = customer_id;
+        return this;
+    }
 
     public Long getId() {
         return id;
