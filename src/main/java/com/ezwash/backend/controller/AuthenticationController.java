@@ -1,6 +1,11 @@
 package com.ezwash.backend.controller;
 
+import com.ezwash.backend.domain.model.accounts.CarWash;
+import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.service.DefaultUserDetailsService;
+import com.ezwash.backend.domain.service.accounts.CarWashService;
+import com.ezwash.backend.domain.service.accounts.CustomerService;
+import com.ezwash.backend.resource.accounts.UserDTO;
 import com.ezwash.backend.service.communication.AuthenticationRequest;
 import com.ezwash.backend.service.communication.AuthenticationResponse;
 import com.ezwash.backend.util.JwtCenter;
@@ -29,6 +34,10 @@ public class AuthenticationController {
     private JwtCenter tokenCenter;
     @Autowired
     private DefaultUserDetailsService userDetailsService;
+    @Autowired
+    private CustomerService customerService;
+    @Autowired
+    private CarWashService carWashService;
 
     @Operation(summary = "Login User", description = "Authenticates an User", tags = {"Security"})
     @ApiResponses(value = {
@@ -43,8 +52,17 @@ public class AuthenticationController {
                 userDetailsService.loadUserByUsername(request.getUsername());
         System.out.println("Password: " + request.getPassword());
         String token = tokenCenter.generateToken(userDetails);
-        return ResponseEntity.ok(new
-                AuthenticationResponse(userDetails.getUsername(), token));
+        Customer customer = customerService.findCustomerByEmail(userDetails.getUsername());
+        if(customer != null){
+            return ResponseEntity.ok(new
+                    AuthenticationResponse(convertCustomerToUserDTO(customer), token));
+        }else{
+            CarWash carWash = carWashService.findCarWashByEmail(userDetails.getUsername());
+            if(carWash != null)
+                return ResponseEntity.ok(new
+                    AuthenticationResponse(convertCarwashToUserDTO(carWash), token));
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     private void authenticate(String username, String password)
@@ -60,4 +78,17 @@ public class AuthenticationController {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
     }
+
+   private UserDTO convertCustomerToUserDTO(Customer customer){
+        return new UserDTO()
+                .setId(customer.getId())
+                .setEmail(customer.getEmail())
+                .setName(customer.getFirst_name());
+    }
+   private UserDTO convertCarwashToUserDTO(CarWash carWash) {
+        return new UserDTO()
+                .setId(carWash.getId())
+                .setEmail(carWash.getEmail())
+                .setName(carWash.getName_owner());
+   }
 }

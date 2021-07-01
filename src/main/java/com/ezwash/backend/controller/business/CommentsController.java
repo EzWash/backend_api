@@ -1,9 +1,11 @@
 package com.ezwash.backend.controller.business;
 
+import com.ezwash.backend.domain.model.accounts.Staff;
 import com.ezwash.backend.domain.model.business.Comment;
 import com.ezwash.backend.domain.model.business.Report;
 import com.ezwash.backend.domain.service.business.CommentService;
 import com.ezwash.backend.resource.business.CommentResource;
+import com.ezwash.backend.resource.business.ContractResource;
 import com.ezwash.backend.resource.business.ReportResource;
 import com.ezwash.backend.resource.business.SaveCommentResource;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -35,6 +39,19 @@ public class CommentsController {
         Comment comment = convertToEntity(resource);
         return convertToResource(commentService.postComment(customerId, carWashId, contractId, comment));
     }
+    @Operation(summary = "Get Car Wash's comments", description = "Get a comment given the Car Wash ID", tags = {"CarWashes"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Comments obtained successfully", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/carwashes/{carWashId}/comments")
+    public List<CommentResource> getCommentByCarWashId(@PathVariable Long carWashId){
+        List<Comment>commentList = commentService.getCommentByCarWashId(carWashId);
+        List<CommentResource> commentResourceList = commentList
+                .stream()
+                .map(this::convertToResource)
+                .collect(Collectors.toList());
+        return commentResourceList;
+    }
 
 
     private Comment convertToEntity(SaveCommentResource resource){
@@ -42,6 +59,10 @@ public class CommentsController {
     }
 
     private CommentResource convertToResource(Comment comment){
-        return mapper.map(comment, CommentResource.class);
+        CommentResource resource= mapper.map(comment, CommentResource.class);
+        resource.setCustomer_id(comment.getCustomer().getId());
+        resource.setFirst_name(comment.getCustomer().getFirst_name());
+        resource.setLast_name(comment.getCustomer().getLast_name());
+        return resource;
     }
 }

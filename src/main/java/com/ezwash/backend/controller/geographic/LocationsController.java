@@ -21,11 +21,11 @@ public class LocationsController {
    @Autowired
    private LocationService locationService;
 
-   @Operation(summary = "Create a Location based on Address", description = "Create a location based on address, latitude and longitude", tags = {"Location"})
+   @Operation(summary = "Create a Location based on Address", description = "Create a location based on address, latitude and longitude", tags = {"Security"})
    @ApiResponses(value = {
            @ApiResponse(responseCode = "200", description = "Locations created successfully", content = @Content(mediaType = "application/json"))
    })
-   @PostMapping("/locations")
+   @PostMapping("/auth/locations")
    public LocationResource createLocation(
            @RequestBody SaveLocationResource resource
    ){

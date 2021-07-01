@@ -45,6 +45,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Customer findCustomerByEmail(String email) {
+        return customerRepository.findCustomerByEmail(email);
+    }
+
+    @Override
     public Customer addCustomerCarwash(Long userId, Long carWashId) {
         CarWash carWash = carWashRepository.findById(carWashId)
                 .orElseThrow(() -> new ResourceNotFoundException("Car Wash", "Id", carWashId));

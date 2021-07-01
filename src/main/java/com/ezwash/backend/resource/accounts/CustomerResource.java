@@ -4,14 +4,14 @@ import com.ezwash.backend.domain.model.geographic.Location;
 
 public class CustomerResource extends ProfileResource {
     private String password;
-    private Location location;
+    private Long location_id;
 
-    public Location getLocation() {
-        return location;
+    public Long getLocation_id() {
+        return location_id;
     }
 
-    public CustomerResource setLocation(Location location) {
-        this.location = location;
+    public CustomerResource setLocation_id(Long location_id) {
+        this.location_id = location_id;
         return this;
     }
 

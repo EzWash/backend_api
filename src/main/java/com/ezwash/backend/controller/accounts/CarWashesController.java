@@ -40,11 +40,11 @@ public class CarWashesController {
     @Autowired
     private ModelMapper mapper;
 
-    @Operation(summary = "Create CarWashes", description = "Create and return a Car Wash", tags = {"CarWashes"})
+    @Operation(summary = "Create CarWashes", description = "Create and return a Car Wash", tags = {"Security"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "CarWash created successfully", content = @Content(mediaType = "application/json"))
     })
-    @PostMapping("/carwashes")
+    @PostMapping("/auth/carwashes")
     public CarWashResource createCarWash(@Valid @RequestBody SaveCarWashResource resource) throws ParseException {
        Location location = locationService.getLocationById(resource.getLocation_id());
        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-MM");

@@ -3,6 +3,7 @@ package com.ezwash.backend.domain.model.business;
 import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.Customer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,13 +16,13 @@ public class Comment {
     private Long id;
 
     //ManyToOne carwashes
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "carwash_id", nullable = false)
     @JsonIgnore
     private CarWash carWash;
 
     //ManyToOne users
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
     @JsonIgnore
     private Customer customer;
