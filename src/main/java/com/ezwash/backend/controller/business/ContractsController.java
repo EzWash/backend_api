@@ -78,6 +78,17 @@ public class ContractsController {
        return convertToResource(contractService.updateContractState(contractId, state));
     }
 
+    @Operation(summary = "Create Contract", description = "Create Contract through Customer Id, CarWash Id and Staff Id", tags = {"Customers"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Contract created successfully", content = @Content(mediaType = "application/json"))
+    })
+    @PostMapping("/customers/{customerId}/carwashes/{carWashId}/staff/{staffId}/contracts")
+    public ContractResource createContract(@Valid @RequestBody SaveContractResource resource, @PathVariable Long customerId, @PathVariable Long carWashId, @PathVariable Long staffId){
+        Contract contract = convertToEntity(resource);
+        return convertToResource(contractService.createContract(contract,carWashId,customerId,staffId));
+    }
+
+
     private Contract convertToEntity(SaveContractResource resource){
         return mapper.map(resource, Contract.class);
     }
@@ -90,4 +101,6 @@ public class ContractsController {
         resource.setCustomer_id(contract.getCustomer().getId());
         return resource;
     }
+
+
 }

@@ -1,9 +1,11 @@
 package com.ezwash.backend.service.business;
 
+import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.accounts.Staff;
 import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.business.Service;
+import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
 import com.ezwash.backend.domain.repository.accounts.StaffRepository;
 import com.ezwash.backend.domain.repository.business.ContractRepository;
@@ -29,6 +31,11 @@ public class ContractServiceImpl implements ContractService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private CarWashRepository carWashRepository;
+
+
 
 
 
@@ -85,5 +92,30 @@ public class ContractServiceImpl implements ContractService {
 
        return contractRepository.save(contract);
 
+    }
+
+    @Override
+    public Contract createContract(Contract contract, Long carWashId, Long customerId, Long staffId){
+        Customer customer = customerRepository.findById(customerId)
+              .orElseThrow(() -> new ResourceNotFoundException("Customer", "Id", customerId));
+
+        CarWash carWash = carWashRepository.findById(carWashId)
+              .orElseThrow(() -> new ResourceNotFoundException("CarWash", "Id", carWashId));
+
+        Staff staff = staffRepository.findById(staffId)
+                .orElseThrow(() -> new ResourceNotFoundException("Staff", "Id", staffId));
+
+        contract.setCustomer(customer);
+        contract.setCarWash(carWash);
+        contract.setStaff(staff);
+
+        List<Service> serviceList = customer.getCart().getServiceList();
+        for(Integer i = 0;i< serviceList.size(); i++){
+           contract.addServiceToContract(serviceList.get(i));
+        }
+        for(Integer i = 0; i< contract.getServiceList().size(); i++){
+            customer.getCart().deleteServiceFromCart(contract.getServiceList().get(i));
+        }
+        return contractRepository.save(contract);
     }
 }

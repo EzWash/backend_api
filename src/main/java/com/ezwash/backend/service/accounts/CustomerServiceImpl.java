@@ -2,15 +2,18 @@ package com.ezwash.backend.service.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.Customer;
+import com.ezwash.backend.domain.model.business.Cart;
 import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 
 
+import com.ezwash.backend.domain.repository.business.CartRepository;
 import com.ezwash.backend.domain.repository.business.ServiceRepository;
 import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
 import com.ezwash.backend.domain.service.accounts.CustomerService;
 import com.ezwash.backend.exception.ResourceNotFoundException;
+import com.ezwash.backend.resource.business.CartResource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
@@ -32,10 +35,17 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private ServiceRepository serviceRepository;
 
+    @Autowired
+    private CartRepository cartRepository;
+
     @Override
     public Customer createCustomer(Customer customer, Location location) {
+        Cart cart = new Cart();
+        cartRepository.save(cart);
         customer.setLocation(location);
-        return customerRepository.save(customer);
+        customer.setCart(cart);
+        Customer newCustomer = customerRepository.save(customer);
+        return newCustomer;
     }
 
     @Override

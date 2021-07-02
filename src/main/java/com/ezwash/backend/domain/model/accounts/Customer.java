@@ -1,5 +1,6 @@
 package com.ezwash.backend.domain.model.accounts;
 
+import com.ezwash.backend.domain.model.business.Cart;
 import com.ezwash.backend.domain.model.business.Comment;
 import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.geographic.Location;
@@ -23,6 +24,10 @@ public class Customer extends Profile {
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
+
     @ManyToMany
     @JoinTable(name = "carwash_like",
             joinColumns = @JoinColumn(name = "customer_id"),
@@ -44,6 +49,15 @@ public class Customer extends Profile {
 
     public Customer setPassword(String password) {
         this.password = password;
+        return this;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public Customer setCart(Cart cart) {
+        this.cart = cart;
         return this;
     }
 
