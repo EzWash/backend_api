@@ -4,6 +4,7 @@ public class UserDTO {
     private Long Id;
     private String email;
     private String name;
+    private String role;
 
     public Long getId() {
         return Id;
@@ -29,6 +30,15 @@ public class UserDTO {
 
     public UserDTO setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public UserDTO setRole(String role) {
+        this.role = role;
         return this;
     }
 }
