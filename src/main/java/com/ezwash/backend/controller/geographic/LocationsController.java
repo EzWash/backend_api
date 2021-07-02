@@ -30,9 +30,18 @@ public class LocationsController {
            @RequestBody SaveLocationResource resource
    ){
       Location location = convertToEntity(resource);
-      return convertToEntity(locationService.createLocation(location));
+      return convertToResource(locationService.createLocation(location));
+   }
+
+   @Operation(summary = "Get Location by Customer", description = "Get a location based on the Customer", tags = {"Location"})
+   @ApiResponses(value = {
+           @ApiResponse(responseCode = "200", description = "Locations returned successfully", content = @Content(mediaType = "application/json"))
+   })
+   @GetMapping("/customers/{customerId}/locations")
+   public LocationResource getLocationByCustomer(@PathVariable Long customerId){
+      return convertToResource(locationService.getLocationByUser(customerId));
    }
 
    private Location convertToEntity(SaveLocationResource resource){return mapper.map(resource, Location.class);}
-   private LocationResource convertToEntity(Location location){return mapper.map(location, LocationResource.class);}
+   private LocationResource convertToResource(Location location){return mapper.map(location, LocationResource.class);}
 }
