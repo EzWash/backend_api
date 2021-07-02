@@ -1,9 +1,10 @@
 package com.ezwash.backend.resource.accounts;
 
-import com.ezwash.backend.domain.model.geographic.Location;
+import java.util.Date;
 
 public class CustomerResource extends ProfileResource {
     private String password;
+    private Date birth_date;
     private Long location_id;
 
     public Long getLocation_id() {
@@ -21,6 +22,15 @@ public class CustomerResource extends ProfileResource {
 
     public CustomerResource setPassword(String password) {
         this.password = password;
+        return this;
+    }
+
+    public Date getBirth_date() {
+        return birth_date;
+    }
+
+    public CustomerResource setBirth_date(Date birth_date) {
+        this.birth_date = birth_date;
         return this;
     }
 }

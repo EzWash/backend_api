@@ -8,11 +8,15 @@ import com.ezwash.backend.domain.model.interactions.Vehicle;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table (name = "customers")
 public class Customer extends Profile {
+
+    @NotNull
+    private Date birth_date;
 
     @NotNull
     @NotBlank
@@ -101,5 +105,14 @@ public class Customer extends Profile {
             this.getLikedCarwashes().remove(carWash);
             return this;
         }else return null;
+    }
+
+    public Date getBirth_date() {
+        return birth_date;
+    }
+
+    public Customer setBirth_date(Date birth_date) {
+        this.birth_date = birth_date;
+        return this;
     }
 }

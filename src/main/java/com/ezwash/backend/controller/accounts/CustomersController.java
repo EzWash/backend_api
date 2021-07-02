@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RestController
 @CrossOrigin
@@ -35,9 +38,12 @@ public class CustomersController {
             @ApiResponse(responseCode = "200", description = "User created successfully", content = @Content(mediaType = "application/json"))
     })
     @PostMapping ("/auth/customers")
-    public CustomerResource createUser(@Valid @RequestBody SaveCustomerResource resource){
+    public CustomerResource createUser(@Valid @RequestBody SaveCustomerResource resource) throws ParseException {
         Location location= locationService.getLocationById(resource.getLocation());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-MM");
+        Date birth_date = simpleDateFormat.parse(resource.getBirth_date());
         Customer customer = convertToEntity(resource);
+        customer.setBirth_date(birth_date);
         return convertToResource(customerService.createCustomer(customer, location));
     }
 

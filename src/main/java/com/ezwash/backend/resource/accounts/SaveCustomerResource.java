@@ -10,6 +10,10 @@ public class SaveCustomerResource extends SaveProfileResource {
     private String password;
 
     @NotNull
+    @NotBlank
+    private String birth_date;
+
+    @NotNull
     private Long location;
 
     public Long getLocation() {
@@ -27,6 +31,15 @@ public class SaveCustomerResource extends SaveProfileResource {
 
     public SaveCustomerResource setPassword(String password) {
         this.password = password;
+        return this;
+    }
+
+    public String getBirth_date() {
+        return birth_date;
+    }
+
+    public SaveCustomerResource setBirth_date(String birth_date) {
+        this.birth_date = birth_date;
         return this;
     }
 }
