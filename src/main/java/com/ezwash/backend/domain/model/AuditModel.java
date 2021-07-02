@@ -23,4 +23,5 @@ public abstract class AuditModel implements Serializable {
     @LastModifiedDate //Guarda la fecha y hora en la que se modificó el objeto
     private Date updatedAt;
 
+
 }

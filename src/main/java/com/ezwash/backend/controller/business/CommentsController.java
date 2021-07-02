@@ -58,11 +58,12 @@ public class CommentsController {
         return mapper.map(resource, Comment.class);
     }
 
-    private CommentResource convertToResource(Comment comment){
+    private CommentResource convertToResource(Comment comment) {
         CommentResource resource= mapper.map(comment, CommentResource.class);
         resource.setCustomer_id(comment.getCustomer().getId());
         resource.setFirst_name(comment.getCustomer().getFirst_name());
         resource.setLast_name(comment.getCustomer().getLast_name());
+        resource.setCarwash_id(comment.getCarWash().getId());
         return resource;
     }
 }

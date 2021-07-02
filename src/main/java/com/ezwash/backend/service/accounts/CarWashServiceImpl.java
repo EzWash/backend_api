@@ -41,6 +41,13 @@ public class CarWashServiceImpl implements CarWashService {
         return carWashRepository.save(carwash);
     }
 
+    @Override
+    public CarWash editQualification(Long carwashId,CarWash carWashRequest) {
+        CarWash carwash = carWashRepository.findById(carwashId).orElseThrow(() ->new ResourceNotFoundException("CarWash", "Id", carwashId));
+        carwash.setQualification(carWashRequest.getQualification());
+        return carWashRepository.save(carwash);
+    }
+
     public CarWash findCarWashById(Long id) {
         return carWashRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Car Wash", "Id", id));
