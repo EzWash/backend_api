@@ -1,6 +1,7 @@
 package com.ezwash.backend.controller.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
+import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.service.accounts.CarWashService;
 import com.ezwash.backend.domain.service.accounts.StaffService;
@@ -9,6 +10,7 @@ import com.ezwash.backend.resource.accounts.CarWashQualificationResource;
 import com.ezwash.backend.resource.accounts.CarWashResource;
 import com.ezwash.backend.resource.accounts.SaveCarWashQualificationResource;
 import com.ezwash.backend.resource.accounts.SaveCarWashResource;
+import com.ezwash.backend.resource.business.ContractResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -117,6 +119,17 @@ public class CarWashesController {
         return new PageImpl<>(carWashResource,pageable,carWashResource.size());
     }
 
+    @Operation(summary = "Get All CarWashes", description = "Get All CarWash", tags = {"CarWashes"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "CarWashes got successfully", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/carwashes")
+    public List<CarWashResource> getAllCarWashes    (){
+        List<CarWash>carWashList= carWashService.getAllCarWash();
+        List<CarWashResource> carWashResourceList = carWashList.stream().map(this::convertToResource)
+                .collect(Collectors.toList());
+        return carWashResourceList;
+    }
 
     @Operation(summary = "Get CarWashes by Range Qualification", description = "Get a Car Wash by Range Qualification", tags = {"CarWashes"})
     @ApiResponses(value = {

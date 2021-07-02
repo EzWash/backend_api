@@ -33,6 +33,7 @@ public class CustomersController {
     @Autowired
     private ModelMapper mapper;
 
+
     @Operation(summary = "Create Customers", description = "Create users", tags = {"Security"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User created successfully", content = @Content(mediaType = "application/json"))
@@ -62,6 +63,8 @@ public class CustomersController {
     }
 
     private CustomerResource convertToResource(Customer customer){
-        return mapper.map(customer, CustomerResource.class);
+        CustomerResource resource = mapper.map(customer, CustomerResource.class);
+        resource.setCartId(customer.getCart().getId());
+        return resource;
     }
 }

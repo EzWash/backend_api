@@ -45,16 +45,20 @@ public class Service {
     private CarWash carWash;
 
     //OneToMany contracts
-    @ManyToMany(cascade = {
-        CascadeType.PERSIST,
-        CascadeType.MERGE
-    })
-    @JoinTable(name = "contracts_services",
-        joinColumns = @JoinColumn(name = "service_id"),
-        inverseJoinColumns = @JoinColumn(name = "contract_id")
-    )
-    private List<Contract> contracts = new ArrayList<>();
+    @ManyToMany(mappedBy = "serviceList")
+    private List<Contract> contractList;
 
+    @ManyToMany(mappedBy = "serviceList")
+    private List<Cart>  cartList;
+
+    public List<Cart> getCartList() {
+        return cartList;
+    }
+
+    public Service setCartList(List<Cart> cartList) {
+        this.cartList = cartList;
+        return this;
+    }
 
     public Long getId() {
         return id;
@@ -110,12 +114,12 @@ public class Service {
         return this;
     }
 
-    public List<Contract> getContracts() {
-        return contracts;
+    public List<Contract> getContractList() {
+        return contractList;
     }
 
-    public Service setContracts(List<Contract> contractList) {
-        this.contracts = contractList;
+    public Service setContractList(List<Contract> contractList) {
+        this.contractList = contractList;
         return this;
     }
 
