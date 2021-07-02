@@ -14,6 +14,7 @@ public interface ContractService {
     List<Contract> getContractsByState(String state, Long customerId);
     List<Contract> getContractsByStateNot(String state, Long customerId);
     Contract updateContractState(Long contractId, String state);
-    Contract createContract(Contract contract, Long carWashId, Long customerId, Long staffId);
-
+    Contract createContract(Long carWashId, Long customerId);
+    Contract setListServices(Long contractId, Long customerId);
+    List<Service> getServicesFromContract(Long contractId);
 }

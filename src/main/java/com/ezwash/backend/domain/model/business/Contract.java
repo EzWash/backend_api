@@ -1,8 +1,10 @@
 package com.ezwash.backend.domain.model.business;
 
+import com.ezwash.backend.domain.model.AuditModel;
 import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.accounts.Staff;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -13,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Table(name="contracts")
-public class Contract {
+public class Contract extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,17 +28,17 @@ public class Contract {
     @JoinColumn(name = "carwash_id", nullable = false)
     private CarWash carWash;
 
-    @NotNull
-    @NotBlank
+
     @Column(columnDefinition = "Varchar(50) default 'pending'")
     private String state;
 
-    @NotNull
+
+    @CreatedDate
     private Date date;
 
     //ManyToOne staff
     @ManyToOne
-    @JoinColumn(name = "staff_id",nullable = false)
+    @JoinColumn(name = "staff_id", nullable = true)
     private Staff staff;
 
     //OneToOne report
@@ -54,8 +56,9 @@ public class Contract {
     @JoinTable(name = "services_contracts",
             joinColumns = @JoinColumn(name = "contract_id"),
             inverseJoinColumns = @JoinColumn(name = "service_id"))
-    private List<Service> serviceList;
+    private List<Service> serviceContracts;
 
+    private Double total;
 
     public Contract setServicesIds(List<Long> servicesIds) {
         this.servicesIds = servicesIds;
@@ -70,12 +73,12 @@ public class Contract {
         return this;
     }
 
-    public List<Service> getServiceList() {
-        return serviceList;
+    public List<Service> getServiceContracts() {
+        return serviceContracts;
     }
 
-    public Contract setServiceList(List<Service> serviceList) {
-        this.serviceList = serviceList;
+    public Contract setServiceContracts(List<Service> serviceContracts) {
+        this.serviceContracts = serviceContracts;
         return this;
     }
 
@@ -156,16 +159,34 @@ public class Contract {
     }
 
     public Contract addServiceToContract(Service service){
-        if(!this.getServiceList().contains(service)) {
-            this.getServiceList().add(service);
+        if(!this.getServiceContracts().contains(service)) {
+            this.getServiceContracts().add(service);
             return this;
         }else return null;
     }
 
+    public Double getTotal() {
+        return total;
+    }
+
+    public Contract setTotal(Double total) {
+        this.total = total;
+        return this;
+    }
+
     public Contract deleteServiceFromContract(Service service){
-        if(this.getServiceList().contains(service)){
-            this.getServiceList().remove(service);
+        if(this.getServiceContracts().contains(service)){
+            this.getServiceContracts().remove(service);
             return this;
         }else return null;
+    }
+
+    public void updateTotal(){
+        Double sum = 0.0;
+        for (Integer i = 0; i < getServiceContracts().size(); i++){
+            sum += getServiceContracts().get(i).getPrice();
+        }
+
+        setTotal(sum);
     }
 }

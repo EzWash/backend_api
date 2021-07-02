@@ -11,19 +11,5 @@ import java.util.List;
 
 public class SaveContractResource {
 
-    @NotNull
-    private Date date;
-
-    public Date getDate() {
-        return date;
-    }
-
-    public SaveContractResource setDate(Date date) {
-        this.date = date;
-        return this;
-    }
-
-
-
 
 }

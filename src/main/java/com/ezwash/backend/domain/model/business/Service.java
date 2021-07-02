@@ -45,7 +45,7 @@ public class Service {
     private CarWash carWash;
 
     //OneToMany contracts
-    @ManyToMany(mappedBy = "serviceList")
+    @ManyToMany(mappedBy = "serviceContracts")
     private List<Contract> contractList;
 
     @ManyToMany(mappedBy = "serviceList")

@@ -8,6 +8,7 @@ import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.accounts.CustomerRepository;
 import com.ezwash.backend.domain.repository.accounts.StaffRepository;
+import com.ezwash.backend.domain.repository.business.CartRepository;
 import com.ezwash.backend.domain.repository.business.ContractRepository;
 import com.ezwash.backend.domain.repository.business.ServiceRepository;
 import com.ezwash.backend.domain.service.business.ContractService;
@@ -35,6 +36,11 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     private CarWashRepository carWashRepository;
 
+    @Autowired
+    private ServiceRepository serviceRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
 
 
 
@@ -95,27 +101,48 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public Contract createContract(Contract contract, Long carWashId, Long customerId, Long staffId){
+    public Contract createContract(Long carWashId, Long customerId){
         Customer customer = customerRepository.findById(customerId)
               .orElseThrow(() -> new ResourceNotFoundException("Customer", "Id", customerId));
 
         CarWash carWash = carWashRepository.findById(carWashId)
               .orElseThrow(() -> new ResourceNotFoundException("CarWash", "Id", carWashId));
 
-        Staff staff = staffRepository.findById(staffId)
-                .orElseThrow(() -> new ResourceNotFoundException("Staff", "Id", staffId));
+        Contract contract = new Contract();
 
         contract.setCustomer(customer);
         contract.setCarWash(carWash);
-        contract.setStaff(staff);
+        contract.setState("pending");
+        return contractRepository.save(contract);
+    }
 
+    @Override
+    public List<Service> getServicesFromContract(Long contractId){
+        Contract contract = contractRepository.findById(contractId)
+                .orElseThrow(() -> new ResourceNotFoundException("Contract", "Id", contractId));
+        return contract.getServiceContracts();
+    }
+
+    @Override
+    public Contract setListServices(Long contractId, Long customerId){
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", "Id", customerId));
         List<Service> serviceList = customer.getCart().getServiceList();
-        for(Integer i = 0;i< serviceList.size(); i++){
-           contract.addServiceToContract(serviceList.get(i));
+
+        Contract contract = contractRepository.findById(contractId)
+                .orElseThrow(() -> new ResourceNotFoundException("Contract", "Id", contractId));
+
+        for(Integer i = 0; i < serviceList.size(); i++){
+            contractRepository.save(contract.addServiceToContract(serviceList.get(i)));
         }
-        for(Integer i = 0; i< contract.getServiceList().size(); i++){
-            customer.getCart().deleteServiceFromCart(contract.getServiceList().get(i));
+
+        for(Integer i = 0; i < contract.getServiceContracts().size(); i++){
+            cartRepository.save(customer.getCart().deleteServiceFromCart(contract.getServiceContracts().get(i)));
+            customerRepository.save(customer);
         }
+
+        contract.updateTotal();
+
         return contractRepository.save(contract);
     }
 }
