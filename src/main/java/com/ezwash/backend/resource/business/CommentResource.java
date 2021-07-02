@@ -7,6 +7,16 @@ public class CommentResource {
     private String first_name;
     private String last_name;
     private Long customer_id;
+    private Long carwash_id;
+
+    public Long getCarwash_id() {
+        return carwash_id;
+    }
+
+    public CommentResource setCarwash_id(Long carwash_id) {
+        this.carwash_id = carwash_id;
+        return this;
+    }
 
     public String getFirst_name() {
         return first_name;

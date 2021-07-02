@@ -83,12 +83,14 @@ public class AuthenticationController {
         return new UserDTO()
                 .setId(customer.getId())
                 .setEmail(customer.getEmail())
-                .setName(customer.getFirst_name());
+                .setName(customer.getFirst_name())
+                .setRole("CUSTOMER");
     }
    private UserDTO convertCarwashToUserDTO(CarWash carWash) {
         return new UserDTO()
                 .setId(carWash.getId())
                 .setEmail(carWash.getEmail())
-                .setName(carWash.getName_owner());
+                .setName(carWash.getName_owner())
+                .setRole("CARWASH");
    }
 }
