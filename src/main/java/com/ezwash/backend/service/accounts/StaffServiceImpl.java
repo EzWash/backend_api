@@ -48,6 +48,7 @@ public class StaffServiceImpl implements StaffService {
         if(!carWashRepository.existsById(carWashId))
             throw new ResourceNotFoundException("CarWash", "Id", carWashId);
         List<Staff> staffList = staffRepository.listStaffByCarWashId(carWashId);
+
         if(staffList.size() == 0)
             throw new ResourceNotFoundException("StaffList", "Size", 0);
         return staffList;

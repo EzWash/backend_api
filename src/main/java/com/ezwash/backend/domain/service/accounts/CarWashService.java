@@ -6,6 +6,8 @@ import com.ezwash.backend.domain.model.geographic.Location;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 
 public interface CarWashService {
     CarWash createCarWash(CarWash carWash, Location location);
@@ -19,4 +21,5 @@ public interface CarWashService {
     Page<Comment>getCarWashComments(Long id,Pageable pageable);
     Integer getCarWashQualification(Long id);
     Page<CarWash> getCarWashByName(String name, Pageable pageable);
+    public List<CarWash> getAllCarWash();
 }

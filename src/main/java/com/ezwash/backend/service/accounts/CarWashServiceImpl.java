@@ -1,6 +1,7 @@
 package com.ezwash.backend.service.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
+import com.ezwash.backend.domain.model.accounts.Staff;
 import com.ezwash.backend.domain.model.business.Comment;
 import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -118,5 +120,15 @@ public class CarWashServiceImpl implements CarWashService {
         } else {
             return new PageImpl<>(carWashList, pageable, carWashList.size());
         }
+    }
+
+    @Override
+    public List<CarWash> getAllCarWash(){
+        List<CarWash> carWashList = carWashRepository.findAll();
+        System.out.println("asfdvjnf");
+        System.out.println(carWashList.size());
+        if(carWashList.size() == 0)
+            throw new ResourceNotFoundException("CarWashList", "Size", 0);
+        return carWashList;
     }
 }
