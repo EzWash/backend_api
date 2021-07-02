@@ -2,10 +2,12 @@ package com.ezwash.backend.controller.business;
 
 
 import com.ezwash.backend.domain.model.business.Contract;
+import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.service.business.ContractService;
 import com.ezwash.backend.resource.business.ContractResource;
 import com.ezwash.backend.resource.business.SaveContractResource;
 import com.ezwash.backend.resource.business.SaveServiceResource;
+import com.ezwash.backend.resource.business.ServiceResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -82,12 +84,35 @@ public class ContractsController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Contract created successfully", content = @Content(mediaType = "application/json"))
     })
-    @PostMapping("/customers/{customerId}/carwashes/{carWashId}/staff/{staffId}/contracts")
-    public ContractResource createContract(@Valid @RequestBody SaveContractResource resource, @PathVariable Long customerId, @PathVariable Long carWashId, @PathVariable Long staffId){
-        Contract contract = convertToEntity(resource);
-        return convertToResource(contractService.createContract(contract,carWashId,customerId,staffId));
+    @PostMapping("/customers/{customerId}/carwashes/{carWashId}/contracts")
+    public ContractResource createContract( @PathVariable Long customerId, @PathVariable Long carWashId){
+
+        return convertToResource(contractService.createContract(carWashId,customerId));
     }
 
+    @Operation(summary = "Get Services from Contract", description = "Get Services from Contract ", tags = {"Contracts"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Services got successfully", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/contracts/{contractId}/services")
+    public List<ServiceResource> getServicesFromContract(@PathVariable Long contractId){
+        List<Service> serviceList = contractService.getServicesFromContract(contractId);
+        List<ServiceResource> serviceResourceList = serviceList
+                .stream()
+                .map(this::convertToResource)
+                .collect(Collectors.toList());
+        return serviceResourceList;
+    }
+
+
+    @Operation(summary = "Set Contract Services", description = "Set Services to Contract", tags = {"Contracts"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Contract created successfully", content = @Content(mediaType = "application/json"))
+    })
+    @PutMapping("/contracts/{contractId}/customer/{customerId}/services")
+    public ContractResource setListServices( @PathVariable Long contractId, @PathVariable Long customerId){
+        return convertToResource(contractService.setListServices(contractId, customerId));
+    }
 
     private Contract convertToEntity(SaveContractResource resource){
         return mapper.map(resource, Contract.class);
@@ -95,12 +120,18 @@ public class ContractsController {
 
     private ContractResource convertToResource(Contract contract){
         ContractResource resource = mapper.map(contract, ContractResource.class);
-        resource.setCarWash_id(contract.getStaff().getCarWash().getId());
-        resource.setCarWash_name(contract.getStaff().getCarWash().getName());
-        resource.setStaff_id(contract.getStaff().getId());
+        resource.setCarWash_id(contract.getCarWash().getId());
+        resource.setCarWash_name(contract.getCarWash().getName());
         resource.setCustomer_id(contract.getCustomer().getId());
         return resource;
     }
 
+    private Service convertToEntity(SaveServiceResource resource){
+        return mapper.map(resource, Service.class);
+    }
+
+    private ServiceResource convertToResource(Service service){
+        return mapper.map(service, ServiceResource.class);
+    }
 
 }

@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ContractResource {
-
+    private Long id;
     private Long service_id;
     private Long customer_id;
     private Date date;
@@ -18,6 +18,7 @@ public class ContractResource {
     private String state;
     private Long carWash_id;
     private String carWash_name;
+    private Double total;
 
     public String getState() {
         return state;
@@ -91,5 +92,21 @@ public class ContractResource {
         return this;
     }
 
+    public Long getId() {
+        return id;
+    }
 
+    public ContractResource setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public ContractResource setTotal(Double total) {
+        this.total = total;
+        return this;
+    }
 }
