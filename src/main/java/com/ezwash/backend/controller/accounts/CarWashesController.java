@@ -5,7 +5,9 @@ import com.ezwash.backend.domain.model.geographic.Location;
 import com.ezwash.backend.domain.service.accounts.CarWashService;
 import com.ezwash.backend.domain.service.accounts.StaffService;
 import com.ezwash.backend.domain.service.geographic.LocationService;
+import com.ezwash.backend.resource.accounts.CarWashQualificationResource;
 import com.ezwash.backend.resource.accounts.CarWashResource;
+import com.ezwash.backend.resource.accounts.SaveCarWashQualificationResource;
 import com.ezwash.backend.resource.accounts.SaveCarWashResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -80,6 +82,16 @@ public class CarWashesController {
         return carWashResource;
     }
 
+    @Operation(summary = "Edit Qualification Car Washes", description = "The comments can edit the Car Wash's qualification", tags = {"CarWashes"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "CarWash qualification updated", content = @Content(mediaType = "application/json"))
+    })
+    @PutMapping("carwashes/{carwashId}/qualification")
+    public CarWashQualificationResource updateQualification(@PathVariable Long carwashId, @RequestBody SaveCarWashQualificationResource resource){
+        CarWash carWash = convertToEntityQualification(resource);
+        CarWashQualificationResource carWashResource = convertToResourceQualification(carWashService.editQualification(carwashId, carWash));
+        return carWashResource;
+    }
 
     @Operation(summary = "Get CarWashes", description = "Get a Car Wash", tags = {"CarWashes"})
     @ApiResponses(value = {
@@ -144,4 +156,7 @@ public class CarWashesController {
         return mapper.map(carWash, CarWashResource.class);
     }
 
+    private CarWash convertToEntityQualification (SaveCarWashQualificationResource resource){return mapper.map(resource, CarWash.class);}
+
+    private CarWashQualificationResource convertToResourceQualification (CarWash carWash){return mapper.map(carWash,CarWashQualificationResource.class); }
 }
