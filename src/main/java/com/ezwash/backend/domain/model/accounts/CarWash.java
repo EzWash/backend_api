@@ -2,6 +2,7 @@ package com.ezwash.backend.domain.model.accounts;
 
 import com.ezwash.backend.domain.model.AuditModel;
 import com.ezwash.backend.domain.model.business.Comment;
+import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.model.geographic.Location;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -70,8 +71,8 @@ public class CarWash extends AuditModel {
     @OneToMany(mappedBy = "carWash")
     private List<Staff> staffList;
 
-    //OneToMany userroles
-
+    @OneToMany(mappedBy = "carWash")
+    private List<Contract> contractList;
     //OneToMany comments
     @OneToMany(mappedBy = "carWash")
     private List<Comment> commentList;

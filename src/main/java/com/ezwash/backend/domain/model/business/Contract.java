@@ -1,5 +1,6 @@
 package com.ezwash.backend.domain.model.business;
 
+import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.accounts.Staff;
 
@@ -20,6 +21,10 @@ public class Contract {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "carwash_id", nullable = false)
+    private CarWash carWash;
 
     @NotNull
     @NotBlank
@@ -45,9 +50,11 @@ public class Contract {
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
-
-    @ManyToMany(mappedBy = "contracts")
-    private List<Service> services = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "services_contracts",
+            joinColumns = @JoinColumn(name = "contract_id"),
+            inverseJoinColumns = @JoinColumn(name = "service_id"))
+    private List<Service> serviceList;
 
 
     public Contract setServicesIds(List<Long> servicesIds) {
@@ -63,12 +70,12 @@ public class Contract {
         return this;
     }
 
-    public List<Service> getServices() {
-        return services;
+    public List<Service> getServiceList() {
+        return serviceList;
     }
 
-    public Contract setServices(List<Service> serviceList) {
-        this.services = serviceList;
+    public Contract setServiceList(List<Service> serviceList) {
+        this.serviceList = serviceList;
         return this;
     }
 
@@ -137,5 +144,28 @@ public class Contract {
     public Contract setComment(Comment comment) {
         this.comment = comment;
         return this;
+    }
+
+    public CarWash getCarWash() {
+        return carWash;
+    }
+
+    public Contract setCarWash(CarWash carWash) {
+        this.carWash = carWash;
+        return this;
+    }
+
+    public Contract addServiceToContract(Service service){
+        if(!this.getServiceList().contains(service)) {
+            this.getServiceList().add(service);
+            return this;
+        }else return null;
+    }
+
+    public Contract deleteServiceFromContract(Service service){
+        if(this.getServiceList().contains(service)){
+            this.getServiceList().remove(service);
+            return this;
+        }else return null;
     }
 }

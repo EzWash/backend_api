@@ -2,6 +2,7 @@ package com.ezwash.backend.domain.service.business;
 
 import com.ezwash.backend.domain.model.accounts.Customer;
 import com.ezwash.backend.domain.model.business.Contract;
+import com.ezwash.backend.domain.model.business.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,4 +14,6 @@ public interface ContractService {
     List<Contract> getContractsByState(String state, Long customerId);
     List<Contract> getContractsByStateNot(String state, Long customerId);
     Contract updateContractState(Long contractId, String state);
+    Contract createContract(Contract contract, Long carWashId, Long customerId, Long staffId);
+
 }

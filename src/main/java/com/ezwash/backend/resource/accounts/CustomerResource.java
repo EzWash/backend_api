@@ -5,6 +5,16 @@ import com.ezwash.backend.domain.model.geographic.Location;
 public class CustomerResource extends ProfileResource {
     private String password;
     private Long location_id;
+    private Long cartId;
+
+    public Long getCartId() {
+        return cartId;
+    }
+
+    public CustomerResource setCartId(Long cartId) {
+        this.cartId = cartId;
+        return this;
+    }
 
     public Long getLocation_id() {
         return location_id;
