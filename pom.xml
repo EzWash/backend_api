@@ -118,7 +118,7 @@
           <subscriptionId>55c78f4a-695a-4343-b33b-b5d810e17688</subscriptionId>  
           <resourceGroup>backend-1624692973126-rg</resourceGroup>  
           <appName>ezwashteam</appName>  
-          <pricingTier>P1v2</pricingTier>  
+          <pricingTier>P2v2</pricingTier>  
           <region>eastus</region>  
           <appServicePlanName>ServicePlan3150a655-663e-4572</appServicePlanName>  
           <appServicePlanResourceGroup>backend-1624692973126-rg</appServicePlanResourceGroup>  
