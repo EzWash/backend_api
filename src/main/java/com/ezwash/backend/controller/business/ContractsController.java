@@ -84,7 +84,7 @@ public class ContractsController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Contract created successfully", content = @Content(mediaType = "application/json"))
     })
-    @   PostMapping("/customers/{customerId}/carwashes/{carWash    Id}/contracts")
+    @PostMapping("/customers/{customerId}/carwashes/{carWashId}/contracts")
     public ContractResource createContract( @PathVariable Long customerId, @PathVariable Long carWashId){
 
         return convertToResource(contractService.createContract(carWashId,customerId));
