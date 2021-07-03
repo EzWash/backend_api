@@ -11,7 +11,6 @@ public class SaveCommentResource {
     @NotNull
     private Integer qualification;
 
-    @NotNull
     private Long customer_id;
     private String first_name;
     private String last_name;
