@@ -54,8 +54,17 @@ public class CarWash extends AuditModel {
     private String ruc;
 
     @NotNull
+    @NotBlank
     private String image;
 
+    public String getImage() {
+        return image;
+    }
+
+    public CarWash setImage(String image) {
+        this.image = image;
+        return this;
+    }
 
     @Column(columnDefinition = "integer default 0")
     private Integer qualification;
