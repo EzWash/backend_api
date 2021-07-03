@@ -1,5 +1,7 @@
 package com.ezwash.backend.resource.accounts;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -39,6 +41,18 @@ public class SaveCarWashResource {
 
     @NotNull
     private Long location_id;
+
+    @NotNull
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public SaveCarWashResource setImage(String image) {
+        this.image = image;
+        return this;
+    }
 
     public String getDescription() {
         return description;

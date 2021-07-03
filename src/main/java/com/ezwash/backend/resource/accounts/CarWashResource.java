@@ -16,6 +16,16 @@ public class CarWashResource {
     private Integer qualification;
     private Integer available;
     private Location location;
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public CarWashResource setImage(String image) {
+        this.image = image;
+        return this;
+    }
 
     public String getDescription() {
         return description;

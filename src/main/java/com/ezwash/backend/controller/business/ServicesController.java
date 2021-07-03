@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -75,6 +76,15 @@ public class ServicesController {
     @GetMapping("/carwashes/{carWashId}/services")
     public List<Service> getServiceByCarWashId(@PathVariable Long carWashId){
         return serviceService.getServiceByCarWashId(carWashId);
+    }
+
+    @Operation(summary = "Delete Service", description = "Delete Service's CarWash", tags = {"Service"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Service's carwash deleted successfully", content = @Content(mediaType = "application/json"))
+    })
+    @DeleteMapping("/carwashes/{idService}/services")
+    public ResponseEntity<?> deleteStaffId (@PathVariable Long idService){
+        return serviceService.deleteServiceById(idService);
     }
 
     private Service convertToEntity(SaveServiceResource resource){

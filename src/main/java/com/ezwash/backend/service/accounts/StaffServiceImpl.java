@@ -2,6 +2,7 @@ package com.ezwash.backend.service.accounts;
 
 import com.ezwash.backend.domain.model.accounts.CarWash;
 import com.ezwash.backend.domain.model.accounts.Staff;
+import com.ezwash.backend.domain.model.interactions.Vehicle;
 import com.ezwash.backend.domain.repository.accounts.CarWashRepository;
 import com.ezwash.backend.domain.repository.accounts.StaffRepository;
 import com.ezwash.backend.domain.service.accounts.StaffService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,4 +56,11 @@ public class StaffServiceImpl implements StaffService {
         return staffList;
     }
 
+    @Override
+    public ResponseEntity<?> deleteStaffById (Long idStaff){
+        Staff staff = staffRepository.findById(idStaff).orElseThrow(()-> new ResourceNotFoundException(
+                "Staff","Id", idStaff));
+       staffRepository.delete(staff);
+        return ResponseEntity.ok().build();
+    }
 }

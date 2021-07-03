@@ -5,6 +5,7 @@ import com.ezwash.backend.domain.model.business.Comment;
 import com.ezwash.backend.domain.model.business.Contract;
 import com.ezwash.backend.domain.model.business.Service;
 import com.ezwash.backend.domain.model.geographic.Location;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.core.userdetails.User;
 
@@ -51,6 +52,10 @@ public class CarWash extends AuditModel {
     @NotNull
     @Column(length = 11)
     private String ruc;
+
+    @NotNull
+    private String image;
+
 
     @Column(columnDefinition = "integer default 0")
     private Integer qualification;

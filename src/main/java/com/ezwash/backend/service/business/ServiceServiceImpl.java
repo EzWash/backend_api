@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,6 +56,13 @@ public class ServiceServiceImpl implements ServiceService {
         if(serviceList.size() == 0)
             throw new ResourceNotFoundException("ServiceList", "Size", 0);
         return serviceRepository.listServiceByCarWashId(carWashId);
+    }
+    @Override
+    public ResponseEntity<?> deleteServiceById (Long idService){
+        com.ezwash.backend.domain.model.business.Service service = serviceRepository.findById(idService).orElseThrow(()-> new ResourceNotFoundException(
+                "Service","Id", idService));
+        serviceRepository.delete(service);
+        return ResponseEntity.ok().build();
     }
 
 }
